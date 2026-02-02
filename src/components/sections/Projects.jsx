@@ -33,17 +33,17 @@ const Projects = () => {
     },
     {
       id: 2,
-     title: 'Game Store UI Animation App',
-      type: 'Mobile App',
-      category: 'Mobile',
-      description: 'React Native UI demo for a fictional game store showcasing glassmorphism design and smooth animations.',
-      features: ['Glassmorphism UI', 'Smooth Animations', 'Game Store Layout', 'Modern UX'],
-      tech: ['React Native', 'Animated/Reanimated', 'Custom UI'],
-      videoPath: '/videos/game-store-demo.mp4',
-      status: 'UI Demo – Animation Showcase',
-      icon: FiSmartphone,
-      gradient: 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)',
-      accent: '#2c5364'
+      title: 'Trading World Academy',
+      type: 'Client Website',
+      category: 'Web',
+      description: 'Responsive educational website for a trading academy, optimized for clarity and performance.',
+      features: ['Responsive Design', 'SEO Optimized', 'Fast Loading', 'User Trust'],
+      tech: ['React/Next.js', 'Tailwind CSS', 'SEO'],
+      liveLink: 'https://www.tradingwolfacademy.com',
+      status: 'Client Project',
+      icon: FiGlobe,
+      gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+      accent: '#38f9d7'
     },
     {
       id: 3,
@@ -61,17 +61,18 @@ const Projects = () => {
     },
     {
       id: 4,
-      title: 'Trading World Academy',
-      type: 'Client Website',
-      category: 'Web',
-      description: 'Responsive educational website for a trading academy, optimized for clarity and performance.',
-      features: ['Responsive Design', 'SEO Optimized', 'Fast Loading', 'User Trust'],
-      tech: ['React/Next.js', 'Tailwind CSS', 'SEO'],
-      liveLink: 'https://www.tradingwolfacademy.com',
-      status: 'Client Project',
-      icon: FiGlobe,
-      gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-      accent: '#38f9d7'
+      title: 'Game Store UI Animation App',
+      type: 'Mobile App',
+      category: 'Mobile',
+      description: 'React Native UI demo for a fictional game store showcasing glassmorphism design and smooth animations.',
+      features: ['Glassmorphism UI', 'Smooth Animations', 'Game Store Layout', 'Modern UX'],
+      tech: ['React Native', 'Animated/Reanimated', 'Custom UI'],
+      videoPath: '/videos/game-store-demo.mp4',
+      status: 'UI Demo – Animation Showcase',
+      icon: FiSmartphone,
+      gradient: 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)',
+      accent: '#2c5364'
+     
     },
     {
       id: 5,

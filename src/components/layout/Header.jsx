@@ -1,52 +1,30 @@
-import React, { useState, useEffect, useCallback, useRef, memo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useCallback, useRef, memo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-const Header = memo(({ onOpenModal, activeSection = '' }) => {
+const Header = memo(({ onOpenModal, activeSection = "" }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isLogoHovered, setIsLogoHovered] = useState(false);
   const mobileMenuBtnRef = useRef(null);
 
   const navItems = [
-    { id: 'why', label: 'Why Us' },
-    { id: 'services', label: 'Services' },
-    { id: 'work', label: 'Our Work' },
-    { id: 'process', label: 'Process' },
-    { id: 'contact', label: 'Contact' }
+    { id: "why", label: "Why Us" },
+    { id: "services", label: "Services" },
+    { id: "work", label: "Our Work" },
+    { id: "process", label: "Process" },
+    { id: "contact", label: "Contact" }
   ];
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+  // Handle logo click to refresh page
+  const handleLogoClick = useCallback(() => {
+    // Add a subtle animation before refresh
+    document.documentElement.style.opacity = "0.9";
+    setTimeout(() => {
+      window.location.reload();
+    }, 150);
   }, []);
 
-  useEffect(() => {
-    const handleEscape = (e) => {
-      if (e.key === 'Escape' && isMenuOpen) {
-        closeMenu();
-      }
-    };
-
-    document.addEventListener('keydown', handleEscape);
-    
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-      const firstFocusable = document.querySelector('.mobile-menu-close');
-      firstFocusable?.focus();
-    } else {
-      document.body.style.overflow = '';
-    }
-    
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = '';
-    };
-  }, [isMenuOpen]);
-
+  // Close mobile menu
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
     setTimeout(() => {
@@ -54,52 +32,84 @@ const Header = memo(({ onOpenModal, activeSection = '' }) => {
     }, 100);
   }, []);
 
-  const handleNavClick = useCallback((id) => {
-    closeMenu();
-    setTimeout(() => {
-      const element = document.getElementById(id);
-      if (element) {
-        const headerHeight = isScrolled ? 65 : 70;
-        const elementPosition = element.offsetTop - headerHeight;
-        window.scrollTo({
-          top: elementPosition,
-          behavior: 'smooth'
-        });
-      }
-    }, 100);
-  }, [closeMenu, isScrolled]);
-
-  const scrollToTop = useCallback(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Handle scroll effect
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleOpenModal = useCallback(() => {
-    closeMenu();
-    setTimeout(onOpenModal, 150);
-  }, [closeMenu, onOpenModal]);
+  // Handle ESC key and body scroll lock
+  useEffect(() => {
+    const onEsc = (e) => {
+      if (e.key === "Escape" && isMenuOpen) closeMenu();
+    };
+
+    document.addEventListener("keydown", onEsc);
+    document.body.style.overflow = isMenuOpen ? "hidden" : "";
+
+    return () => {
+      document.removeEventListener("keydown", onEsc);
+      document.body.style.overflow = "";
+    };
+  }, [isMenuOpen, closeMenu]);
+
+  // Handle navigation click
+  const handleNavClick = useCallback(
+    (id) => {
+      closeMenu();
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) {
+          const offset = isScrolled ? 70 : 80;
+          const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({
+            top,
+            behavior: "smooth"
+          });
+        }
+      }, 100);
+    },
+    [closeMenu, isScrolled]
+  );
 
   return (
     <>
       <style>{`
+        :root {
+          --primary-gradient: linear-gradient(135deg, #0A2540 0%, #14B8A6 100%);
+          --secondary-gradient: linear-gradient(135deg, #14B8A6 0%, #0A2540 100%);
+          --accent-color: #14B8A6;
+          --dark-color: #0A2540;
+          --text-primary: #1F2937;
+          --text-secondary: #6B7280;
+          --bg-primary: rgba(255, 255, 255, 0.98);
+          --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+          --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.1);
+          --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.15);
+          --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Header Styles */
         .header {
           position: fixed;
           top: 0;
           left: 0;
           width: 100%;
           height: 80px;
-          background: rgba(255, 255, 255, 0.98);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
+          background: var(--bg-primary);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
           z-index: 1000;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: var(--transition-base);
           border-bottom: 1px solid rgba(229, 231, 235, 0.6);
-          box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05);
+          box-shadow: var(--shadow-sm);
         }
 
         .header.scrolled {
           height: 65px;
-          padding: 0;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+          box-shadow: var(--shadow-md);
         }
 
         .header-content {
@@ -107,22 +117,13 @@ const Header = memo(({ onOpenModal, activeSection = '' }) => {
           justify-content: space-between;
           align-items: center;
           height: 100%;
-          padding: 0 1.5rem;
-          max-width: 1400px;
+          padding: 0 clamp(1rem, 4vw, 3rem);
+          max-width: 1440px;
           margin: 0 auto;
           transition: padding 0.3s ease;
         }
 
-        .header.scrolled .header-content {
-          padding: 0 1.5rem;
-        }
-
-        @media (max-width: 768px) {
-          .header-content {
-            padding: 0 1rem;
-          }
-        }
-
+        /* Logo Styles */
         .logo-button {
           display: flex;
           align-items: center;
@@ -132,14 +133,21 @@ const Header = memo(({ onOpenModal, activeSection = '' }) => {
           cursor: pointer;
           padding: 0.5rem;
           border-radius: 0.75rem;
-          transition: all 0.2s ease;
+          transition: var(--transition-base);
           text-decoration: none;
           flex-shrink: 0;
+          outline: none;
+          position: relative;
+          overflow: hidden;
         }
 
         .logo-button:hover {
           background: rgba(10, 37, 64, 0.04);
           transform: translateY(-1px);
+        }
+
+        .logo-button:hover .logo-symbol {
+          transform: rotate(15deg) scale(1.05);
         }
 
         .logo-symbol {
@@ -149,118 +157,83 @@ const Header = memo(({ onOpenModal, activeSection = '' }) => {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: linear-gradient(135deg, #0A2540 0%, #14B8A6 100%);
+          background: var(--primary-gradient);
           border-radius: 12px;
           overflow: hidden;
-          transition: all 0.3s ease;
+          transition: var(--transition-base);
         }
 
-        .logo-symbol.scrolled-symbol {
+        .header.scrolled .logo-symbol {
           width: 38px;
           height: 38px;
-        }
-
-        .logo-letter {
-          font-family: 'Space Grotesk', system-ui, sans-serif;
-          font-size: 1.75rem;
-          font-weight: 800;
-          color: white;
-          letter-spacing: -0.02em;
-          position: relative;
-          z-index: 1;
-          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .logo-symbol::before {
           content: '';
           position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.25) 100%);
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: linear-gradient(
+            to bottom right,
+            rgba(255, 255, 255, 0.3) 0%,
+            rgba(255, 255, 255, 0) 50%
+          );
+          transform: rotate(30deg);
+        }
+
+        .logo-letter {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          font-size: 1.5rem;
+          font-weight: 800;
+          color: white;
+          letter-spacing: -0.02em;
+          position: relative;
+          z-index: 1;
+          transition: transform 0.3s ease;
+        }
+
+        .logo-button:hover .logo-letter {
+          transform: scale(1.1);
         }
 
         .logo-text {
           display: flex;
           flex-direction: column;
-          line-height: 1;
+          line-height: 1.2;
           text-align: left;
         }
 
         .logo-main {
-          font-family: 'Space Grotesk', system-ui, sans-serif;
-          font-size: 1.5rem;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          font-size: clamp(1.1rem, 2vw, 1.5rem);
           font-weight: 700;
-          color: #0A2540;
+          color: var(--dark-color);
           letter-spacing: -0.01em;
-          transition: all 0.3s ease;
+          transition: var(--transition-base);
+          white-space: nowrap;
         }
 
-        .logo-main.scrolled-logo {
-          font-size: 1.4rem;
+        .header.scrolled .logo-main {
+          font-size: clamp(1rem, 1.8vw, 1.3rem);
         }
 
         .logo-sub {
-          font-size: 0.7rem;
+          font-size: clamp(0.5rem, 1vw, 0.7rem);
           font-weight: 600;
-          color: #14B8A6;
+          color: var(--accent-color);
           letter-spacing: 0.1em;
           text-transform: uppercase;
           margin-top: 0.1rem;
           white-space: nowrap;
         }
 
-        @media (max-width: 1024px) {
-          .logo-sub {
-            font-size: 0.65rem;
-            letter-spacing: 0.08em;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .logo-main {
-            font-size: 1.3rem;
-          }
-          
-          .logo-sub {
-            display: block;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .logo-symbol {
-            width: 38px;
-            height: 38px;
-          }
-          
-          .logo-letter {
-            font-size: 1.5rem;
-          }
-          
-          .logo-main {
-            font-size: 1.1rem;
-          }
-          
-          .logo-sub {
-            font-size: 0.55rem;
-          }
-        }
-
-        @media (max-width: 375px) {
-          .logo-main {
-            font-size: 1rem;
-          }
-          
-          .logo-sub {
-            font-size: 0.5rem;
-          }
-        }
-
+        /* Desktop Navigation */
         .desktop-nav {
           display: none;
           align-items: center;
-          gap: 0.25rem;
+          gap: 0.5rem;
           flex: 1;
           justify-content: center;
           margin: 0 2rem;
@@ -277,114 +250,109 @@ const Header = memo(({ onOpenModal, activeSection = '' }) => {
           background: none;
           border: none;
           font-family: 'Inter', -apple-system, sans-serif;
-          font-size: 0.9rem;
+          font-size: clamp(0.8rem, 1vw, 0.9rem);
           font-weight: 500;
-          color: #4B5563;
+          color: var(--text-secondary);
           cursor: pointer;
           padding: 0.6rem 1rem;
           border-radius: 0.5rem;
-          transition: all 0.2s ease;
+          transition: var(--transition-base);
           white-space: nowrap;
+          outline: none;
+          overflow: hidden;
+        }
+
+        .nav-link::before {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          width: 0;
+          height: 2px;
+          background: var(--accent-color);
+          transition: var(--transition-base);
+          transform: translateX(-50%);
+        }
+
+        .nav-link:hover::before,
+        .nav-link:focus::before {
+          width: 70%;
         }
 
         .nav-link:hover,
         .nav-link:focus {
-          background: rgba(20, 184, 166, 0.08);
-          color: #14B8A6;
+          color: var(--accent-color);
           outline: none;
         }
 
         .nav-link.active {
-          background: #14B8A6;
-          color: white;
+          background: rgba(20, 184, 166, 0.1);
+          color: var(--accent-color);
           font-weight: 600;
-          box-shadow: 0 4px 12px rgba(20, 184, 166, 0.2);
         }
 
-        .cta-container {
-          display: none;
-          flex-direction: column;
-          align-items: flex-end;
-          gap: 0.25rem;
-          flex-shrink: 0;
+        .nav-link.active::before {
+          width: 100%;
         }
 
-        @media (min-width: 1024px) {
-          .cta-container {
-            display: flex;
-          }
-        }
-
-        .trust-signal {
-          font-size: 0.7rem;
-          color: #6B7280;
-          opacity: 0.8;
-          white-space: nowrap;
-          text-align: right;
-          display: none;
-        }
-
-        @media (min-width: 1024px) {
-          .trust-signal {
-            display: block;
-          }
-        }
-
+        /* CTA Button */
         .cta-button {
-          display: flex;
+          display: none;
           align-items: center;
           justify-content: center;
-          padding: 0.7rem 1.5rem;
+          padding: 0.7rem clamp(1rem, 2vw, 1.5rem);
           border-radius: 0.75rem;
           font-family: 'Inter', -apple-system, sans-serif;
           font-weight: 600;
-          font-size: 0.9rem;
-          transition: all 0.3s ease;
+          font-size: clamp(0.8rem, 1vw, 0.9rem);
+          transition: var(--transition-base);
           border: none;
           cursor: pointer;
           white-space: nowrap;
           min-height: 44px;
-          background: linear-gradient(135deg, #14B8A6 0%, #0A2540 100%);
+          background: var(--secondary-gradient);
           color: white;
           box-shadow: 0 4px 15px rgba(20, 184, 166, 0.25);
           position: relative;
           overflow: hidden;
+          outline: none;
         }
 
-        .cta-button.scrolled-cta {
-          background: #14B8A6;
-          box-shadow: 0 4px 20px rgba(20, 184, 166, 0.35);
+        @media (min-width: 1024px) {
+          .cta-button {
+            display: flex;
+          }
         }
 
         .cta-button::before {
           content: '';
           position: absolute;
           top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(135deg, #0A2540 0%, #14B8A6 100%);
-          opacity: 0;
-          transition: opacity 0.3s ease;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.2),
+            transparent
+          );
+          transition: left 0.7s ease;
         }
 
         .cta-button:hover::before,
         .cta-button:focus::before {
-          opacity: 1;
-        }
-
-        .cta-button span {
-          position: relative;
-          z-index: 1;
+          left: 100%;
         }
 
         .cta-button:hover,
         .cta-button:focus {
           transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(20, 184, 166, 0.4);
+          box-shadow: 0 6px 25px rgba(20, 184, 166, 0.4);
           outline: none;
         }
 
+        /* Mobile Menu Button */
         .mobile-menu-btn {
           display: flex;
           flex-direction: column;
@@ -398,7 +366,8 @@ const Header = memo(({ onOpenModal, activeSection = '' }) => {
           padding: 0.5rem;
           border-radius: 0.5rem;
           z-index: 1001;
-          transition: background 0.2s ease;
+          transition: var(--transition-base);
+          outline: none;
         }
 
         @media (min-width: 1024px) {
@@ -416,10 +385,10 @@ const Header = memo(({ onOpenModal, activeSection = '' }) => {
         .menu-line {
           width: 22px;
           height: 2px;
-          background: #0A2540;
+          background: var(--dark-color);
           margin: 2.5px 0;
           border-radius: 2px;
-          transition: transform 0.3s ease, opacity 0.3s ease;
+          transition: var(--transition-base);
         }
 
         .mobile-menu-btn[aria-expanded="true"] .menu-line:nth-child(1) {
@@ -434,6 +403,7 @@ const Header = memo(({ onOpenModal, activeSection = '' }) => {
           transform: rotate(-45deg) translate(6px, -6px);
         }
 
+        /* Mobile Menu Overlay */
         .mobile-menu-backdrop {
           position: fixed;
           top: 0;
@@ -450,17 +420,11 @@ const Header = memo(({ onOpenModal, activeSection = '' }) => {
           top: 0;
           right: 0;
           width: 100%;
-          max-width: 320px;
+          max-width: min(320px, 90vw);
           height: 100%;
           background: white;
           z-index: 1000;
-          box-shadow: -4px 0 25px rgba(0, 0, 0, 0.1);
-        }
-
-        @media (max-width: 640px) {
-          .mobile-menu-panel {
-            max-width: 280px;
-          }
+          box-shadow: -4px 0 25px rgba(0, 0, 0, 0.15);
         }
 
         .mobile-menu-content {
@@ -482,8 +446,8 @@ const Header = memo(({ onOpenModal, activeSection = '' }) => {
 
         .mobile-menu-title {
           font-size: 1.25rem;
-          color: #0A2540;
-          font-family: 'Space Grotesk', system-ui, sans-serif;
+          color: var(--dark-color);
+          font-family: 'Inter', sans-serif;
           font-weight: 700;
         }
 
@@ -497,13 +461,14 @@ const Header = memo(({ onOpenModal, activeSection = '' }) => {
           border: none;
           border-radius: 0.75rem;
           cursor: pointer;
-          color: #4B5563;
-          transition: all 0.2s ease;
+          color: var(--text-secondary);
+          transition: var(--transition-base);
+          outline: none;
         }
 
         .mobile-menu-close:hover,
         .mobile-menu-close:focus {
-          background: #14B8A6;
+          background: var(--accent-color);
           color: white;
           outline: none;
         }
@@ -522,24 +487,25 @@ const Header = memo(({ onOpenModal, activeSection = '' }) => {
           background: none;
           border: none;
           text-align: left;
-          font-size: 1rem;
+          font-size: clamp(0.9rem, 2vw, 1rem);
           font-weight: 500;
-          color: #374151;
+          color: var(--text-primary);
           cursor: pointer;
           border-radius: 0.75rem;
-          transition: all 0.2s ease;
-          font-family: 'Inter', -apple-system, sans-serif;
+          transition: var(--transition-base);
+          font-family: 'Inter', sans-serif;
+          outline: none;
         }
 
         .mobile-nav-link:hover,
         .mobile-nav-link:focus {
           background: rgba(20, 184, 166, 0.08);
-          color: #14B8A6;
+          color: var(--accent-color);
           outline: none;
         }
 
         .mobile-nav-link.active {
-          background: #14B8A6;
+          background: var(--accent-color);
           color: white;
           font-weight: 600;
         }
@@ -547,15 +513,16 @@ const Header = memo(({ onOpenModal, activeSection = '' }) => {
         .mobile-cta-btn {
           width: 100%;
           padding: 1rem;
-          background: linear-gradient(135deg, #14B8A6 0%, #0A2540 100%);
+          background: var(--secondary-gradient);
           color: white;
           border: none;
           border-radius: 0.75rem;
-          font-size: 1rem;
+          font-size: clamp(0.9rem, 2vw, 1rem);
           font-weight: 600;
           cursor: pointer;
-          transition: all 0.2s ease;
-          font-family: 'Inter', -apple-system, sans-serif;
+          transition: var(--transition-base);
+          font-family: 'Inter', sans-serif;
+          outline: none;
         }
 
         .mobile-cta-btn:hover,
@@ -565,99 +532,80 @@ const Header = memo(({ onOpenModal, activeSection = '' }) => {
           outline: none;
         }
 
+        /* Reduced Motion Support */
         @media (prefers-reduced-motion: reduce) {
-          .header,
-          .logo-button,
-          .nav-link,
-          .cta-button,
-          .mobile-menu-btn,
-          .mobile-menu-close,
-          .mobile-nav-link,
-          .mobile-cta-btn {
-            transition: none !important;
-          }
-          
-          .logo-button:hover,
-          .cta-button:hover,
-          .mobile-cta-btn:hover {
-            transform: none !important;
-          }
-          
-          .motion-div {
-            animation: none !important;
-            transition: none !important;
-          }
-          
-          .menu-line {
-            transition: none !important;
+          *,
+          *::before,
+          *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
           }
         }
       `}</style>
 
+      {/* Header */}
       <motion.header
+        className={`header ${isScrolled ? "scrolled" : ""}`}
         initial={{ y: -80 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className={`header ${isScrolled ? 'scrolled' : ''}`}
-        role="banner"
+        transition={{ type: "spring", stiffness: 100, damping: 20 }}
       >
         <div className="header-content">
+          {/* Logo with refresh functionality */}
           <button
-            onClick={scrollToTop}
             className="logo-button"
-            aria-label="Ariar Technologies - Navigate to homepage"
+            onClick={handleLogoClick}
+            onMouseEnter={() => setIsLogoHovered(true)}
+            onMouseLeave={() => setIsLogoHovered(false)}
+            aria-label="Ariar Technologies - Refresh page"
           >
-            <div className={`logo-symbol ${isScrolled ? 'scrolled-symbol' : ''}`}>
-              <span className="logo-letter">A</span>
+            <div className="logo-symbol">
+              <motion.span
+                className="logo-letter"
+                animate={{ rotate: isLogoHovered ? [0, 360] : 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                A
+              </motion.span>
             </div>
             <div className="logo-text">
-              <span className={`logo-main ${isScrolled ? 'scrolled-logo' : ''}`}>
-                Ariar Technologies
-              </span>
-              <span className="logo-sub">
-                Web • Mobile • SaaS Solutions
-              </span>
+              <span className="logo-main">Ariar Technologies</span>
+              <span className="logo-sub">Innovate • Build • Scale</span>
             </div>
           </button>
 
-          <nav 
-            className="desktop-nav"
-            aria-label="Main navigation"
-            role="navigation"
-          >
+          {/* Desktop Navigation */}
+          <nav className="desktop-nav" aria-label="Main navigation">
             {navItems.map((item) => (
               <button
                 key={item.id}
+                className={`nav-link ${activeSection === item.id ? "active" : ""}`}
                 onClick={() => handleNavClick(item.id)}
-                className={`nav-link ${activeSection === item.id ? 'active' : ''}`}
-                aria-label={`Navigate to ${item.label}`}
-                aria-current={activeSection === item.id ? 'page' : undefined}
+                aria-current={activeSection === item.id ? "page" : undefined}
               >
                 {item.label}
               </button>
             ))}
           </nav>
 
-          <div className="cta-container">
-            <div className="trust-signal">
-              ⭐ Trusted by startups & local businesses
-            </div>
-            <button 
-              onClick={onOpenModal} 
-              className={`cta-button ${isScrolled ? 'scrolled-cta' : ''}`}
-              aria-label="Get a free consultation"
-            >
-              Get Free Consultation
-            </button>
-          </div>
+          {/* CTA Button */}
+          <button
+            className="cta-button"
+            onClick={onOpenModal}
+            aria-label="Get free consultation"
+          >
+            <span>Get Free Consultation</span>
+          </button>
 
+          {/* Mobile Menu Button */}
           <button
             ref={mobileMenuBtnRef}
             className="mobile-menu-btn"
             onClick={() => setIsMenuOpen(true)}
-            aria-label="Open mobile menu"
             aria-expanded={isMenuOpen}
-            aria-controls="mobile-menu"
+            aria-label="Open menu"
+            aria-controls="mobile-menu-panel"
           >
             <span className="menu-line" />
             <span className="menu-line" />
@@ -666,64 +614,60 @@ const Header = memo(({ onOpenModal, activeSection = '' }) => {
         </div>
       </motion.header>
 
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
           <>
             <motion.div
+              className="mobile-menu-backdrop"
+              onClick={closeMenu}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={closeMenu}
-              className="mobile-menu-backdrop"
-              aria-hidden="true"
+              transition={{ duration: 0.2 }}
             />
-
             <motion.div
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: "tween", duration: 0.3 }}
+              id="mobile-menu-panel"
               className="mobile-menu-panel"
-              id="mobile-menu"
-              role="dialog"
-              aria-modal="true"
-              aria-label="Mobile navigation menu"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
             >
               <div className="mobile-menu-content">
                 <div className="mobile-menu-header">
-                  <h2 className="mobile-menu-title">Navigation</h2>
+                  <h2 className="mobile-menu-title">Menu</h2>
                   <button
-                    onClick={closeMenu}
                     className="mobile-menu-close"
-                    aria-label="Close mobile menu"
+                    onClick={closeMenu}
+                    aria-label="Close menu"
                   >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
+                    ✕
                   </button>
                 </div>
 
-                <nav className="mobile-nav-links" aria-label="Mobile navigation">
-                  {navItems.map((item, index) => (  // ✅ FIXED: Changed xitem to item
-                    <motion.button
+                <div className="mobile-nav-links">
+                  {navItems.map((item) => (
+                    <button
                       key={item.id}
-                      initial={{ x: 20, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ delay: index * 0.05 }}
+                      className={`mobile-nav-link ${
+                        activeSection === item.id ? "active" : ""
+                      }`}
                       onClick={() => handleNavClick(item.id)}
-                      className={`mobile-nav-link ${activeSection === item.id ? 'active' : ''}`}
-                      aria-label={`Navigate to ${item.label}`}
-                      aria-current={activeSection === item.id ? 'page' : undefined}
+                      aria-current={activeSection === item.id ? "page" : undefined}
                     >
                       {item.label}
-                    </motion.button>
+                    </button>
                   ))}
-                </nav>
+                </div>
 
                 <button
-                  onClick={handleOpenModal}
                   className="mobile-cta-btn"
-                  aria-label="Get a free consultation"
+                  onClick={() => {
+                    closeMenu();
+                    onOpenModal();
+                  }}
+                  aria-label="Get free consultation"
                 >
                   Get Free Consultation
                 </button>
@@ -736,5 +680,4 @@ const Header = memo(({ onOpenModal, activeSection = '' }) => {
   );
 });
 
-Header.displayName = 'Header';
 export default Header;
