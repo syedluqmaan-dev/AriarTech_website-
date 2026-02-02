@@ -1,0 +1,84 @@
+/* ===== CLEAN GLOBAL RESET ===== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+  text-rendering: optimizeSpeed;
+}
+
+/* ===== ESSENTIAL LAYOUT ===== */
+main {
+  padding-top: 70px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+section {
+  padding: 3rem 0;
+  position: relative;
+}
+
+/* ===== ACCESSIBILITY ===== */
+.skip-to-main {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #0A2540;
+  color: white;
+  padding: 1rem;
+  z-index: 1000;
+  text-decoration: none;
+  border-radius: 0 0 0.5rem 0;
+  transition: top 200ms ease;
+}
+
+.skip-to-main:focus {
+  top: 0;
+}
+
+*:focus-visible {
+  outline: 2px solid #14B8A6;
+  outline-offset: 2px;
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== MOBILE ADJUSTMENTS ===== */
+@media (max-width: 480px) {
+  section {
+    padding: 2rem 0;
+  }
+  
+  .container {
+    padding: 0 1rem;
+  }
+}
