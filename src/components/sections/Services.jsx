@@ -347,17 +347,17 @@ const Services = () => {
         }
 
         /* Dark Mode Support (Optional) */
-        @media (prefers-color-scheme: dark) {
-          .services-section {
-            --services-background: #1e293b;
-            --services-background-alt: #0f172a;
-            --services-primary: #f1f5f9;
-            --services-text: #e2e8f0;
-            --services-text-light: #94a3b8;
-            --services-border: #334155;
-            --services-border-light: #475569;
-            --services-accent: #2dd4bf;
-          }
+        // @media (prefers-color-scheme: dark) {
+        //   .services-section {
+        //     --services-background: #1e293b;
+        //     --services-background-alt: #0f172a;
+        //     --services-primary: #f1f5f9;
+        //     --services-text: #e2e8f0;
+        //     --services-text-light: #94a3b8;
+        //     --services-border: #334155;
+        //     --services-border-light: #475569;
+        //     --services-accent: #2dd4bf;
+        //   }
           
           .service-card {
             background: var(--services-background);

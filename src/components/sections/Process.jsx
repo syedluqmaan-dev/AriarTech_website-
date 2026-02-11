@@ -463,19 +463,19 @@ const Process = () => {
         }
 
         /* Dark Mode Support (Optional) */
-        @media (prefers-color-scheme: dark) {
-          .process-section {
-            --process-background: #1e293b;
-            --process-background-alt: #0f172a;
-            --process-primary: #f1f5f9;
-            --process-primary-dark: #e2e8f0;
-            --process-text: #f8fafc;
-            --process-text-light: #cbd5e1;
-            --process-text-muted: #94a3b8;
-            --process-border: #334155;
-            --process-accent: #2dd4bf;
-            --process-accent-dark: #0d9488;
-          }
+        // @media (prefers-color-scheme: dark) {
+        //   .process-section {
+        //     --process-background: #1e293b;
+        //     --process-background-alt: #0f172a;
+        //     --process-primary: #f1f5f9;
+        //     --process-primary-dark: #e2e8f0;
+        //     --process-text: #f8fafc;
+        //     --process-text-light: #cbd5e1;
+        //     --process-text-muted: #94a3b8;
+        //     --process-border: #334155;
+        //     --process-accent: #2dd4bf;
+        //     --process-accent-dark: #0d9488;
+        //   }
           
           .process-step-card {
             background: var(--process-background);

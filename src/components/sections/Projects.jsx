@@ -109,7 +109,17 @@ const Projects = () => {
       <style >{`
         /* Projects Section - Mobile First */
         .projects-section {
-          background: #0A0A0A;
+         background: radial-gradient(
+  circle at 20% 20%, 
+  rgba(20, 184, 166, 0.06) 0%, 
+  transparent 40%
+),
+linear-gradient(
+  180deg,
+  #0A1624 0%,
+  #0F1E2E 100%
+);
+
           padding: 3rem 0;
           position: relative;
         }
@@ -176,7 +186,9 @@ const Projects = () => {
         .section-title {
           font-size: clamp(1.75rem, 4vw, 2.5rem);
           font-weight: 700;
-          color: #FFFFFF;
+          background: linear-gradient(90deg, #ffffff 0%, #14B8A6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
           margin-bottom: 0.75rem;
           line-height: 1.1;
         }
@@ -214,7 +226,8 @@ const Projects = () => {
         }
 
         .filter-btn:not(.active) {
-          background: rgba(255, 255, 255, 0.05);
+background: rgba(255, 255, 255, 0.04);
+border: 1px solid rgba(255, 255, 255, 0.08);
           color: #94A3B8;
         }
 
@@ -238,9 +251,11 @@ const Projects = () => {
 
         /* Project Card */
         .project-card {
-          background: rgba(255, 255, 255, 0.02);
+         background: rgba(255, 255, 255, 0.04);
+         backdrop-filter: blur(10px);
           border-radius: 1rem;
-          border: 1px solid rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+
           transition: all 0.2s ease;
           height: 100%;
           display: flex;
@@ -254,10 +269,12 @@ const Projects = () => {
           box-shadow: 0 0 0 1px rgba(102, 126, 234, 0.1);
         }
 
-        .project-card:hover {
-          transform: translateY(-4px);
-          border-color: rgba(20, 184, 166, 0.3);
-        }
+      .project-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(20, 184, 166, 0.5);
+  box-shadow: 0 10px 40px rgba(20, 184, 166, 0.15);
+}
+
 
         .project-card.featured:hover {
           border-color: rgba(102, 126, 234, 0.5);

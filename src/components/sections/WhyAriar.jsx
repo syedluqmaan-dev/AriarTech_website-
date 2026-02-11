@@ -494,19 +494,19 @@ const WhyAriar = () => {
         }
 
         /* Dark Mode Support (Optional) */
-        @media (prefers-color-scheme: dark) {
-          .why-section {
-            --why-background: #1e293b;
-            --why-background-alt: #0f172a;
-            --why-primary: #f1f5f9;
-            --why-primary-dark: #e2e8f0;
-            --why-text: #e2e8f0;
-            --why-text-light: #94a3b8;
-            --why-border: #334155;
-            --why-border-light: #475569;
-            --why-accent: #2dd4bf;
-            --why-accent-dark: #0d9488;
-          }
+        // @media (prefers-color-scheme: dark) {
+        //   .why-section {
+        //     --why-background: #1e293b;
+        //     --why-background-alt: #0f172a;
+        //     --why-primary: #f1f5f9;
+        //     --why-primary-dark: #e2e8f0;
+        //     --why-text: #e2e8f0;
+        //     --why-text-light: #94a3b8;
+        //     --why-border: #334155;
+        //     --why-border-light: #475569;
+        //     --why-accent: #2dd4bf;
+        //     --why-accent-dark: #0d9488;
+        //   }
           
           .why-value-card,
           .why-stat-card {

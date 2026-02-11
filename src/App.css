@@ -20,6 +20,10 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   text-rendering: optimizeSpeed;
+
+  /* ===== FORCE LIGHT MODE ===== */
+  background-color: #ffffff;
+  color: #0A2540;
 }
 
 /* ===== ESSENTIAL LAYOUT ===== */
@@ -45,7 +49,7 @@ section {
   top: -40px;
   left: 0;
   background: #0A2540;
-  color: white;
+  color: #ffffff;
   padding: 1rem;
   z-index: 1000;
   text-decoration: none;

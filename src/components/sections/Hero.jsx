@@ -505,17 +505,17 @@ const Hero = ({ onOpenModal }) => {
           }
         }
 
-        /* Dark Mode (if you want to add later) */
-        @media (prefers-color-scheme: dark) {
-          .hero-section {
-            --hero-background: #0f172a;
-            --hero-background-alt: #1e293b;
-            --hero-text: #f8fafc;
-            --hero-text-light: #cbd5e1;
-            --hero-border: #334155;
-            --hero-primary-light: #60a5fa;
-          }
-        }
+        // /* Dark Mode (if you want to add later) */
+        // @media (prefers-color-scheme: dark) {
+        //   .hero-section {
+        //     --hero-background: #0f172a;
+        //     --hero-background-alt: #1e293b;
+        //     --hero-text: #f8fafc;
+        //     --hero-text-light: #cbd5e1;
+        //     --hero-border: #334155;
+        //     --hero-primary-light: #60a5fa;
+        //   }
+        // }
       `}</style>
 
       <section id="hero" className="hero-section" aria-labelledby="hero-heading">
