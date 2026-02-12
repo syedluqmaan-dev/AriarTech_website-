@@ -17,7 +17,6 @@ const Header = memo(({ onOpenModal, activeSection = "" }) => {
 
   // Handle logo click to refresh page
   const handleLogoClick = useCallback(() => {
-    // Add a subtle animation before refresh
     document.documentElement.style.opacity = "0.9";
     setTimeout(() => {
       window.location.reload();
@@ -91,7 +90,7 @@ const Header = memo(({ onOpenModal, activeSection = "" }) => {
           --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Header Styles */
+        /* Header Styles - Perfect Size */
         .header {
           position: fixed;
           top: 0;
@@ -295,36 +294,66 @@ const Header = memo(({ onOpenModal, activeSection = "" }) => {
           width: 100%;
         }
 
-        /* CTA Button */
-        .cta-button {
-          display: none;
+        /* ===== NEW CTA BUTTON - HIDDEN ON MOBILE ===== */
+        .header-cta {
+          display: none; /* Hidden on mobile by default */
           align-items: center;
           justify-content: center;
-          padding: 0.7rem clamp(1rem, 2vw, 1.5rem);
+          padding: 0.6rem 1.2rem;
           border-radius: 0.75rem;
           font-family: 'Inter', -apple-system, sans-serif;
           font-weight: 600;
-          font-size: clamp(0.8rem, 1vw, 0.9rem);
-          transition: var(--transition-base);
+          font-size: 0.85rem;
+          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
           border: none;
           cursor: pointer;
           white-space: nowrap;
-          min-height: 44px;
+          min-height: 40px;
           background: var(--secondary-gradient);
           color: white;
-          box-shadow: 0 4px 15px rgba(20, 184, 166, 0.25);
+          box-shadow: 0 4px 12px rgba(20, 184, 166, 0.25);
           position: relative;
           overflow: hidden;
           outline: none;
+          letter-spacing: 0.02em;
+          margin-left: 0.5rem;
         }
 
-        @media (min-width: 1024px) {
-          .cta-button {
+        /* Show on tablet and desktop */
+        @media (min-width: 768px) {
+          .header-cta {
             display: flex;
           }
         }
 
-        .cta-button::before {
+        /* Responsive sizing for larger screens */
+        @media (min-width: 1024px) {
+          .header-cta {
+            padding: 0.8rem 2rem;
+            font-size: 1.05rem;
+            min-height: 48px;
+            margin-left: 1rem;
+          }
+        }
+
+        @media (min-width: 1280px) {
+          .header-cta {
+            padding: 0.85rem 2.2rem;
+            font-size: 1.1rem;
+            min-height: 50px;
+          }
+        }
+
+        @media (min-width: 1536px) {
+          .header-cta {
+            padding: 0.9rem 2.4rem;
+            font-size: 1.15rem;
+            min-height: 52px;
+          }
+        }
+
+        /* Shine effect */
+        .header-cta::before {
           content: '';
           position: absolute;
           top: 0;
@@ -340,16 +369,21 @@ const Header = memo(({ onOpenModal, activeSection = "" }) => {
           transition: left 0.7s ease;
         }
 
-        .cta-button:hover::before,
-        .cta-button:focus::before {
+        .header-cta:hover::before,
+        .header-cta:focus::before {
           left: 100%;
         }
 
-        .cta-button:hover,
-        .cta-button:focus {
+        .header-cta:hover,
+        .header-cta:focus {
           transform: translateY(-2px);
-          box-shadow: 0 6px 25px rgba(20, 184, 166, 0.4);
+          box-shadow: 0 8px 20px rgba(20, 184, 166, 0.4);
           outline: none;
+        }
+
+        .header-cta:active {
+          transform: translateY(0);
+          box-shadow: 0 4px 12px rgba(20, 184, 166, 0.3);
         }
 
         /* Mobile Menu Button */
@@ -532,6 +566,11 @@ const Header = memo(({ onOpenModal, activeSection = "" }) => {
           outline: none;
         }
 
+        /* Remove old CTA button styles */
+        .cta-button {
+          display: none;
+        }
+
         /* Reduced Motion Support */
         @media (prefers-reduced-motion: reduce) {
           *,
@@ -589,9 +628,9 @@ const Header = memo(({ onOpenModal, activeSection = "" }) => {
             ))}
           </nav>
 
-          {/* CTA Button */}
+          {/* ===== CTA BUTTON - HIDDEN ON MOBILE, VISIBLE ON TABLET/DESKTOP ===== */}
           <button
-            className="cta-button"
+            className="header-cta"
             onClick={onOpenModal}
             aria-label="Get free consultation"
           >

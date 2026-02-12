@@ -34,7 +34,7 @@ const Services = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.08
+        staggerChildren: 0.06
       }
     }
   };
@@ -56,17 +56,17 @@ const Services = () => {
         /* === SERVICES-SPECIFIC CSS VARIABLES === */
         .services-section {
           /* COLORS - COMPLETELY INDEPENDENT */
-          --services-primary: #0A2540;          /* Dark blue */
-          --services-accent: #14B8A6;           /* Teal */
-          --services-accent-dark: #0d9488;      /* Darker teal */
-          --services-background: #FFFFFF;       /* White */
-          --services-background-alt: #F8FAFC;   /* Light gray */
-          --services-text: #000000;             /* Black */
-          --services-text-light: #6B7280;       /* Medium gray */
-          --services-text-muted: #9CA3AF;       /* Light gray */
-          --services-border: #E5E7EB;           /* Border gray */
-          --services-border-light: #F3F4F6;     /* Lighter border */
-          --services-focus-ring: #14B8A6;       /* Focus outline */
+          --services-primary: #0A2540;
+          --services-accent: #14B8A6;
+          --services-accent-dark: #0d9488;
+          --services-background: #FFFFFF;
+          --services-background-alt: #F8FAFC;
+          --services-text: #000000;
+          --services-text-light: #6B7280;
+          --services-text-muted: #9CA3AF;
+          --services-border: #E5E7EB;
+          --services-border-light: #F3F4F6;
+          --services-focus-ring: #14B8A6;
           
           /* SPACING - COMPLETELY INDEPENDENT */
           --services-spacing-xs: 0.5rem;
@@ -95,11 +95,11 @@ const Services = () => {
           --services-shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.12);
           --services-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.08);
           
-          /* SECTION STYLES */
-          padding: var(--services-spacing-xl) 0;
+          /* SECTION STYLES - OPTIMIZED */
+          padding: var(--services-spacing-lg) 0;
           background: var(--services-background-alt);
           position: relative;
-          isolation: isolate; /* Prevent style leakage */
+          isolation: isolate;
         }
 
         @media (min-width: 768px) {
@@ -114,7 +114,7 @@ const Services = () => {
           }
         }
 
-        /* Services Container */
+        /* Services Container - OPTIMIZED */
         .services-container {
           width: 100%;
           max-width: 1200px;
@@ -128,10 +128,10 @@ const Services = () => {
           }
         }
 
-        /* Section Header */
+        /* Section Header - OPTIMIZED */
         .services-header {
           text-align: center;
-          margin-bottom: var(--services-spacing-xl);
+          margin-bottom: var(--services-spacing-lg);
         }
 
         @media (min-width: 768px) {
@@ -147,40 +147,59 @@ const Services = () => {
           color: var(--services-accent);
           text-transform: uppercase;
           letter-spacing: 0.1em;
-          margin-bottom: var(--services-spacing-sm);
-          padding: var(--services-spacing-xs) var(--services-spacing-sm);
+          margin-bottom: var(--services-spacing-xs);
+          padding: 0.25rem 0.75rem;
           background: rgba(20, 184, 166, 0.08);
           border-radius: var(--services-border-radius-full);
           font-family: 'Space Grotesk', system-ui, sans-serif;
         }
 
+        @media (max-width: 640px) {
+          .services-label {
+            margin-bottom: 0.375rem;
+          }
+        }
+
         .services-title {
-          font-size: clamp(1.75rem, 4vw, 2.25rem);
+          font-size: clamp(1.5rem, 6vw, 2.25rem);
           font-weight: 700;
           color: var(--services-primary);
           line-height: 1.1;
-          margin-bottom: var(--services-spacing-sm);
+          margin-bottom: 0.5rem;
           font-family: 'Space Grotesk', system-ui, sans-serif;
         }
 
+        @media (max-width: 640px) {
+          .services-title {
+            margin-bottom: 0.375rem;
+          }
+        }
+
         .services-subtitle {
-          font-size: clamp(0.9375rem, 2vw, 1.0625rem);
+          font-size: clamp(0.875rem, 3vw, 1.0625rem);
           color: var(--services-text);
           max-width: 600px;
           margin: 0 auto;
-          line-height: 1.6;
+          line-height: 1.5;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
-        /* Services Grid */
+        @media (max-width: 640px) {
+          .services-subtitle {
+            padding: 0 0.25rem;
+          }
+        }
+
+        /* Services Grid - OPTIMIZED */
         .services-grid {
           display: grid;
-          gap: var(--services-spacing-md);
+          gap: var(--services-spacing-sm);
         }
 
         @media (min-width: 640px) {
           .services-grid {
             grid-template-columns: repeat(2, 1fr);
+            gap: var(--services-spacing-md);
           }
         }
 
@@ -191,11 +210,11 @@ const Services = () => {
           }
         }
 
-        /* Service Card */
+        /* Service Card - OPTIMIZED */
         .service-card {
           background: var(--services-background);
           border-radius: var(--services-border-radius);
-          padding: var(--services-spacing-lg);
+          padding: var(--services-spacing-md);
           transition: all var(--services-transition-base);
           border: 1px solid var(--services-border);
           height: 100%;
@@ -203,6 +222,12 @@ const Services = () => {
           flex-direction: column;
           position: relative;
           overflow: hidden;
+        }
+
+        @media (min-width: 640px) {
+          .service-card {
+            padding: var(--services-spacing-lg);
+          }
         }
 
         .service-card::before {
@@ -235,48 +260,77 @@ const Services = () => {
           outline-offset: 2px;
         }
 
-        /* Service Icon */
+        /* Service Icon - OPTIMIZED */
         .service-icon {
-          width: 48px;
-          height: 48px;
+          width: 44px;
+          height: 44px;
           border-radius: var(--services-border-radius);
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 1.5rem;
-          margin-bottom: var(--services-spacing-md);
+          font-size: 1.375rem;
+          margin-bottom: var(--services-spacing-sm);
           background: rgba(20, 184, 166, 0.08);
         }
 
-        /* Service Content */
+        @media (min-width: 640px) {
+          .service-icon {
+            width: 48px;
+            height: 48px;
+            font-size: 1.5rem;
+            margin-bottom: var(--services-spacing-md);
+          }
+        }
+
+        /* Service Content - OPTIMIZED */
         .service-title {
-          font-size: 1.125rem;
+          font-size: 1.0625rem;
           font-weight: 600;
           color: var(--services-primary);
-          margin-bottom: var(--services-spacing-sm);
+          margin-bottom: 0.375rem;
           line-height: 1.2;
           font-family: 'Space Grotesk', system-ui, sans-serif;
         }
 
+        @media (min-width: 640px) {
+          .service-title {
+            font-size: 1.125rem;
+            margin-bottom: var(--services-spacing-sm);
+          }
+        }
+
         .service-description {
-          font-size: 0.875rem;
+          font-size: 0.8125rem;
           color: var(--services-text-light);
           line-height: 1.5;
-          margin-bottom: var(--services-spacing-md);
+          margin-bottom: var(--services-spacing-sm);
           flex: 1;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
-        /* Service Features */
+        @media (min-width: 640px) {
+          .service-description {
+            font-size: 0.875rem;
+            margin-bottom: var(--services-spacing-md);
+          }
+        }
+
+        /* Service Features - OPTIMIZED */
         .service-features {
           display: flex;
           flex-wrap: wrap;
-          gap: 0.375rem;
+          gap: 0.25rem;
           margin-top: auto;
         }
 
+        @media (min-width: 640px) {
+          .service-features {
+            gap: 0.375rem;
+          }
+        }
+
         .feature-tag {
-          font-size: 0.6875rem;
+          font-size: 0.625rem;
           font-weight: 500;
           color: var(--services-accent);
           background: rgba(20, 184, 166, 0.08);
@@ -285,6 +339,118 @@ const Services = () => {
           border: 1px solid rgba(20, 184, 166, 0.12);
           white-space: nowrap;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        @media (min-width: 640px) {
+          .feature-tag {
+            font-size: 0.6875rem;
+          }
+        }
+
+        /* Mobile Optimizations - ENHANCED */
+        @media (max-width: 640px) {
+          .service-card {
+            padding: 1rem;
+          }
+          
+          .services-grid {
+            gap: 0.75rem;
+          }
+
+          .services-section {
+            padding: 2rem 0;
+          }
+
+          .services-container {
+            padding: 0 1rem;
+          }
+
+          .services-header {
+            margin-bottom: 1.5rem;
+          }
+
+          .services-title {
+            letter-spacing: -0.02em;
+          }
+
+          .feature-tag {
+            padding: 0.125rem 0.5rem;
+            font-size: 0.5625rem;
+          }
+
+          .service-icon {
+            margin-bottom: 0.75rem;
+          }
+
+          .service-description {
+            margin-bottom: 0.75rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+        }
+
+        /* Small Mobile Devices (320px-400px) - EXTRA OPTIMIZED */
+        @media (max-width: 400px) {
+          .service-card {
+            padding: 0.875rem;
+          }
+
+          .services-title {
+            font-size: 1.35rem;
+          }
+
+          .services-subtitle {
+            font-size: 0.8125rem;
+            line-height: 1.4;
+          }
+
+          .service-title {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+          }
+
+          .service-description {
+            font-size: 0.75rem;
+            margin-bottom: 0.625rem;
+            -webkit-line-clamp: 2;
+          }
+
+          .feature-tag {
+            font-size: 0.5rem;
+            padding: 0.125rem 0.375rem;
+          }
+
+          .service-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 1.125rem;
+            margin-bottom: 0.625rem;
+          }
+
+          .service-features {
+            gap: 0.1875rem;
+          }
+        }
+
+        /* Tablet Optimizations */
+        @media (min-width: 641px) and (max-width: 1023px) {
+          .services-grid {
+            gap: 1.25rem;
+          }
+
+          .service-card {
+            padding: 1.5rem;
+          }
+
+          .service-description {
+            font-size: 0.8125rem;
+          }
+
+          .services-title {
+            font-size: clamp(1.75rem, 5vw, 2rem);
+          }
         }
 
         /* Performance Optimizations */
@@ -297,23 +463,6 @@ const Services = () => {
           .service-card:hover,
           .service-card:focus-within {
             transform: none !important;
-          }
-        }
-
-        /* Mobile Optimizations */
-        @media (max-width: 640px) {
-          .service-card {
-            padding: var(--services-spacing-md);
-          }
-          
-          .service-icon {
-            width: 44px;
-            height: 44px;
-            font-size: 1.25rem;
-          }
-          
-          .services-grid {
-            gap: var(--services-spacing-sm);
           }
         }
 
@@ -346,29 +495,6 @@ const Services = () => {
           }
         }
 
-        /* Dark Mode Support (Optional) */
-        // @media (prefers-color-scheme: dark) {
-        //   .services-section {
-        //     --services-background: #1e293b;
-        //     --services-background-alt: #0f172a;
-        //     --services-primary: #f1f5f9;
-        //     --services-text: #e2e8f0;
-        //     --services-text-light: #94a3b8;
-        //     --services-border: #334155;
-        //     --services-border-light: #475569;
-        //     --services-accent: #2dd4bf;
-        //   }
-          
-          .service-card {
-            background: var(--services-background);
-            border-color: var(--services-border);
-          }
-          
-          .service-card:hover {
-            border-color: var(--services-accent);
-          }
-        }
-
         /* Accessibility: Focus Management */
         .service-card:focus {
           outline: none;
@@ -397,7 +523,7 @@ const Services = () => {
             className="services-header"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true, margin: "-30px" }}
             transition={{ duration: 0.4 }}
           >
             <span className="services-label" aria-label="Services section">What We Do</span>
@@ -415,14 +541,14 @@ const Services = () => {
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true, margin: "-30px" }}
           >
             {services.map((service, index) => (
               <motion.div 
                 key={index}
                 className="service-card"
                 variants={itemVariants}
-                tabIndex={0} /* Make cards focusable for keyboard navigation */
+                tabIndex={0}
               >
                 <div className="service-icon" aria-hidden="true">
                   {service.icon}

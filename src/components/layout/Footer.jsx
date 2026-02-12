@@ -19,9 +19,9 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: FiLinkedin, label: 'LinkedIn', href: '#' },
+    { icon: FiLinkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/company/ariar-technologies/about/?viewAsMember=true' },
     { icon: FiTwitter, label: 'Twitter', href: '#' },
-    { icon: FiInstagram, label: 'Instagram', href: '#' },
+    { icon: FiInstagram, label: 'Instagram', href: 'https://www.instagram.com/ariar.tech?utm_source=qr&igsh=MXQ2ZTVuM3NoeXJlYQ==' },
     { icon: FiGithub, label: 'GitHub', href: '#' }
   ];
 

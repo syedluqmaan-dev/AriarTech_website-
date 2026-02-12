@@ -41,7 +41,7 @@ const WhyAriar = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.08
+        staggerChildren: 0.06
       }
     }
   };
@@ -75,18 +75,18 @@ const WhyAriar = () => {
         /* === WHY-SPECIFIC CSS VARIABLES === */
         .why-section {
           /* COLORS - COMPLETELY INDEPENDENT */
-          --why-primary: #000000;               /* Black */
-          --why-primary-dark: #0A2540;          /* Dark blue */
-          --why-accent: #14B8A6;                /* Teal */
-          --why-accent-dark: #0d9488;           /* Darker teal */
-          --why-background: #FFFFFF;            /* White */
-          --why-background-alt: #F8FAFC;        /* Light gray */
-          --why-text: #000000;                  /* Black */
-          --why-text-light: #6B7280;            /* Medium gray */
-          --why-text-muted: #9CA3AF;            /* Light gray */
-          --why-border: #E5E7EB;                /* Border gray */
-          --why-border-light: #F3F4F6;          /* Lighter border */
-          --why-focus-ring: #14B8A6;            /* Focus outline */
+          --why-primary: #000000;
+          --why-primary-dark: #0A2540;
+          --why-accent: #14B8A6;
+          --why-accent-dark: #0d9488;
+          --why-background: #FFFFFF;
+          --why-background-alt: #F8FAFC;
+          --why-text: #000000;
+          --why-text-light: #6B7280;
+          --why-text-muted: #9CA3AF;
+          --why-border: #E5E7EB;
+          --why-border-light: #F3F4F6;
+          --why-focus-ring: #14B8A6;
           
           /* SPACING - COMPLETELY INDEPENDENT */
           --why-spacing-xs: 0.5rem;
@@ -116,11 +116,11 @@ const WhyAriar = () => {
           --why-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.08);
           --why-shadow-accent: 0 6px 20px rgba(20, 184, 166, 0.25);
           
-          /* SECTION STYLES */
-          padding: var(--why-spacing-xl) 0;
+          /* SECTION STYLES - OPTIMIZED */
+          padding: var(--why-spacing-lg) 0;
           background: var(--why-background-alt);
           position: relative;
-          isolation: isolate; /* Prevent style leakage */
+          isolation: isolate;
         }
 
         @media (min-width: 768px) {
@@ -149,10 +149,10 @@ const WhyAriar = () => {
           }
         }
 
-        /* Section Header */
+        /* Section Header - OPTIMIZED */
         .why-header {
           text-align: center;
-          margin-bottom: var(--why-spacing-xl);
+          margin-bottom: var(--why-spacing-lg);
         }
 
         @media (min-width: 768px) {
@@ -168,41 +168,62 @@ const WhyAriar = () => {
           color: var(--why-accent);
           text-transform: uppercase;
           letter-spacing: 0.1em;
-          margin-bottom: var(--why-spacing-sm);
-          padding: var(--why-spacing-xs) var(--why-spacing-sm);
+          margin-bottom: var(--why-spacing-xs);
+          padding: 0.25rem 0.75rem;
           background: rgba(20, 184, 166, 0.08);
           border-radius: var(--why-border-radius-full);
           font-family: 'Space Grotesk', system-ui, sans-serif;
         }
 
+        @media (max-width: 640px) {
+          .why-label {
+            margin-bottom: 0.375rem;
+          }
+        }
+
         .why-title {
-          font-size: clamp(1.75rem, 4vw, 2.25rem);
+          font-size: clamp(1.5rem, 6vw, 2.25rem);
           font-weight: 700;
           color: var(--why-primary);
           line-height: 1.1;
-          margin-bottom: var(--why-spacing-sm);
+          margin-bottom: 0.5rem;
           font-family: 'Space Grotesk', system-ui, sans-serif;
         }
 
+        @media (max-width: 640px) {
+          .why-title {
+            margin-bottom: 0.375rem;
+            letter-spacing: -0.02em;
+          }
+        }
+
         .why-subtitle {
-          font-size: clamp(0.9375rem, 2vw, 1.0625rem);
+          font-size: clamp(0.875rem, 3vw, 1.0625rem);
           color: var(--why-text);
           max-width: 600px;
           margin: 0 auto;
-          line-height: 1.6;
+          line-height: 1.5;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
-        /* Values Grid */
+        @media (max-width: 640px) {
+          .why-subtitle {
+            padding: 0 0.25rem;
+          }
+        }
+
+        /* Values Grid - OPTIMIZED */
         .why-values-grid {
           display: grid;
-          gap: var(--why-spacing-md);
-          margin-bottom: var(--why-spacing-xl);
+          gap: var(--why-spacing-sm);
+          margin-bottom: var(--why-spacing-lg);
         }
 
         @media (min-width: 640px) {
           .why-values-grid {
             grid-template-columns: repeat(2, 1fr);
+            gap: var(--why-spacing-md);
+            margin-bottom: var(--why-spacing-xl);
           }
         }
 
@@ -213,11 +234,11 @@ const WhyAriar = () => {
           }
         }
 
-        /* Value Card */
+        /* Value Card - OPTIMIZED */
         .why-value-card {
           background: var(--why-background);
           border-radius: var(--why-border-radius);
-          padding: var(--why-spacing-lg);
+          padding: var(--why-spacing-md);
           transition: all var(--why-transition-base);
           border: 1px solid var(--why-border);
           height: 100%;
@@ -227,6 +248,12 @@ const WhyAriar = () => {
           text-align: center;
           position: relative;
           overflow: hidden;
+        }
+
+        @media (min-width: 640px) {
+          .why-value-card {
+            padding: var(--why-spacing-lg);
+          }
         }
 
         .why-value-card::before {
@@ -259,70 +286,108 @@ const WhyAriar = () => {
           outline-offset: 2px;
         }
 
-        /* Value Icon */
+        /* Value Icon - OPTIMIZED */
         .why-value-icon {
-          width: 56px;
-          height: 56px;
+          width: 48px;
+          height: 48px;
           border-radius: var(--why-border-radius);
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 1.75rem;
-          margin-bottom: var(--why-spacing-md);
+          font-size: 1.5rem;
+          margin-bottom: var(--why-spacing-sm);
           background: rgba(20, 184, 166, 0.08);
         }
 
-        /* Value Content */
+        @media (min-width: 640px) {
+          .why-value-icon {
+            width: 56px;
+            height: 56px;
+            font-size: 1.75rem;
+            margin-bottom: var(--why-spacing-md);
+          }
+        }
+
+        /* Value Content - OPTIMIZED */
         .why-value-title {
-          font-size: 1.125rem;
+          font-size: 1.0625rem;
           font-weight: 600;
           color: var(--why-primary-dark);
-          margin-bottom: var(--why-spacing-sm);
+          margin-bottom: 0.375rem;
           line-height: 1.2;
           font-family: 'Space Grotesk', system-ui, sans-serif;
         }
 
+        @media (min-width: 640px) {
+          .why-value-title {
+            font-size: 1.125rem;
+            margin-bottom: var(--why-spacing-sm);
+          }
+        }
+
         .why-value-description {
-          font-size: 0.875rem;
+          font-size: 0.8125rem;
           color: var(--why-text-light);
           line-height: 1.5;
-          margin-bottom: var(--why-spacing-md);
+          margin-bottom: var(--why-spacing-sm);
           flex: 1;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
-        /* Value Highlight */
+        @media (min-width: 640px) {
+          .why-value-description {
+            font-size: 0.875rem;
+            margin-bottom: var(--why-spacing-md);
+          }
+        }
+
+        /* Value Highlight - OPTIMIZED */
         .why-value-highlight {
-          font-size: 0.8125rem;
+          font-size: 0.75rem;
           font-weight: 600;
           color: var(--why-accent);
           background: rgba(20, 184, 166, 0.08);
-          padding: var(--why-spacing-xs) var(--why-spacing-sm);
+          padding: 0.25rem 0.75rem;
           border-radius: var(--why-border-radius-full);
           border: 1px solid rgba(20, 184, 166, 0.12);
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
-        /* Stats Section */
+        @media (min-width: 640px) {
+          .why-value-highlight {
+            font-size: 0.8125rem;
+            padding: var(--why-spacing-xs) var(--why-spacing-sm);
+          }
+        }
+
+        /* Stats Section - OPTIMIZED */
         .why-stats-section {
-          margin: var(--why-spacing-xl) 0;
-          padding: var(--why-spacing-xl) 0;
+          margin: var(--why-spacing-lg) 0;
+          padding: var(--why-spacing-lg) 0;
           border-top: 1px solid var(--why-border);
           border-bottom: 1px solid var(--why-border);
         }
 
+        @media (min-width: 768px) {
+          .why-stats-section {
+            margin: var(--why-spacing-xl) 0;
+            padding: var(--why-spacing-xl) 0;
+          }
+        }
+
         .why-stats-title {
-          font-size: 1.5rem;
+          font-size: 1.35rem;
           font-weight: 600;
           color: var(--why-primary);
           text-align: center;
-          margin-bottom: var(--why-spacing-lg);
+          margin-bottom: var(--why-spacing-md);
           font-family: 'Space Grotesk', system-ui, sans-serif;
         }
 
         @media (min-width: 768px) {
           .why-stats-title {
             font-size: 1.75rem;
+            margin-bottom: var(--why-spacing-lg);
           }
         }
 
@@ -347,10 +412,16 @@ const WhyAriar = () => {
         .why-stat-card {
           background: var(--why-background);
           border-radius: var(--why-border-radius);
-          padding: var(--why-spacing-lg);
+          padding: var(--why-spacing-md);
           text-align: center;
           border: 1px solid var(--why-border);
           transition: all var(--why-transition-fast);
+        }
+
+        @media (min-width: 640px) {
+          .why-stat-card {
+            padding: var(--why-spacing-lg);
+          }
         }
 
         .why-stat-card:hover {
@@ -359,22 +430,23 @@ const WhyAriar = () => {
         }
 
         .why-stat-value {
-          font-size: 2rem;
+          font-size: 1.75rem;
           font-weight: 700;
           color: var(--why-accent);
           line-height: 1;
-          margin-bottom: var(--why-spacing-xs);
+          margin-bottom: 0.25rem;
           font-family: 'Space Grotesk', system-ui, sans-serif;
         }
 
         @media (min-width: 768px) {
           .why-stat-value {
             font-size: 2.25rem;
+            margin-bottom: var(--why-spacing-xs);
           }
         }
 
         .why-stat-label {
-          font-size: 0.75rem;
+          font-size: 0.6875rem;
           color: var(--why-text-light);
           font-weight: 500;
           text-transform: uppercase;
@@ -382,27 +454,49 @@ const WhyAriar = () => {
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
-        /* CTA Section */
+        @media (min-width: 640px) {
+          .why-stat-label {
+            font-size: 0.75rem;
+          }
+        }
+
+        /* CTA Section - OPTIMIZED */
         .why-cta-section {
           text-align: center;
-          margin-top: var(--why-spacing-xl);
+          margin-top: var(--why-spacing-lg);
+        }
+
+        @media (min-width: 768px) {
+          .why-cta-section {
+            margin-top: var(--why-spacing-xl);
+          }
         }
 
         .why-cta-button {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          padding: var(--why-spacing-md) var(--why-spacing-xl);
+          padding: 0.75rem 1.5rem;
           border-radius: var(--why-border-radius);
           font-weight: 600;
-          font-size: 0.9375rem;
+          font-size: 0.875rem;
           transition: all var(--why-transition-base);
           border: none;
           cursor: pointer;
           background: var(--why-accent);
           color: var(--why-background);
           min-height: 44px;
+          width: 100%;
+          max-width: 280px;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        @media (min-width: 640px) {
+          .why-cta-button {
+            padding: var(--why-spacing-md) var(--why-spacing-xl);
+            font-size: 0.9375rem;
+            width: auto;
+          }
         }
 
         .why-cta-button:hover,
@@ -418,6 +512,155 @@ const WhyAriar = () => {
           outline-offset: 2px;
         }
 
+        /* Mobile Optimizations - ENHANCED */
+        @media (max-width: 640px) {
+          .why-section {
+            padding: 2rem 0;
+          }
+
+          .why-container {
+            padding: 0 1rem;
+          }
+
+          .why-header {
+            margin-bottom: 1.5rem;
+          }
+
+          .why-values-grid {
+            margin-bottom: 1.5rem;
+          }
+
+          .why-value-card {
+            padding: 1.25rem;
+          }
+
+          .why-value-icon {
+            width: 44px;
+            height: 44px;
+            font-size: 1.375rem;
+            margin-bottom: 0.75rem;
+          }
+
+          .why-value-title {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+          }
+
+          .why-value-description {
+            font-size: 0.75rem;
+            margin-bottom: 0.75rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+
+          .why-value-highlight {
+            font-size: 0.6875rem;
+            padding: 0.1875rem 0.625rem;
+          }
+
+          .why-stats-section {
+            margin: 1.5rem 0;
+            padding: 1.5rem 0;
+          }
+
+          .why-stats-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+          }
+
+          .why-stat-card {
+            padding: 1rem;
+          }
+
+          .why-stat-value {
+            font-size: 1.5rem;
+          }
+
+          .why-stat-label {
+            font-size: 0.625rem;
+          }
+
+          .why-cta-section {
+            margin-top: 1.5rem;
+          }
+        }
+
+        /* Small Mobile Devices (320px-400px) - EXTRA OPTIMIZED */
+        @media (max-width: 400px) {
+          .why-value-card {
+            padding: 1rem;
+          }
+
+          .why-title {
+            font-size: 1.35rem;
+          }
+
+          .why-subtitle {
+            font-size: 0.8125rem;
+          }
+
+          .why-value-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 1.25rem;
+            margin-bottom: 0.625rem;
+          }
+
+          .why-value-title {
+            font-size: 0.9375rem;
+          }
+
+          .why-value-description {
+            font-size: 0.6875rem;
+            margin-bottom: 0.625rem;
+            -webkit-line-clamp: 2;
+          }
+
+          .why-value-highlight {
+            font-size: 0.625rem;
+            padding: 0.125rem 0.5rem;
+          }
+
+          .why-stats-title {
+            font-size: 1.125rem;
+          }
+
+          .why-stat-value {
+            font-size: 1.375rem;
+          }
+
+          .why-stat-label {
+            font-size: 0.5625rem;
+          }
+
+          .why-cta-button {
+            font-size: 0.8125rem;
+            padding: 0.625rem 1.25rem;
+            max-width: 240px;
+          }
+        }
+
+        /* Tablet Optimizations */
+        @media (min-width: 641px) and (max-width: 1023px) {
+          .why-values-grid {
+            gap: 1.25rem;
+          }
+
+          .why-value-card {
+            padding: 1.5rem;
+          }
+
+          .why-value-description {
+            font-size: 0.8125rem;
+          }
+
+          .why-stats-grid {
+            gap: 1.25rem;
+          }
+        }
+
         /* Performance Optimizations */
         @media (prefers-reduced-motion: reduce) {
           .why-value-card,
@@ -431,30 +674,6 @@ const WhyAriar = () => {
           .why-cta-button:hover,
           .why-stat-card:hover {
             transform: none !important;
-          }
-        }
-
-        /* Mobile Optimizations */
-        @media (max-width: 640px) {
-          .why-value-card,
-          .why-stat-card {
-            padding: var(--why-spacing-md);
-          }
-          
-          .why-value-icon {
-            width: 48px;
-            height: 48px;
-            font-size: 1.5rem;
-          }
-          
-          .why-stat-value {
-            font-size: 1.75rem;
-          }
-          
-          .why-cta-button {
-            padding: var(--why-spacing-sm) var(--why-spacing-lg);
-            width: 100%;
-            max-width: 280px;
           }
         }
 
@@ -490,33 +709,6 @@ const WhyAriar = () => {
           
           .why-value-highlight {
             border: 1px solid currentColor;
-          }
-        }
-
-        /* Dark Mode Support (Optional) */
-        // @media (prefers-color-scheme: dark) {
-        //   .why-section {
-        //     --why-background: #1e293b;
-        //     --why-background-alt: #0f172a;
-        //     --why-primary: #f1f5f9;
-        //     --why-primary-dark: #e2e8f0;
-        //     --why-text: #e2e8f0;
-        //     --why-text-light: #94a3b8;
-        //     --why-border: #334155;
-        //     --why-border-light: #475569;
-        //     --why-accent: #2dd4bf;
-        //     --why-accent-dark: #0d9488;
-        //   }
-          
-          .why-value-card,
-          .why-stat-card {
-            background: var(--why-background);
-            border-color: var(--why-border);
-          }
-          
-          .why-value-card:hover,
-          .why-stat-card:hover {
-            border-color: var(--why-accent);
           }
         }
 
@@ -559,7 +751,7 @@ const WhyAriar = () => {
             className="why-header"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true, margin: "-30px" }}
             transition={{ duration: 0.4 }}
           >
             <span className="why-label" aria-label="Why choose us">Why Choose Us</span>
@@ -578,14 +770,14 @@ const WhyAriar = () => {
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true, margin: "-30px" }}
           >
             {values.map((value, index) => (
               <motion.div 
                 key={index}
                 className="why-value-card"
                 variants={itemVariants}
-                tabIndex={0} /* Make cards focusable for keyboard navigation */
+                tabIndex={0}
               >
                 <div className="why-value-icon" aria-hidden="true">
                   {value.icon}
@@ -605,14 +797,14 @@ const WhyAriar = () => {
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
+              viewport={{ once: true, margin: "-30px" }}
             >
               {stats.map((stat, index) => (
                 <motion.div 
                   key={index}
                   className="why-stat-card"
                   variants={itemVariants}
-                  tabIndex={0} /* Make stat cards focusable */
+                  tabIndex={0}
                 >
                   <div className="why-stat-value">{stat.value}</div>
                   <div className="why-stat-label">{stat.label}</div>

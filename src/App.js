@@ -12,7 +12,7 @@ import { useScrollAnimation } from './hooks/useScrollAnimation';
 import { useScrollToTop } from './hooks/useScrollToTop';
 import './App.css';
 
-// Lazy load below-the-fold components for better initial load performance
+// Lazy load below-the-fold components
 const Projects = lazy(() => import('./components/sections/Projects'));
 const Contact = lazy(() => import('./components/sections/Contact'));
 const FinalCTA = lazy(() => import('./components/sections/FinalCTA'));
@@ -20,10 +20,9 @@ const FinalCTA = lazy(() => import('./components/sections/FinalCTA'));
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
-  const sectionObserverRef = useRef(null);
   const mainRef = useRef(null);
+  const observerRef = useRef(null);
 
-  // Custom hooks for better separation of concerns
   useScrollAnimation();
   const { showScrollTop, scrollToTop } = useScrollToTop();
 
@@ -31,28 +30,34 @@ function App() {
     setIsModalOpen(true);
     document.body.style.overflow = 'hidden';
 
-    // Focus management for accessibility
     setTimeout(() => {
-      const modalContent = document.querySelector('.modal-content');
+      const modalContent = document.querySelector('[role="dialog"]');
       if (modalContent) modalContent.focus();
     }, 100);
   }, []);
 
   const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
-    document.body.style.overflow = 'auto';
+    document.body.style.overflow = '';
 
-    // Return focus to the element that opened the modal
-    const modalTrigger = document.querySelector('[data-modal-trigger]:focus');
+    const modalTrigger = document.querySelector('[data-modal-trigger]');
     if (modalTrigger) modalTrigger.focus();
   }, []);
 
-  // Handle section visibility for active navigation using Intersection Observer
+  const handleSkipToMain = useCallback((e) => {
+    e.preventDefault();
+    if (mainRef.current) {
+      mainRef.current.focus();
+      mainRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, []);
+
+  // Intersection Observer for active section tracking
   useEffect(() => {
     const sections = ['hero', 'services', 'why', 'process', 'work', 'contact'];
 
-    if (sectionObserverRef.current) {
-      sectionObserverRef.current.disconnect();
+    if (observerRef.current) {
+      observerRef.current.disconnect();
     }
 
     const observer = new IntersectionObserver(
@@ -61,10 +66,9 @@ function App() {
         let mostVisibleSection = '';
 
         entries.forEach((entry) => {
-          const sectionId = entry.target.id;
           if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
             maxRatio = entry.intersectionRatio;
-            mostVisibleSection = sectionId;
+            mostVisibleSection = entry.target.id;
           }
         });
 
@@ -84,38 +88,39 @@ function App() {
       if (element) observer.observe(element);
     });
 
-    sectionObserverRef.current = observer;
+    observerRef.current = observer;
 
     return () => {
-      if (sectionObserverRef.current) {
-        sectionObserverRef.current.disconnect();
+      if (observerRef.current) {
+        observerRef.current.disconnect();
       }
     };
   }, []);
 
   return (
     <div className="App">
-      {/* Skip to main content link for accessibility */}
+      {/* Skip to main content - Accessible, hidden until focused */}
       <a
         href="#main-content"
         className="skip-to-main"
-        onClick={(e) => {
-          e.preventDefault();
-          mainRef.current?.focus();
-          mainRef.current?.scrollIntoView({ behavior: 'smooth' });
-        }}
+        onClick={handleSkipToMain}
+        aria-label="Skip to main content"
       >
         Skip to main content
       </a>
 
       <Header onOpenModal={handleOpenModal} activeSection={activeSection} />
 
-      <main id="main-content" ref={mainRef} tabIndex="-1">
+      <main 
+        id="main-content" 
+        ref={mainRef} 
+        tabIndex={-1}
+        aria-label="Main content"
+      >
         <Hero onOpenModal={handleOpenModal} />
         <Services />
         <WhyAriar />
 
-        {/* Lazy loaded components with loading fallback */}
         <Suspense fallback={<LoadingSpinner />}>
           <Projects onOpenModal={handleOpenModal} />
           <Process />
@@ -128,7 +133,6 @@ function App() {
 
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
 
-      {/* Scroll to Top Button */}
       {showScrollTop && <ScrollToTop onClick={scrollToTop} />}
     </div>
   );

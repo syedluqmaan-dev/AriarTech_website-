@@ -109,18 +109,17 @@ const Projects = () => {
       <style >{`
         /* Projects Section - Mobile First */
         .projects-section {
-         background: radial-gradient(
-  circle at 20% 20%, 
-  rgba(20, 184, 166, 0.06) 0%, 
-  transparent 40%
-),
-linear-gradient(
-  180deg,
-  #0A1624 0%,
-  #0F1E2E 100%
-);
-
-          padding: 3rem 0;
+          background: radial-gradient(
+            circle at 20% 20%, 
+            rgba(20, 184, 166, 0.06) 0%, 
+            transparent 40%
+          ),
+          linear-gradient(
+            180deg,
+            #0A1624 0%,
+            #0F1E2E 100%
+          );
+          padding: 2rem 0;
           position: relative;
         }
 
@@ -165,59 +164,87 @@ linear-gradient(
           z-index: 0;
         }
 
-        /* Section Header */
+        /* Section Header - OPTIMIZED */
         .section-header {
           text-align: center;
-          margin-bottom: 2.5rem;
+          margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+          .section-header {
+            margin-bottom: 2.5rem;
+          }
         }
 
         .section-label {
           display: inline-flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 0.375rem;
           color: #14B8A6;
           font-weight: 600;
-          font-size: 0.875rem;
+          font-size: 0.75rem;
           text-transform: uppercase;
           letter-spacing: 0.1em;
-          margin-bottom: 1rem;
+          margin-bottom: 0.75rem;
+        }
+
+        @media (min-width: 768px) {
+          .section-label {
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            gap: 0.5rem;
+          }
         }
 
         .section-title {
-          font-size: clamp(1.75rem, 4vw, 2.5rem);
+          font-size: clamp(1.5rem, 6vw, 2.5rem);
           font-weight: 700;
           background: linear-gradient(90deg, #ffffff 0%, #14B8A6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-          margin-bottom: 0.75rem;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          margin-bottom: 0.5rem;
           line-height: 1.1;
         }
 
         .section-subtitle {
-          font-size: clamp(0.9375rem, 2vw, 1.125rem);
+          font-size: clamp(0.8125rem, 3vw, 1.125rem);
           color: #94A3B8;
           max-width: 600px;
           margin: 0 auto;
-          line-height: 1.6;
+          line-height: 1.5;
         }
 
-        /* Filter Buttons */
+        /* Filter Buttons - OPTIMIZED */
         .filter-buttons {
           display: flex;
           justify-content: center;
-          gap: 0.75rem;
-          margin-bottom: 2rem;
+          gap: 0.5rem;
+          margin-bottom: 1.5rem;
           flex-wrap: wrap;
         }
 
+        @media (min-width: 768px) {
+          .filter-buttons {
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+          }
+        }
+
         .filter-btn {
-          padding: 0.625rem 1.25rem;
+          padding: 0.5rem 1rem;
           border-radius: 0.5rem;
           font-weight: 500;
-          font-size: 0.875rem;
+          font-size: 0.8125rem;
           border: none;
           cursor: pointer;
           transition: all 0.2s ease;
+        }
+
+        @media (min-width: 768px) {
+          .filter-btn {
+            padding: 0.625rem 1.25rem;
+            font-size: 0.875rem;
+          }
         }
 
         .filter-btn.active {
@@ -226,36 +253,37 @@ linear-gradient(
         }
 
         .filter-btn:not(.active) {
-background: rgba(255, 255, 255, 0.04);
-border: 1px solid rgba(255, 255, 255, 0.08);
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.08);
           color: #94A3B8;
         }
 
-        /* Projects Grid */
+        /* Projects Grid - OPTIMIZED */
         .projects-grid {
           display: grid;
-          gap: 1.5rem;
+          gap: 1rem;
         }
 
         @media (min-width: 640px) {
           .projects-grid {
             grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
           }
         }
 
         @media (min-width: 1024px) {
           .projects-grid {
             grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
           }
         }
 
-        /* Project Card */
+        /* Project Card - OPTIMIZED */
         .project-card {
-         background: rgba(255, 255, 255, 0.04);
-         backdrop-filter: blur(10px);
-          border-radius: 1rem;
+          background: rgba(255, 255, 255, 0.04);
+          backdrop-filter: blur(10px);
+          border-radius: 0.875rem;
           border: 1px solid rgba(255, 255, 255, 0.08);
-
           transition: all 0.2s ease;
           height: 100%;
           display: flex;
@@ -269,36 +297,40 @@ border: 1px solid rgba(255, 255, 255, 0.08);
           box-shadow: 0 0 0 1px rgba(102, 126, 234, 0.1);
         }
 
-      .project-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(20, 184, 166, 0.5);
-  box-shadow: 0 10px 40px rgba(20, 184, 166, 0.15);
-}
-
-
-        .project-card.featured:hover {
-          border-color: rgba(102, 126, 234, 0.5);
-          box-shadow: 0 0 0 1px rgba(102, 126, 234, 0.2), 0 8px 24px rgba(0, 0, 0, 0.2);
+        .project-card:hover {
+          transform: translateY(-6px);
+          border-color: rgba(20, 184, 166, 0.5);
+          box-shadow: 0 10px 40px rgba(20, 184, 166, 0.15);
         }
 
-        /* Popular Badge */
+        /* Popular Badge - OPTIMIZED */
         .popular-badge {
           position: absolute;
-          top: 1rem;
-          right: 1rem;
+          top: 0.75rem;
+          right: 0.75rem;
           background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
           color: #0A0A0A;
-          padding: 0.25rem 0.75rem;
+          padding: 0.1875rem 0.625rem;
           border-radius: 1rem;
-          font-size: 0.75rem;
+          font-size: 0.6875rem;
           font-weight: 700;
           display: flex;
           align-items: center;
-          gap: 0.25rem;
+          gap: 0.1875rem;
           z-index: 2;
           box-shadow: 0 4px 12px rgba(255, 215, 0, 0.25);
           border: 1px solid rgba(255, 215, 0, 0.3);
           animation: pulse 2s infinite;
+        }
+
+        @media (min-width: 768px) {
+          .popular-badge {
+            top: 1rem;
+            right: 1rem;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            gap: 0.25rem;
+          }
         }
 
         @keyframes pulse {
@@ -307,17 +339,24 @@ border: 1px solid rgba(255, 255, 255, 0.08);
           100% { transform: scale(1); }
         }
 
+        /* Project Header - OPTIMIZED */
         .project-header {
-          height: 140px;
+          height: 120px;
           position: relative;
           display: flex;
           align-items: center;
           justify-content: center;
         }
 
+        @media (min-width: 640px) {
+          .project-header {
+            height: 140px;
+          }
+        }
+
         .project-icon {
-          width: 64px;
-          height: 64px;
+          width: 52px;
+          height: 52px;
           background: rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(8px);
           border-radius: 0.75rem;
@@ -327,122 +366,214 @@ border: 1px solid rgba(255, 255, 255, 0.08);
           border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
+        @media (min-width: 640px) {
+          .project-icon {
+            width: 64px;
+            height: 64px;
+          }
+        }
+
         .project-status {
           position: absolute;
-          top: 1rem;
-          left: 1rem;
+          top: 0.75rem;
+          left: 0.75rem;
           background: rgba(0, 0, 0, 0.6);
           color: #FFFFFF;
-          padding: 0.25rem 0.75rem;
+          padding: 0.1875rem 0.625rem;
           border-radius: 1rem;
-          font-size: 0.75rem;
+          font-size: 0.6875rem;
           font-weight: 500;
         }
 
+        @media (min-width: 768px) {
+          .project-status {
+            top: 1rem;
+            left: 1rem;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+          }
+        }
+
+        /* Project Content - OPTIMIZED */
         .project-content {
-          padding: 1.5rem;
+          padding: 1.25rem;
           flex: 1;
           display: flex;
           flex-direction: column;
         }
 
+        @media (min-width: 640px) {
+          .project-content {
+            padding: 1.5rem;
+          }
+        }
+
         .project-type {
-          font-size: 0.875rem;
+          font-size: 0.75rem;
           font-weight: 500;
           color: #14B8A6;
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.375rem;
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 0.375rem;
+        }
+
+        @media (min-width: 768px) {
+          .project-type {
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+            gap: 0.5rem;
+          }
         }
 
         .project-title {
-          font-size: 1.125rem;
+          font-size: 1rem;
           font-weight: 600;
           color: #FFFFFF;
-          margin-bottom: 0.75rem;
+          margin-bottom: 0.5rem;
           line-height: 1.2;
+        }
+
+        @media (min-width: 768px) {
+          .project-title {
+            font-size: 1.125rem;
+            margin-bottom: 0.75rem;
+          }
         }
 
         .project-description {
           color: #94A3B8;
-          margin-bottom: 0.75rem;
+          margin-bottom: 0.5rem;
           line-height: 1.5;
-          font-size: 0.875rem;
+          font-size: 0.75rem;
           flex: 1;
         }
 
-        /* Audience Tag */
+        @media (min-width: 768px) {
+          .project-description {
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+          }
+        }
+
+        /* Audience Tag - OPTIMIZED */
         .audience-tag {
           background: rgba(102, 126, 234, 0.1);
           color: #CBD5E1;
-          padding: 0.5rem 0.75rem;
+          padding: 0.375rem 0.5rem;
           border-radius: 0.5rem;
-          font-size: 0.75rem;
-          margin-bottom: 1rem;
+          font-size: 0.6875rem;
+          margin-bottom: 0.75rem;
           border: 1px solid rgba(102, 126, 234, 0.2);
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 0.375rem;
         }
 
-        /* Tech Stack */
+        @media (min-width: 768px) {
+          .audience-tag {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.75rem;
+            margin-bottom: 1rem;
+            gap: 0.5rem;
+          }
+        }
+
+        /* Tech Stack - OPTIMIZED */
         .tech-stack {
           display: flex;
           flex-wrap: wrap;
-          gap: 0.5rem;
-          margin-bottom: 1rem;
+          gap: 0.25rem;
+          margin-bottom: 0.75rem;
+        }
+
+        @media (min-width: 768px) {
+          .tech-stack {
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+          }
         }
 
         .tech-tag {
           background: rgba(255, 255, 255, 0.05);
           color: #E2E8F0;
-          padding: 0.25rem 0.5rem;
+          padding: 0.1875rem 0.375rem;
           border-radius: 0.375rem;
-          font-size: 0.75rem;
+          font-size: 0.6875rem;
         }
 
-        /* Features */
+        @media (min-width: 768px) {
+          .tech-tag {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+          }
+        }
+
+        /* Features - OPTIMIZED */
         .features {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 0.5rem;
-          margin-bottom: 1.5rem;
+          grid-template-columns: 1fr;
+          gap: 0.25rem;
+          margin-bottom: 1rem;
         }
 
-        @media (max-width: 480px) {
+        @media (min-width: 480px) {
           .features {
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.375rem;
+          }
+        }
+
+        @media (min-width: 768px) {
+          .features {
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
           }
         }
 
         .feature {
           display: flex;
           align-items: center;
-          gap: 0.375rem;
-          font-size: 0.75rem;
+          gap: 0.25rem;
+          font-size: 0.6875rem;
           color: #CBD5E1;
-          padding: 0.25rem;
+          padding: 0.1875rem 0;
         }
 
-        /* CTA Button */
+        @media (min-width: 768px) {
+          .feature {
+            gap: 0.375rem;
+            font-size: 0.75rem;
+            padding: 0.25rem 0;
+          }
+        }
+
+        /* CTA Button - OPTIMIZED */
         .project-cta {
           width: 100%;
           background: #14B8A6;
           color: #0A0A0A;
-          padding: 0.75rem;
+          padding: 0.625rem;
           border-radius: 0.5rem;
-          font-size: 0.875rem;
+          font-size: 0.75rem;
           font-weight: 600;
           border: none;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 0.5rem;
+          gap: 0.375rem;
           transition: all 0.2s ease;
           text-decoration: none;
           margin-top: auto;
+        }
+
+        @media (min-width: 768px) {
+          .project-cta {
+            padding: 0.75rem;
+            font-size: 0.875rem;
+            gap: 0.5rem;
+          }
         }
 
         .project-cta:hover,
@@ -459,22 +590,35 @@ border: 1px solid rgba(255, 255, 255, 0.08);
           background: #5a6fd8;
         }
 
-        /* Footnote */
+        /* Footnote - OPTIMIZED */
         .footnote {
-          margin-top: 2rem;
-          padding: 1.5rem;
+          margin-top: 1.5rem;
+          padding: 1rem;
           text-align: center;
+        }
+
+        @media (min-width: 768px) {
+          .footnote {
+            margin-top: 2rem;
+            padding: 1.5rem;
+          }
         }
 
         .footnote-text {
           color: #64748B;
-          font-size: 0.875rem;
+          font-size: 0.75rem;
           line-height: 1.5;
           font-style: italic;
           margin: 0;
         }
 
-        /* Video Modal */
+        @media (min-width: 768px) {
+          .footnote-text {
+            font-size: 0.875rem;
+          }
+        }
+
+        /* Video Modal - OPTIMIZED */
         .modal-overlay {
           position: fixed;
           top: 0;
@@ -486,13 +630,19 @@ border: 1px solid rgba(255, 255, 255, 0.08);
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 1rem;
+          padding: 0.75rem;
           backdrop-filter: blur(8px);
+        }
+
+        @media (min-width: 768px) {
+          .modal-overlay {
+            padding: 1rem;
+          }
         }
 
         .modal-content {
           background: #1A1A1A;
-          border-radius: 1rem;
+          border-radius: 0.875rem;
           max-width: 800px;
           width: 100%;
           max-height: 90vh;
@@ -504,7 +654,7 @@ border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .modal-header {
-          padding: 1.25rem 1.5rem;
+          padding: 1rem 1.25rem;
           background: #0A0A0A;
           display: flex;
           justify-content: space-between;
@@ -512,25 +662,43 @@ border: 1px solid rgba(255, 255, 255, 0.08);
           border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        @media (min-width: 768px) {
+          .modal-header {
+            padding: 1.25rem 1.5rem;
+          }
+        }
+
         .modal-title {
           color: #FFFFFF;
-          font-size: 1.125rem;
+          font-size: 1rem;
           font-weight: 600;
           margin: 0;
         }
 
+        @media (min-width: 768px) {
+          .modal-title {
+            font-size: 1.125rem;
+          }
+        }
+
         .modal-subtitle {
           color: #94A3B8;
-          font-size: 0.875rem;
+          font-size: 0.75rem;
           margin: 0.25rem 0 0 0;
+        }
+
+        @media (min-width: 768px) {
+          .modal-subtitle {
+            font-size: 0.875rem;
+          }
         }
 
         .modal-close-btn {
           background: rgba(255, 255, 255, 0.1);
           border: none;
           color: #FFFFFF;
-          width: 2.75rem;
-          height: 2.75rem;
+          width: 2.5rem;
+          height: 2.5rem;
           border-radius: 50%;
           display: flex;
           align-items: center;
@@ -539,15 +707,28 @@ border: 1px solid rgba(255, 255, 255, 0.08);
           transition: all 0.2s ease;
         }
 
+        @media (min-width: 768px) {
+          .modal-close-btn {
+            width: 2.75rem;
+            height: 2.75rem;
+          }
+        }
+
         .modal-close-btn:hover {
           background: rgba(255, 255, 255, 0.2);
         }
 
         .video-container {
-          padding: 1.5rem;
+          padding: 1.25rem;
           background: #0A0A0A;
           flex: 1;
           overflow: auto;
+        }
+
+        @media (min-width: 768px) {
+          .video-container {
+            padding: 1.5rem;
+          }
         }
 
         .video-player {
@@ -555,7 +736,13 @@ border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 0.75rem;
           overflow: hidden;
           background: #000;
-          margin-bottom: 1rem;
+          margin-bottom: 0.75rem;
+        }
+
+        @media (min-width: 768px) {
+          .video-player {
+            margin-bottom: 1rem;
+          }
         }
 
         video {
@@ -569,18 +756,110 @@ border: 1px solid rgba(255, 255, 255, 0.08);
           bottom: 0;
           left: 0;
           right: 0;
-          padding: 1rem;
+          padding: 0.75rem;
           background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
           display: flex;
           align-items: center;
           justify-content: space-between;
         }
 
+        @media (min-width: 768px) {
+          .video-info {
+            padding: 1rem;
+          }
+        }
+
         .video-description {
-          padding: 1.25rem;
+          padding: 1rem;
           background: rgba(255, 255, 255, 0.02);
           border-radius: 0.75rem;
           border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @media (min-width: 768px) {
+          .video-description {
+            padding: 1.25rem;
+          }
+        }
+
+        /* Small Mobile Devices (320px-400px) - EXTRA OPTIMIZED */
+        @media (max-width: 400px) {
+          .projects-section {
+            padding: 1.5rem 0;
+          }
+
+          .section-header {
+            margin-bottom: 1.25rem;
+          }
+
+          .section-title {
+            font-size: 1.35rem;
+          }
+
+          .section-subtitle {
+            font-size: 0.75rem;
+          }
+
+          .filter-btn {
+            padding: 0.4375rem 0.875rem;
+            font-size: 0.75rem;
+          }
+
+          .project-card {
+            border-radius: 0.75rem;
+          }
+
+          .project-header {
+            height: 100px;
+          }
+
+          .project-icon {
+            width: 48px;
+            height: 48px;
+          }
+
+          .project-content {
+            padding: 1rem;
+          }
+
+          .project-title {
+            font-size: 0.9375rem;
+          }
+
+          .project-description {
+            font-size: 0.6875rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+
+          .audience-tag {
+            font-size: 0.625rem;
+            padding: 0.25rem 0.375rem;
+          }
+
+          .tech-tag {
+            font-size: 0.625rem;
+          }
+
+          .feature {
+            font-size: 0.625rem;
+          }
+
+          .project-cta {
+            padding: 0.5rem;
+            font-size: 0.6875rem;
+          }
+
+          .footnote {
+            margin-top: 1rem;
+            padding: 0.75rem;
+          }
+
+          .footnote-text {
+            font-size: 0.6875rem;
+          }
         }
 
         /* Performance Optimizations */
@@ -599,30 +878,9 @@ border: 1px solid rgba(255, 255, 255, 0.08);
           }
         }
 
-        /* Mobile touch targets */
-        @media (max-width: 640px) {
-          .project-card {
-            max-width: 100%;
-          }
-          
-          .project-header {
-            height: 120px;
-          }
-          
-          .project-icon {
-            width: 56px;
-            height: 56px;
-          }
-          
-          .popular-badge {
-            font-size: 0.6875rem;
-            padding: 0.1875rem 0.5rem;
-          }
-        }
-
         /* Custom scrollbar */
         .video-container::-webkit-scrollbar {
-          width: 6px;
+          width: 4px;
         }
         
         .video-container::-webkit-scrollbar-track {
@@ -644,7 +902,7 @@ border: 1px solid rgba(255, 255, 255, 0.08);
             className="section-header"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true, margin: "-30px" }}
             transition={{ duration: 0.4 }}
           >
             <span className="section-label" aria-label="Selected work">
@@ -684,14 +942,14 @@ border: 1px solid rgba(255, 255, 255, 0.08);
                 key={project.id}
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: Math.min(index * 0.05, 0.2) }}
                 viewport={{ once: true }}
                 className={`project-card ${project.badge ? 'featured' : ''}`}
               >
                 {/* Popular Badge */}
                 {project.badge && (
                   <div className="popular-badge">
-                    <FiStar size={10} />
+                    <FiStar size={9} />
                     {project.badge}
                   </div>
                 )}
@@ -701,7 +959,7 @@ border: 1px solid rgba(255, 255, 255, 0.08);
                   style={{ background: project.gradient }}
                 >
                   <div className="project-icon">
-                    <project.icon size={22} color="#FFFFFF" />
+                    <project.icon size={20} color="#FFFFFF" />
                   </div>
                   
                   <div className="project-status">
@@ -711,7 +969,7 @@ border: 1px solid rgba(255, 255, 255, 0.08);
                 
                 <div className="project-content">
                   <div className="project-type">
-                    {project.badge && <FiTrendingUp size={14} />}
+                    {project.badge && <FiTrendingUp size={12} />}
                     {project.type}
                   </div>
                   
@@ -726,25 +984,25 @@ border: 1px solid rgba(255, 255, 255, 0.08);
                   {/* Audience Tag */}
                   {project.audience && (
                     <div className="audience-tag">
-                      <FiSmartphone size={12} />
+                      <FiSmartphone size={11} />
                       {project.audience}
                     </div>
                   )}
                   
                   {/* Tech Stack */}
                   <div className="tech-stack">
-                    {project.tech.map((tech, i) => (
+                    {project.tech.slice(0, 3).map((tech, i) => (
                       <span key={i} className="tech-tag">
                         {tech}
                       </span>
                     ))}
                   </div>
                   
-                  {/* Features */}
+                  {/* Features - Condensed for mobile */}
                   <div className="features">
-                    {project.features.map((feature, i) => (
+                    {project.features.slice(0, 4).map((feature, i) => (
                       <span key={i} className="feature">
-                        <FiZap size={10} style={{ color: project.accent }} />
+                        <FiZap size={9} style={{ color: project.accent }} />
                         {feature}
                       </span>
                     ))}
@@ -759,7 +1017,7 @@ border: 1px solid rgba(255, 255, 255, 0.08);
                       className="project-cta"
                       aria-label={`Watch demo video of ${project.title}`}
                     >
-                      <FiPlay />
+                      <FiPlay size={12} />
                       Watch Demo
                     </motion.button>
                   ) : (
@@ -770,7 +1028,7 @@ border: 1px solid rgba(255, 255, 255, 0.08);
                       className="project-cta"
                       aria-label={`${project.status.includes('Demo') ? 'View demo of' : 'Visit'} ${project.title}`}
                     >
-                      <FiExternalLink />
+                      <FiExternalLink size={12} />
                       {project.status.includes('Demo') ? 'View Demo' : 
                        project.type.includes('Website') ? 'Visit Website' : 'View Live'}
                     </a>
@@ -816,16 +1074,16 @@ border: 1px solid rgba(255, 255, 255, 0.08);
                     <div style={{
                       display: 'inline-flex',
                       alignItems: 'center',
-                      gap: '0.25rem',
+                      gap: '0.1875rem',
                       background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
                       color: '#0A0A0A',
-                      padding: '0.25rem 0.5rem',
+                      padding: '0.1875rem 0.5rem',
                       borderRadius: '0.5rem',
-                      fontSize: '0.75rem',
+                      fontSize: '0.6875rem',
                       fontWeight: '600',
                       marginTop: '0.25rem'
                     }}>
-                      <FiStar size={10} />
+                      <FiStar size={9} />
                       {selectedVideo.badge}
                     </div>
                   )}
@@ -835,7 +1093,7 @@ border: 1px solid rgba(255, 255, 255, 0.08);
                   className="modal-close-btn"
                   aria-label="Close video modal"
                 >
-                  <FiX size={18} />
+                  <FiX size={16} />
                 </button>
               </div>
 
@@ -848,7 +1106,7 @@ border: 1px solid rgba(255, 255, 255, 0.08);
                     autoPlay
                     muted
                     playsInline
-                    style={{ maxHeight: '400px' }}
+                    style={{ maxHeight: '350px' }}
                   >
                     <source src={selectedVideo.videoPath} type="video/mp4" />
                     Your browser does not support the video tag.
@@ -856,30 +1114,30 @@ border: 1px solid rgba(255, 255, 255, 0.08);
                   
                   {/* Video Info Overlay */}
                   <div className="video-info">
-                    <span style={{ color: '#FFFFFF', fontSize: '14px', fontWeight: '500' }}>
+                    <span style={{ color: '#FFFFFF', fontSize: '12px', fontWeight: '500' }}>
                       {selectedVideo.id === 2 ? 'Business App Demo' : selectedVideo.id === 3 ? 'Invoice Demo' : 'UI Demo'}
                     </span>
-                    <span style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '12px' }}>
+                    <span style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '11px' }}>
                       {selectedVideo.tech[0]}
                     </span>
                   </div>
                 </div>
 
-                {/* Video Description */}
+                {/* Video Description - Condensed */}
                 <div className="video-description">
                   <h4 style={{ 
                     color: '#FFFFFF', 
-                    fontSize: '16px', 
+                    fontSize: '15px', 
                     fontWeight: '600', 
-                    marginBottom: '12px',
+                    marginBottom: '10px',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '8px'
+                    gap: '6px'
                   }}>
-                    <FiPlay size={18} />
+                    <FiPlay size={16} />
                     About This Project
                   </h4>
-                  <p style={{ color: '#CBD5E1', fontSize: '15px', lineHeight: '1.6', marginBottom: '12px' }}>
+                  <p style={{ color: '#CBD5E1', fontSize: '13px', lineHeight: '1.5', marginBottom: '12px' }}>
                     {selectedVideo.description}
                   </p>
                   
@@ -887,50 +1145,50 @@ border: 1px solid rgba(255, 255, 255, 0.08);
                     <div style={{ 
                       background: 'rgba(102, 126, 234, 0.1)', 
                       color: '#CBD5E1', 
-                      padding: '0.75rem',
+                      padding: '0.625rem',
                       borderRadius: '0.5rem',
-                      fontSize: '0.875rem',
-                      marginBottom: '16px',
+                      fontSize: '0.75rem',
+                      marginBottom: '12px',
                       border: '1px solid rgba(102, 126, 234, 0.2)',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.5rem'
+                      gap: '0.375rem'
                     }}>
-                      <FiSmartphone size={14} />
+                      <FiSmartphone size={12} />
                       <span><strong>Perfect For:</strong> {selectedVideo.audience}</span>
                     </div>
                   )}
                   
                   <div style={{ 
                     display: 'grid', 
-                    gridTemplateColumns: 'repeat(2, 1fr)', 
-                    gap: '12px', 
-                    marginTop: '16px' 
+                    gridTemplateColumns: '1fr', 
+                    gap: '10px', 
+                    marginTop: '12px' 
                   }}>
                     <div style={{ 
                       background: 'rgba(255, 255, 255, 0.03)', 
-                      padding: '12px', 
+                      padding: '10px', 
                       borderRadius: '8px',
                       border: '1px solid rgba(255, 255, 255, 0.05)'
                     }}>
-                      <div style={{ color: '#14B8A6', fontSize: '13px', fontWeight: '600', marginBottom: '4px' }}>
+                      <div style={{ color: '#14B8A6', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>
                         Technology Stack
                       </div>
-                      <div style={{ color: '#94A3B8', fontSize: '12px' }}>
+                      <div style={{ color: '#94A3B8', fontSize: '11px' }}>
                         {selectedVideo.tech.join(', ')}
                       </div>
                     </div>
                     
                     <div style={{ 
                       background: 'rgba(255, 255, 255, 0.03)', 
-                      padding: '12px', 
+                      padding: '10px', 
                       borderRadius: '8px',
                       border: '1px solid rgba(255, 255, 255, 0.05)'
                     }}>
-                      <div style={{ color: '#14B8A6', fontSize: '13px', fontWeight: '600', marginBottom: '4px' }}>
+                      <div style={{ color: '#14B8A6', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>
                         Key Features
                       </div>
-                      <div style={{ color: '#94A3B8', fontSize: '12px', display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                      <div style={{ color: '#94A3B8', fontSize: '11px', display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
                         {selectedVideo.features.slice(0, 3).map((feat, i) => (
                           <span key={i} style={{ display: 'inline-block', marginRight: '4px' }}>
                             • {feat}
