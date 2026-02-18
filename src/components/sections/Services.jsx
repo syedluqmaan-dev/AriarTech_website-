@@ -528,8 +528,9 @@ const Services = () => {
           >
             <span className="services-label" aria-label="Services section">What We Do</span>
             <h2 id="services-title" className="services-title">
-              Digital Solutions That Scale
-            </h2>
+  Website & Mobile App Development Services in Bangalore
+</h2>
+
             <p className="services-subtitle">
               Full-stack development and design for modern businesses. 
               We build fast, scalable products that drive growth.

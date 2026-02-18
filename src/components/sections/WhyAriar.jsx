@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const WhyAriar = () => {
+const WhyAriar = ({ onOpenModal }) => {  // Add prop here
   const values = [
     {
       icon: '⚜️',
@@ -55,15 +55,29 @@ const WhyAriar = () => {
     }
   };
 
-  const handleCTAClick = () => {
-    const element = document.getElementById('contact');
-    if (element) {
-      const headerHeight = 70;
-      const elementPosition = element.offsetTop - headerHeight;
-      window.scrollTo({
-        top: elementPosition,
-        behavior: 'smooth'
-      });
+  // ===== UPDATED: Now opens modal instead of scrolling =====
+  const handleCTAClick = (e) => {
+    // Prevent any default behavior
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
+    // Call the modal opening function from parent
+    if (onOpenModal && typeof onOpenModal === 'function') {
+      onOpenModal();
+    } else {
+      console.warn('onOpenModal prop is not provided');
+      // Fallback: scroll to contact if modal isn't available
+      const element = document.getElementById('contact');
+      if (element) {
+        const headerHeight = 70;
+        const elementPosition = element.offsetTop - headerHeight;
+        window.scrollTo({
+          top: elementPosition,
+          behavior: 'smooth'
+        });
+      }
     }
   };
 
@@ -827,7 +841,7 @@ const WhyAriar = () => {
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
-                  handleCTAClick();
+                  handleCTAClick(e);
                 }
               }}
               aria-label="Schedule a free strategy call"

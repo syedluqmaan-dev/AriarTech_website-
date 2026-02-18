@@ -1,1180 +1,797 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiMail, FiPhone, FiMessageCircle, FiSend, FiClock, FiCheckCircle, FiChevronDown } from 'react-icons/fi';
+import { FiMail, FiMessageCircle, FiSend, FiCheckCircle, FiClock, FiUser, FiPhone, FiBriefcase } from 'react-icons/fi';
+import emailjs from '@emailjs/browser';
 
+// ============================================
+// EMAILJS CONFIGURATION - YOUR WORKING KEYS
+// ============================================
+const EMAILJS_CONFIG = {
+  PUBLIC_KEY: 'NBIMgIMz_EuYj5RK6',
+  SERVICE_ID: 'service_q3w7a5l',
+  TEMPLATE_ID: 'template_45b0n0j'
+};
+
+// ============================================
+// HELPER FUNCTION - DEFINED BEFORE USE
+// ============================================
+const clamp = (min, vw, max) => {
+  return `clamp(${min}rem, ${vw}vw, ${max}rem)`;
+};
+
+// ============================================
+// CONTACT COMPONENT - ONE FILE, EVERYTHING INCLUDED
+// ============================================
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    message: '',
-    projectType: ''
+    projectType: '',
+    message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [activeMethod, setActiveMethod] = useState('email');
-  const [expandedFaq, setExpandedFaq] = useState(null);
+  const [error, setError] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(1024);
 
   const projectTypes = [
     'Website Development',
     'Web Application',
     'Mobile Application',
+    'WhatsApp Product Ordering App ⭐',
     'UI/UX Design',
     'E-commerce Solution',
-    'Performance Optimization',
-    'Maintenance & Support',
     'Other'
   ];
 
-  const contactMethods = [
-    { 
-      id: 'email', 
-      icon: FiMail, 
-      title: 'Send Email', 
-      action: 'hello@ariartech.com',
-      color: '#14B8A6',
-      delay: 0.1,
-      desc: 'Detailed project briefs',
-      handler: () => window.location.href = 'mailto:hello@ariartech.com?subject=Project Inquiry - Ariar Technologies&body=Hello Ariar Team,%0D%0A%0D%0AI am interested in discussing a project with you. Please find my details below:%0D%0A%0D%0A- Name:%0D%0A- Email:%0D%0A- Phone:%0D%0A- Project Type:%0D%0A- Brief Description:%0D%0A%0D%0AI look forward to hearing from you.'
-    },
-    { 
-      id: 'phone', 
-      icon: FiPhone, 
-      title: 'Call Us', 
-      action: '+91 9739183566',
-      color: '#0A2540',
-      delay: 0.2,
-      desc: 'Direct conversation',
-      handler: () => window.location.href = 'tel:+919739183566'
-    },
-    { 
-      id: 'whatsapp', 
-      icon: FiMessageCircle, 
-      title: 'WhatsApp', 
-      action: '+91 9739183566',
-      color: '#25D366',
-      delay: 0.3,
-      desc: 'Quick inquiries',
-      handler: () => {
-        const message = `Hello Ariar Technologies Team! 👋
+  // Initialize EmailJS
+  useEffect(() => {
+    emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+    console.log('📧 EmailJS initialized for Contact');
+  }, []);
 
-I'm interested in discussing a project with you.
-
-*Contact Information:*
-- Name: ${formData.name || 'To be provided'}
-- Email: ${formData.email || 'To be provided'}
-- Phone: ${formData.phone || 'To be provided'}
-
-*Project Details:*
-- Type: ${formData.projectType || 'To be discussed'}
-- Description: ${formData.message || 'Looking forward to discussing my project requirements.'}
-
-I'd like to schedule a consultation to discuss this further. Please let me know your availability.
-
-Looking forward to hearing from you!`;
-        
-        const encodedMessage = encodeURIComponent(message);
-        const whatsappUrl = `https://wa.me/919739183566?text=${encodedMessage}`;
-        window.open(whatsappUrl, '_blank');
-      }
-    }
-  ];
-
-  const faqs = [
-    { q: 'Response time?', a: 'Within 24 hours' },
-    { q: 'Free consultation?', a: 'Yes, always' },
-    { q: 'NDA available?', a: 'Signed on request' }
-  ];
+  // Mobile detection and window width
+  useEffect(() => {
+    const checkMobile = () => {
+      const width = window.innerWidth;
+      setWindowWidth(width);
+      setIsMobile(width <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    setFormData(prev => ({ ...prev, [name]: value }));
+    setError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!formData.name || !formData.email || !formData.projectType || !formData.message) {
+      setError('Please fill all required fields');
+      return;
+    }
+
     setIsSubmitting(true);
+    setError('');
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      // MOBILE: Direct to WhatsApp (smoother UX)
+      if (isMobile) {
+        const message = `*New Project Inquiry - Ariar Technology*%0A%0A*Contact Details:*%0A👤 Name: ${formData.name}%0A📧 Email: ${formData.email}%0A📱 Phone: ${formData.phone || 'Not provided'}%0A%0A*Project Type:*%0A💼 ${formData.projectType}%0A%0A*Project Description:*%0A📝 ${formData.message}%0A%0A_Ready for free consultation!_`;
+        
+        window.open(`https://wa.me/919739183566?text=${message}`, '_blank');
+        
+        setIsSubmitted(true);
+        setTimeout(() => {
+          setIsSubmitted(false);
+          setFormData({ name: '', email: '', phone: '', projectType: '', message: '' });
+          setIsSubmitting(false);
+        }, 2000);
+        return;
+      }
+
+      // DESKTOP: Send via EmailJS
+      const templateParams = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || 'Not provided',
+        service: formData.projectType,
+        message: formData.message,
+        to_email: 'hello@ariartech.com'
+      };
+
+      await emailjs.send(
+        EMAILJS_CONFIG.SERVICE_ID,
+        EMAILJS_CONFIG.TEMPLATE_ID,
+        templateParams
+      );
+
       setIsSubmitted(true);
+      setFormData({ name: '', email: '', phone: '', projectType: '', message: '' });
       
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        message: '',
-        projectType: ''
-      });
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setIsSubmitting(false);
+      }, 3000);
 
-      setTimeout(() => setIsSubmitted(false), 4000);
-    }, 1200);
-  };
-
-  const handleContactMethod = (methodId) => {
-    setActiveMethod(methodId);
-    const method = contactMethods.find(m => m.id === methodId);
-    if (method && method.handler) {
-      method.handler();
+    } catch (error) {
+      console.error('Email error:', error);
+      setError('Failed to send. Please try WhatsApp below.');
+      setIsSubmitting(false);
     }
   };
 
-  const toggleFaq = (index) => {
-    setExpandedFaq(expandedFaq === index ? null : index);
+  const handleWhatsApp = () => {
+    window.open(`https://wa.me/919739183566?text=*New Project Inquiry - Ariar Technology*%0A%0AHi, I'd like to discuss a project.`, '_blank');
+  };
+
+  // Focus handlers
+  const handleFocus = (e) => {
+    e.target.style.borderColor = '#14B8A6';
+    e.target.style.background = 'rgba(20, 184, 166, 0.1)';
+  };
+
+  const handleBlur = (e) => {
+    e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+    e.target.style.background = 'rgba(255, 255, 255, 0.07)';
+  };
+
+  // ============================================
+  // STYLES - CLEAN, MINIMAL, NO DUPLICATE MEDIA QUERIES
+  // ============================================
+  const styles = {
+    section: {
+      background: '#0A2540',
+      padding: `${clamp(3, 8, 6)} ${clamp(1, 5, 2)}`,
+      color: 'white',
+      position: 'relative',
+      overflow: 'hidden',
+      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+    },
+    container: {
+      maxWidth: '1200px',
+      margin: '0 auto',
+      position: 'relative',
+      zIndex: 2
+    },
+    header: {
+      textAlign: 'center',
+      marginBottom: `${clamp(2, 6, 4)}`
+    },
+    title: {
+      fontSize: clamp(2, 6, 3.5),
+      fontWeight: 700,
+      lineHeight: 1.1,
+      marginBottom: '1rem',
+      background: 'linear-gradient(135deg, #fff 0%, #CBD5E1 100%)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent'
+    },
+    subtitle: {
+      fontSize: clamp(0.875, 3, 1.125),
+      color: '#94A3B8',
+      maxWidth: '700px',
+      margin: '0 auto 1.5rem',
+      lineHeight: 1.6
+    },
+    badges: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      gap: '0.75rem'
+    },
+    badge: {
+      background: 'rgba(255, 255, 255, 0.05)',
+      border: '1px solid rgba(255, 255, 255, 0.1)',
+      padding: '0.5rem 1rem',
+      borderRadius: '100px',
+      fontSize: '0.8125rem',
+      color: '#CBD5E1'
+    },
+    grid: {
+      display: 'grid',
+      gridTemplateColumns: windowWidth <= 900 ? '1fr' : '1fr 1fr',
+      gap: clamp(1.5, 5, 2.5),
+      alignItems: 'start'
+    },
+    // Form Card
+    formCard: {
+      background: 'rgba(255, 255, 255, 0.05)',
+      backdropFilter: 'blur(10px)',
+      border: '1px solid rgba(255, 255, 255, 0.1)',
+      borderRadius: '1.5rem',
+      padding: clamp(1.5, 4, 2.5)
+    },
+    formTitle: {
+      fontSize: clamp(1.25, 4, 1.75),
+      fontWeight: 700,
+      marginBottom: '0.5rem',
+      color: 'white'
+    },
+    formSubtitle: {
+      color: '#94A3B8',
+      fontSize: '0.9375rem',
+      marginBottom: '1.5rem'
+    },
+    successMessage: {
+      background: 'rgba(16, 185, 129, 0.1)',
+      border: '1px solid rgba(16, 185, 129, 0.2)',
+      borderRadius: '0.75rem',
+      padding: '1rem',
+      marginBottom: '1.5rem',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.75rem',
+      color: '#D1FAE5',
+      fontSize: '0.9375rem'
+    },
+    errorMessage: {
+      background: 'rgba(239, 68, 68, 0.1)',
+      border: '1px solid rgba(239, 68, 68, 0.2)',
+      borderRadius: '0.75rem',
+      padding: '1rem',
+      marginBottom: '1.5rem',
+      color: '#FECACA',
+      fontSize: '0.9375rem'
+    },
+    form: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '1.25rem'
+    },
+    formRow: {
+      display: 'grid',
+      gridTemplateColumns: windowWidth <= 480 ? '1fr' : '1fr 1fr',
+      gap: '1rem'
+    },
+    formGroup: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.5rem'
+    },
+    formLabel: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.5rem',
+      fontSize: '0.875rem',
+      fontWeight: 500,
+      color: '#E2E8F0'
+    },
+    required: {
+      color: '#F87171',
+      marginLeft: '0.25rem'
+    },
+    input: {
+      width: '100%',
+      padding: '0.75rem 1rem',
+      background: 'rgba(255, 255, 255, 0.07)',
+      border: '1px solid rgba(255, 255, 255, 0.1)',
+      borderRadius: '0.75rem',
+      color: 'white',
+      fontSize: '0.9375rem',
+      transition: 'all 0.2s',
+      outline: 'none'
+    },
+    select: {
+      width: '100%',
+      padding: '0.75rem 1rem',
+      background: 'rgba(255, 255, 255, 0.07)',
+      border: '1px solid rgba(255, 255, 255, 0.1)',
+      borderRadius: '0.75rem',
+      color: 'white',
+      fontSize: '0.9375rem',
+      cursor: 'pointer',
+      appearance: 'none',
+      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'right 1rem center',
+      paddingRight: '2.5rem'
+    },
+    textarea: {
+      width: '100%',
+      padding: '0.75rem 1rem',
+      background: 'rgba(255, 255, 255, 0.07)',
+      border: '1px solid rgba(255, 255, 255, 0.1)',
+      borderRadius: '0.75rem',
+      color: 'white',
+      fontSize: '0.9375rem',
+      resize: 'vertical',
+      minHeight: '120px',
+      outline: 'none'
+    },
+    submitBtn: {
+      width: '100%',
+      padding: '1rem',
+      background: 'linear-gradient(135deg, #14B8A6, #0d9488)',
+      border: 'none',
+      borderRadius: '0.75rem',
+      color: 'white',
+      fontWeight: 600,
+      fontSize: '1rem',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '0.75rem',
+      cursor: 'pointer',
+      transition: 'all 0.2s',
+      marginTop: '0.5rem'
+    },
+    spinner: {
+      width: '18px',
+      height: '18px',
+      border: '2px solid rgba(255, 255, 255, 0.3)',
+      borderRadius: '50%',
+      borderTopColor: 'white',
+      animation: 'spin 0.8s linear infinite'
+    },
+    formFooter: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '0.5rem',
+      color: '#94A3B8',
+      fontSize: '0.8125rem',
+      marginTop: '0.5rem'
+    },
+    // Right Column
+    rightColumn: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '1.5rem'
+    },
+    whatsappCard: {
+      background: 'rgba(37, 211, 102, 0.1)',
+      border: '1px solid rgba(37, 211, 102, 0.2)',
+      borderRadius: '1.5rem',
+      padding: '2rem',
+      textAlign: 'center'
+    },
+    whatsappIcon: {
+      background: 'rgba(37, 211, 102, 0.2)',
+      width: '64px',
+      height: '64px',
+      borderRadius: '50%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      margin: '0 auto 1rem'
+    },
+    whatsappTitle: {
+      fontSize: '1.5rem',
+      fontWeight: 700,
+      marginBottom: '0.5rem',
+      color: 'white'
+    },
+    whatsappDescription: {
+      color: '#94A3B8',
+      marginBottom: '1.5rem'
+    },
+    whatsappBtn: {
+      background: '#25D366',
+      color: 'white',
+      border: 'none',
+      borderRadius: '100px',
+      padding: '0.875rem 2rem',
+      fontWeight: 600,
+      fontSize: '1rem',
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '0.5rem',
+      cursor: 'pointer',
+      transition: 'all 0.2s',
+      marginBottom: '1rem'
+    },
+    whatsappNote: {
+      color: '#64748B',
+      fontSize: '0.8125rem'
+    },
+    trustCard: {
+      background: 'rgba(255, 255, 255, 0.03)',
+      border: '1px solid rgba(255, 255, 255, 0.1)',
+      borderRadius: '1.5rem',
+      padding: '1.5rem'
+    },
+    trustTitle: {
+      fontSize: '1.125rem',
+      fontWeight: 600,
+      marginBottom: '1.25rem',
+      color: 'white'
+    },
+    trustList: {
+      listStyle: 'none',
+      padding: 0,
+      margin: 0,
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '1rem'
+    },
+    trustItem: {
+      display: 'flex',
+      alignItems: 'flex-start',
+      gap: '0.75rem',
+      color: '#CBD5E1',
+      fontSize: '0.9375rem'
+    },
+    trustCheck: {
+      color: '#14B8A6',
+      fontWeight: 700,
+      fontSize: '1.125rem',
+      lineHeight: 1
+    },
+    trustDesc: {
+      display: 'block',
+      color: '#94A3B8',
+      fontSize: '0.8125rem',
+      marginTop: '0.125rem'
+    },
+    quickContact: {
+      background: 'rgba(255, 255, 255, 0.03)',
+      border: '1px solid rgba(255, 255, 255, 0.1)',
+      borderRadius: '1.5rem',
+      padding: '1.25rem',
+      textAlign: 'center'
+    },
+    quickContactTitle: {
+      color: '#94A3B8',
+      fontSize: '0.875rem',
+      marginBottom: '0.5rem'
+    },
+    quickContactLink: {
+      color: 'white',
+      fontSize: '1.125rem',
+      fontWeight: 600,
+      textDecoration: 'none',
+      transition: 'color 0.2s'
+    },
+    // Mobile CTA
+    mobileCta: {
+      display: windowWidth <= 900 ? 'block' : 'none',
+      marginTop: '2rem',
+      textAlign: 'center'
+    },
+    mobileCtaBtn: {
+      width: '100%',
+      padding: '1rem',
+      background: 'linear-gradient(135deg, #3B82F6, #2563eb)',
+      border: 'none',
+      borderRadius: '1rem',
+      color: 'white',
+      fontWeight: 600,
+      fontSize: '1.125rem',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '0.5rem',
+      cursor: 'pointer',
+      transition: 'all 0.2s'
+    },
+    mobileCtaNote: {
+      color: '#94A3B8',
+      fontSize: '0.8125rem',
+      marginTop: '0.75rem'
+    },
+    btnArrow: {
+      fontSize: '1.125rem'
+    }
   };
 
   return (
     <>
-      <style >{`
-        /* ===== CONTACT SECTION - 100% INDEPENDENT ===== */
-        
-        /* === CONTACT-SPECIFIC CSS VARIABLES === */
-        .contact-section {
-          /* COLORS - COMPLETELY INDEPENDENT */
-          --contact-primary: #0A2540;
-          --contact-primary-light: #3B82F6;
-          --contact-accent: #14B8A6;
-          --contact-accent-dark: #0d9488;
-          --contact-success: #10b981;
-          --contact-whatsapp: #25D366;
-          --contact-background: #0A2540;
-          --contact-background-alt: #0f172a;
-          --contact-text: #FFFFFF;
-          --contact-text-light: #CBD5E1;
-          --contact-text-muted: #94A3B8;
-          --contact-border: rgba(255, 255, 255, 0.1);
-          --contact-border-light: rgba(255, 255, 255, 0.05);
-          --contact-focus-ring: #14B8A6;
-          --contact-overlay: rgba(255, 255, 255, 0.05);
-          
-          /* SPACING - COMPLETELY INDEPENDENT - OPTIMIZED */
-          --contact-spacing-xs: 0.25rem;
-          --contact-spacing-sm: 0.5rem;
-          --contact-spacing-md: 0.75rem;
-          --contact-spacing-lg: 1rem;
-          --contact-spacing-xl: 1.5rem;
-          --contact-spacing-2xl: 2rem;
-          --contact-spacing-3xl: 2.5rem;
-          
-          /* BORDERS & SHADOWS */
-          --contact-border-radius: 0.75rem;
-          --contact-border-radius-sm: 0.5rem;
-          --contact-border-radius-lg: 1rem;
-          --contact-border-radius-xl: 1.25rem;
-          --contact-border-radius-full: 9999px;
-          
-          /* TRANSITIONS */
-          --contact-transition-fast: 150ms ease;
-          --contact-transition-base: 200ms ease;
-          --contact-transition-slow: 300ms ease;
-          
-          /* SHADOWS */
-          --contact-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
-          --contact-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-          --contact-shadow-md: 0 12px 48px rgba(0, 0, 0, 0.25);
-          --contact-shadow-lg: 0 20px 64px rgba(0, 0, 0, 0.3);
-          --contact-shadow-accent: 0 4px 16px rgba(20, 184, 166, 0.3);
-          
-          /* SECTION STYLES - OPTIMIZED */
-          padding: var(--contact-spacing-2xl) 0;
-          background: var(--contact-background);
-          position: relative;
-          overflow: hidden;
-          isolation: isolate;
+      {/* Global keyframes for spinner animation */}
+      <style>{`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
         }
-
-        .contact-section::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, var(--contact-accent), transparent);
-          z-index: 1;
-        }
-
-        @media (min-width: 768px) {
-          .contact-section {
-            padding: var(--contact-spacing-3xl) 0;
-          }
-        }
-
-        /* Contact Container */
-        .contact-container {
-          width: 100%;
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 0 var(--contact-spacing-md);
-          position: relative;
-          z-index: 1;
-        }
-
-        @media (min-width: 768px) {
-          .contact-container {
-            padding: 0 var(--contact-spacing-lg);
-          }
-        }
-
-        /* Header - OPTIMIZED */
-        .contact-header {
-          text-align: center;
-          margin-bottom: var(--contact-spacing-xl);
-        }
-
-        @media (min-width: 768px) {
-          .contact-header {
-            margin-bottom: var(--contact-spacing-2xl);
-          }
-        }
-
-        .contact-title {
-          font-size: clamp(1.75rem, 6vw, 3rem);
-          font-weight: 800;
-          background: linear-gradient(135deg, #FFFFFF 0%, #CBD5E1 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          margin-bottom: var(--contact-spacing-xs);
-          line-height: 1.1;
-          font-family: 'Space Grotesk', system-ui, sans-serif;
-        }
-
-        @media (min-width: 768px) {
-          .contact-title {
-            margin-bottom: var(--contact-spacing-sm);
-          }
-        }
-
-        .contact-subtitle {
-          font-size: clamp(0.875rem, 3vw, 1.25rem);
-          color: var(--contact-text-muted);
-          max-width: 600px;
-          margin: 0 auto;
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        /* WhatsApp Notice - OPTIMIZED */
-        .contact-whatsapp-notice {
-          background: rgba(37, 211, 102, 0.1);
-          border: 1px solid rgba(37, 211, 102, 0.2);
-          border-radius: var(--contact-border-radius);
-          padding: var(--contact-spacing-md);
-          margin-top: var(--contact-spacing-md);
-          text-align: center;
-          max-width: 600px;
-          margin-left: auto;
-          margin-right: auto;
-        }
-
-        .contact-whatsapp-notice p {
-          color: #BBF7D0;
-          font-size: 0.75rem;
-          margin: 0;
-          line-height: 1.4;
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        @media (min-width: 768px) {
-          .contact-whatsapp-notice p {
-            font-size: 0.875rem;
-          }
-        }
-
-        .contact-whatsapp-notice strong {
-          color: #22C55E;
-        }
-
-        /* Contact Options - OPTIMIZED */
-        .contact-options {
-          display: flex;
-          flex-direction: column;
-          gap: var(--contact-spacing-md);
-          margin-bottom: var(--contact-spacing-xl);
-        }
-
-        @media (min-width: 768px) {
-          .contact-options {
-            flex-direction: row;
-            justify-content: center;
-            gap: var(--contact-spacing-md);
-            margin-bottom: var(--contact-spacing-2xl);
-          }
-        }
-
-        .contact-method-card {
-          flex: 1;
-          min-width: 0;
-          padding: var(--contact-spacing-lg);
-          background: var(--contact-overlay);
-          border: 2px solid var(--contact-border);
-          border-radius: var(--contact-border-radius-lg);
-          cursor: pointer;
-          transition: all var(--contact-transition-slow) cubic-bezier(0.4, 0, 0.2, 1);
-          position: relative;
-          overflow: hidden;
-          backdrop-filter: blur(10px);
-        }
-
-        @media (max-width: 768px) {
-          .contact-method-card {
-            padding: var(--contact-spacing-md);
-            display: flex;
-            align-items: center;
-            gap: var(--contact-spacing-md);
-          }
-        }
-
-        .contact-method-card:hover {
-          transform: translateY(-4px);
-          border-color: rgba(20, 184, 166, 0.4);
-          background: rgba(20, 184, 166, 0.1);
-        }
-
-        .contact-method-card.contact-method-active {
-          border-color: var(--contact-accent);
-          background: rgba(20, 184, 166, 0.15);
-        }
-
-        .contact-method-icon {
-          width: 48px;
-          height: 48px;
-          border-radius: var(--contact-border-radius);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-bottom: var(--contact-spacing-sm);
-          background: linear-gradient(135deg, var(--method-color) 0%, rgba(20, 184, 166, 0.3) 100%);
-          flex-shrink: 0;
-        }
-
-        @media (min-width: 768px) {
-          .contact-method-icon {
-            width: 56px;
-            height: 56px;
-            margin-bottom: var(--contact-spacing-md);
-          }
-        }
-
-        @media (max-width: 768px) {
-          .contact-method-content {
-            flex: 1;
-          }
-        }
-
-        .contact-method-card h3 {
-          font-size: 1rem;
-          font-weight: 600;
-          color: var(--contact-text);
-          margin-bottom: 0.25rem;
-          font-family: 'Space Grotesk', system-ui, sans-serif;
-        }
-
-        @media (min-width: 768px) {
-          .contact-method-card h3 {
-            font-size: 1.125rem;
-            margin-bottom: var(--contact-spacing-sm);
-          }
-        }
-
-        .contact-method-action {
-          color: var(--contact-accent);
-          font-size: 0.75rem;
-          font-weight: 500;
-          margin-bottom: 0.25rem;
-          display: block;
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        @media (min-width: 768px) {
-          .contact-method-action {
-            font-size: 0.875rem;
-            margin-bottom: var(--contact-spacing-sm);
-          }
-        }
-
-        .contact-method-desc {
-          color: var(--contact-text-muted);
-          font-size: 0.6875rem;
-          margin: 0;
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        @media (min-width: 768px) {
-          .contact-method-desc {
-            font-size: 0.75rem;
-          }
-        }
-
-        /* Contact Wrapper - OPTIMIZED */
-        .contact-wrapper {
-          background: var(--contact-overlay);
-          backdrop-filter: blur(10px);
-          border-radius: var(--contact-border-radius-xl);
-          padding: var(--contact-spacing-lg);
-          border: 1px solid var(--contact-border);
-        }
-
-        @media (min-width: 768px) {
-          .contact-wrapper {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--contact-spacing-xl);
-            padding: var(--contact-spacing-xl);
-          }
-        }
-
-        @media (min-width: 1024px) {
-          .contact-wrapper {
-            gap: var(--contact-spacing-2xl);
-            padding: var(--contact-spacing-2xl);
-          }
-        }
-
-        /* Form Side - OPTIMIZED */
-        .contact-form-side h3 {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: var(--contact-text);
-          margin-bottom: var(--contact-spacing-xs);
-          font-family: 'Space Grotesk', system-ui, sans-serif;
-        }
-
-        @media (min-width: 768px) {
-          .contact-form-side h3 {
-            font-size: 1.75rem;
-            margin-bottom: var(--contact-spacing-sm);
-          }
-        }
-
-        .contact-form-intro {
-          color: var(--contact-text-muted);
-          font-size: 0.75rem;
-          margin-bottom: var(--contact-spacing-lg);
-          line-height: 1.5;
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        @media (min-width: 768px) {
-          .contact-form-intro {
-            font-size: 0.875rem;
-            margin-bottom: var(--contact-spacing-xl);
-          }
-        }
-
-        /* Form Grid - OPTIMIZED */
-        .contact-form-grid {
-          display: grid;
-          gap: var(--contact-spacing-sm);
-          margin-bottom: var(--contact-spacing-md);
-        }
-
-        @media (min-width: 640px) {
-          .contact-form-grid {
-            grid-template-columns: 1fr 1fr;
-            gap: var(--contact-spacing-md);
-          }
-          
-          .contact-form-grid > :nth-child(3),
-          .contact-form-grid > :last-child {
-            grid-column: 1 / -1;
-          }
-        }
-
-        /* Form Inputs - OPTIMIZED */
-        .contact-input,
-        .contact-select {
-          width: 100%;
-          padding: var(--contact-spacing-sm) var(--contact-spacing-md);
-          background: rgba(255, 255, 255, 0.07);
-          border: 1px solid var(--contact-border);
-          border-radius: var(--contact-border-radius-sm);
-          color: var(--contact-text);
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-          font-size: 0.8125rem;
-          transition: all var(--contact-transition-base);
-          height: 44px;
-        }
-
-        @media (min-width: 768px) {
-          .contact-input,
-          .contact-select {
-            padding: var(--contact-spacing-md);
-            font-size: 0.875rem;
-          }
-        }
-
-        .contact-input:focus,
-        .contact-select:focus,
-        .contact-textarea:focus {
-          outline: none;
-          border-color: var(--contact-accent);
-          background: rgba(255, 255, 255, 0.1);
-        }
-
-        .contact-textarea {
-          width: 100%;
-          padding: var(--contact-spacing-sm) var(--contact-spacing-md);
-          background: rgba(255, 255, 255, 0.07);
-          border: 1px solid var(--contact-border);
-          border-radius: var(--contact-border-radius-sm);
-          color: var(--contact-text);
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-          font-size: 0.8125rem;
-          min-height: 100px;
-          resize: vertical;
-          transition: all var(--contact-transition-base);
-        }
-
-        @media (min-width: 768px) {
-          .contact-textarea {
-            padding: var(--contact-spacing-md);
-            font-size: 0.875rem;
-            min-height: 120px;
-          }
-        }
-
-        .contact-select option {
-          background: var(--contact-background);
-          color: var(--contact-text);
-        }
-
-        /* Submit Button - OPTIMIZED */
-        .contact-submit-btn {
-          width: 100%;
-          padding: var(--contact-spacing-sm) var(--contact-spacing-md);
-          background: linear-gradient(135deg, var(--contact-accent) 0%, var(--contact-accent-dark) 100%);
-          color: var(--contact-text);
-          border: none;
-          border-radius: var(--contact-border-radius-sm);
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-          font-size: 0.8125rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all var(--contact-transition-slow);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: var(--contact-spacing-sm);
-          height: 44px;
-        }
-
-        @media (min-width: 768px) {
-          .contact-submit-btn {
-            padding: var(--contact-spacing-md);
-            font-size: 0.875rem;
-            height: 48px;
-          }
-        }
-
-        .contact-submit-btn:hover:not(:disabled) {
-          transform: translateY(-2px);
-          box-shadow: var(--contact-shadow-accent);
-        }
-
-        .contact-submit-btn:disabled {
-          opacity: 0.7;
-          cursor: not-allowed;
-        }
-
-        /* Info Side - OPTIMIZED */
-        .contact-info-side {
-          padding-top: var(--contact-spacing-lg);
-        }
-
-        @media (min-width: 768px) {
-          .contact-info-side {
-            padding-top: 0;
-            border-left: 1px solid var(--contact-border);
-            padding-left: var(--contact-spacing-xl);
-          }
-        }
-
-        /* Process Steps - OPTIMIZED */
-        .contact-process-steps {
-          display: flex;
-          flex-direction: column;
-          gap: var(--contact-spacing-md);
-          margin-bottom: var(--contact-spacing-lg);
-        }
-
-        @media (min-width: 768px) {
-          .contact-process-steps {
-            gap: var(--contact-spacing-lg);
-            margin-bottom: var(--contact-spacing-xl);
-          }
-        }
-
-        .contact-process-step {
-          display: flex;
-          gap: var(--contact-spacing-sm);
-        }
-
-        @media (min-width: 768px) {
-          .contact-process-step {
-            gap: var(--contact-spacing-md);
-          }
-        }
-
-        .contact-step-number {
-          width: 28px;
-          height: 28px;
-          background: rgba(20, 184, 166, 0.2);
-          border: 2px solid var(--contact-accent);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: var(--contact-accent);
-          font-weight: 600;
-          font-size: 0.75rem;
-          flex-shrink: 0;
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        @media (min-width: 768px) {
-          .contact-step-number {
-            width: 32px;
-            height: 32px;
-            font-size: 0.875rem;
-          }
-        }
-
-        .contact-step-content h4 {
-          color: var(--contact-text);
-          font-size: 0.8125rem;
-          font-weight: 600;
-          margin-bottom: 0.25rem;
-          font-family: 'Space Grotesk', system-ui, sans-serif;
-        }
-
-        @media (min-width: 768px) {
-          .contact-step-content h4 {
-            font-size: 0.875rem;
-          }
-        }
-
-        .contact-step-content p {
-          color: var(--contact-text-muted);
-          font-size: 0.6875rem;
-          margin: 0;
-          line-height: 1.4;
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        @media (min-width: 768px) {
-          .contact-step-content p {
-            font-size: 0.75rem;
-          }
-        }
-
-        /* FAQ - Mobile Optimized */
-        .contact-faq {
-          margin: var(--contact-spacing-lg) 0;
-        }
-
-        .contact-faq-item {
-          border-bottom: 1px solid var(--contact-border);
-          padding: var(--contact-spacing-sm) 0;
-        }
-
-        .contact-faq-question {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          cursor: pointer;
-          padding: var(--contact-spacing-xs) 0;
-        }
-
-        .contact-faq-question span {
-          color: var(--contact-text-light);
-          font-size: 0.75rem;
-          font-weight: 500;
-        }
-
-        @media (min-width: 768px) {
-          .contact-faq-question span {
-            font-size: 0.8125rem;
-          }
-        }
-
-        .contact-faq-answer {
-          color: var(--contact-text-muted);
-          font-size: 0.6875rem;
-          padding: var(--contact-spacing-xs) 0;
-        }
-
-        /* Assurance - OPTIMIZED */
-        .contact-assurance {
-          background: rgba(20, 184, 166, 0.1);
-          border-left: 3px solid var(--contact-accent);
-          border-radius: var(--contact-border-radius-sm);
-          padding: var(--contact-spacing-md);
-          margin-top: var(--contact-spacing-md);
-        }
-
-        .contact-assurance-content {
-          display: flex;
-          align-items: flex-start;
-          gap: var(--contact-spacing-sm);
-        }
-
-        .contact-assurance p {
-          color: var(--contact-text-light);
-          font-size: 0.6875rem;
-          margin: 0;
-          line-height: 1.4;
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        @media (min-width: 768px) {
-          .contact-assurance p {
-            font-size: 0.75rem;
-          }
-        }
-
-        /* Success Message - OPTIMIZED */
-        .contact-success-message {
-          background: rgba(20, 184, 166, 0.1);
-          border: 1px solid var(--contact-accent);
-          border-radius: var(--contact-border-radius);
-          padding: var(--contact-spacing-lg);
-          text-align: center;
-        }
-
-        .contact-success-message h3 {
-          color: var(--contact-accent);
-          font-size: 1rem;
-          font-weight: 600;
-          margin-bottom: var(--contact-spacing-sm);
-          font-family: 'Space Grotesk', system-ui, sans-serif;
-        }
-
-        @media (min-width: 768px) {
-          .contact-success-message h3 {
-            font-size: 1.125rem;
-          }
-        }
-
-        .contact-success-message p {
-          color: var(--contact-text-light);
-          font-size: 0.75rem;
-          margin: 0;
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        /* Small Mobile Devices (320px-400px) - EXTRA OPTIMIZED */
-        @media (max-width: 400px) {
-          .contact-section {
-            padding: var(--contact-spacing-xl) 0;
-          }
-
-          .contact-header {
-            margin-bottom: var(--contact-spacing-lg);
-          }
-
-          .contact-title {
-            font-size: 1.5rem;
-          }
-
-          .contact-subtitle {
-            font-size: 0.75rem;
-          }
-
-          .contact-whatsapp-notice {
-            padding: var(--contact-spacing-sm);
-          }
-
-          .contact-whatsapp-notice p {
-            font-size: 0.6875rem;
-          }
-
-          .contact-method-card {
-            padding: var(--contact-spacing-sm);
-          }
-
-          .contact-method-icon {
-            width: 40px;
-            height: 40px;
-          }
-
-          .contact-method-card h3 {
-            font-size: 0.875rem;
-          }
-
-          .contact-method-action {
-            font-size: 0.6875rem;
-          }
-
-          .contact-method-desc {
-            font-size: 0.625rem;
-          }
-
-          .contact-wrapper {
-            padding: var(--contact-spacing-md);
-          }
-
-          .contact-form-side h3 {
-            font-size: 1.25rem;
-          }
-
-          .contact-form-intro {
-            font-size: 0.6875rem;
-            margin-bottom: var(--contact-spacing-md);
-          }
-
-          .contact-input,
-          .contact-select,
-          .contact-submit-btn {
-            height: 40px;
-            font-size: 0.75rem;
-          }
-
-          .contact-textarea {
-            min-height: 80px;
-            font-size: 0.75rem;
-          }
-
-          .contact-step-number {
-            width: 24px;
-            height: 24px;
-            font-size: 0.6875rem;
-          }
-
-          .contact-step-content h4 {
-            font-size: 0.75rem;
-          }
-
-          .contact-step-content p {
-            font-size: 0.625rem;
-          }
-
-          .contact-assurance p {
-            font-size: 0.625rem;
-          }
-        }
-
-        /* Performance Optimization */
         @media (prefers-reduced-motion: reduce) {
-          * {
-            transition: none !important;
-            animation: none !important;
-          }
+          * { animation: none !important; transition: none !important; }
         }
-
-        /* High Contrast Mode */
-        @media (prefers-contrast: high) {
-          .contact-method-card,
-          .contact-input,
-          .contact-textarea,
-          .contact-select {
-            border: 2px solid currentColor;
-          }
+        .whatsapp-btn:hover {
+          background: #20bd5a !important;
+          transform: scale(1.02);
         }
-
-        /* Print Styles */
-        @media print {
-          .contact-section {
-            background: white !important;
-          }
-          
-          .contact-title {
-            -webkit-text-fill-color: black !important;
-            background: none !important;
-          }
-          
-          .contact-method-card,
-          .contact-wrapper {
-            border: 1px solid #ddd !important;
-            background: white !important;
-            color: black !important;
-          }
-          
-          .contact-submit-btn {
-            display: none !important;
-          }
+        .submit-btn:hover:not(:disabled) {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(20, 184, 166, 0.3);
         }
-
-        ::placeholder {
-          color: rgba(255, 255, 255, 0.3);
+        .mobile-cta-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+        }
+        .quick-contact-link:hover {
+          color: #14B8A6 !important;
+        }
+        select option {
+          background: #0A2540;
+          color: white;
         }
       `}</style>
 
-      <section id="contact" className="contact-section" aria-labelledby="contact-title">
-        <div className="contact-container">
+      <section id="contact" style={styles.section}>
+        <div style={styles.container}>
           {/* Header */}
-          <div className="contact-header">
-            <motion.h2
-              id="contact-title"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-30px" }}
-              transition={{ duration: 0.4 }}
-              className="contact-title"
+          <motion.div 
+            style={styles.header}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 style={styles.title}>
+              Ready to Build Something Great?
+            </h2>
+            <p style={styles.subtitle}>
+              Let's discuss your project with no pressure. We'll provide honest feedback on feasibility, timeline, and approach.
+            </p>
+            <div style={styles.badges}>
+              <span style={styles.badge}>✓ No commitment</span>
+              <span style={styles.badge}>✓ 24h response</span>
+              <span style={styles.badge}>✓ Free estimate</span>
+              <span style={styles.badge}>✓ NDA ready</span>
+            </div>
+          </motion.div>
+
+          {/* Main Content Grid */}
+          <div style={styles.grid}>
+            {/* Left Column: Form Card */}
+            <motion.div 
+              style={styles.formCard}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
             >
-              Let's Build Together
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-30px" }}
-              transition={{ delay: 0.1, duration: 0.4 }}
-              className="contact-subtitle"
-            >
-              Transform your vision into reality with our expert team
-            </motion.p>
-            
-            {/* WhatsApp Notice */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-30px" }}
-              transition={{ delay: 0.2, duration: 0.4 }}
-              className="contact-whatsapp-notice"
-            >
-              <p>
-                <strong>Pro Tip:</strong> Fill out the form first, then click WhatsApp - 
-                your information will be pre-filled! 📱
+              <h3 style={styles.formTitle}>Get a detailed proposal</h3>
+              <p style={styles.formSubtitle}>
+                Fill this form and we'll respond within 24 hours
               </p>
+
+              {/* Success Message */}
+              <AnimatePresence>
+                {isSubmitted && (
+                  <motion.div 
+                    style={styles.successMessage}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                  >
+                    <FiCheckCircle size={20} />
+                    <span>
+                      {isMobile 
+                        ? 'WhatsApp opened! Our team will reply in minutes.' 
+                        : 'Message sent! We\'ll email you within 24 hours.'}
+                    </span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Error Message */}
+              <AnimatePresence>
+                {error && (
+                  <motion.div 
+                    style={styles.errorMessage}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                  >
+                    {error}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Form */}
+              <form onSubmit={handleSubmit} style={styles.form}>
+                <div style={styles.formRow}>
+                  <div style={styles.formGroup}>
+                    <label style={styles.formLabel}>
+                      <FiUser size={14} />
+                      Your Name <span style={styles.required}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="John Smith"
+                      value={formData.name}
+                      onChange={handleChange}
+                      onFocus={handleFocus}
+                      onBlur={handleBlur}
+                      required
+                      style={styles.input}
+                    />
+                  </div>
+                  <div style={styles.formGroup}>
+                    <label style={styles.formLabel}>
+                      <FiMail size={14} />
+                      Email <span style={styles.required}>*</span>
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="john@company.com"
+                      value={formData.email}
+                      onChange={handleChange}
+                      onFocus={handleFocus}
+                      onBlur={handleBlur}
+                      required
+                      style={styles.input}
+                    />
+                  </div>
+                </div>
+
+                <div style={styles.formRow}>
+                  <div style={styles.formGroup}>
+                    <label style={styles.formLabel}>
+                      <FiPhone size={14} />
+                      Phone (optional)
+                    </label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder="+91 98765 43210"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      onFocus={handleFocus}
+                      onBlur={handleBlur}
+                      style={styles.input}
+                    />
+                  </div>
+                  <div style={styles.formGroup}>
+                    <label style={styles.formLabel}>
+                      <FiBriefcase size={14} />
+                      Project Type <span style={styles.required}>*</span>
+                    </label>
+                    <select
+                      name="projectType"
+                      value={formData.projectType}
+                      onChange={handleChange}
+                      onFocus={handleFocus}
+                      onBlur={handleBlur}
+                      required
+                      style={styles.select}
+                    >
+                      <option value="">Select service</option>
+                      {projectTypes.map((type, index) => (
+                        <option key={index} value={type}>{type}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div style={styles.formGroup}>
+                  <label style={styles.formLabel}>
+                    Project Description <span style={styles.required}>*</span>
+                  </label>
+                  <textarea
+                    name="message"
+                    placeholder="Tell us about your project goals, requirements, and timeline..."
+                    value={formData.message}
+                    onChange={handleChange}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    required
+                    rows="4"
+                    style={styles.textarea}
+                  />
+                </div>
+
+                <button 
+                  type="submit" 
+                  style={styles.submitBtn}
+                  disabled={isSubmitting}
+                  className="submit-btn"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <span style={styles.spinner}></span>
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <FiSend size={16} />
+                      Get Free Consultation
+                    </>
+                  )}
+                </button>
+
+                <p style={styles.formFooter}>
+                  <FiClock size={14} />
+                  Guaranteed response within 24 hours
+                </p>
+              </form>
+            </motion.div>
+
+            {/* Right Column: WhatsApp & Trust */}
+            <motion.div 
+              style={styles.rightColumn}
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              {/* WhatsApp Card */}
+              <div style={styles.whatsappCard}>
+                <div style={styles.whatsappIcon}>
+                  <FiMessageCircle size={32} color="#25D366" />
+                </div>
+                <h4 style={styles.whatsappTitle}>Need help faster?</h4>
+                <p style={styles.whatsappDescription}>
+                  Average response: <strong>5 minutes</strong> on WhatsApp
+                </p>
+                <button 
+                  onClick={handleWhatsApp} 
+                  style={styles.whatsappBtn}
+                  className="whatsapp-btn"
+                >
+                  Chat on WhatsApp
+                  <span style={styles.btnArrow}>→</span>
+                </button>
+                <p style={styles.whatsappNote}>
+                  No form required. Just say hi 👋
+                </p>
+              </div>
+
+              {/* Trust Signals */}
+              <div style={styles.trustCard}>
+                <h4 style={styles.trustTitle}>Why work with us?</h4>
+                <ul style={styles.trustList}>
+                  <li style={styles.trustItem}>
+                    <span style={styles.trustCheck}>✓</span>
+                    <div>
+                      <strong>Founder-led</strong>
+                      <span style={styles.trustDesc}>Work directly with decision makers</span>
+                    </div>
+                  </li>
+                  <li style={styles.trustItem}>
+                    <span style={styles.trustCheck}>✓</span>
+                    <div>
+                      <strong>7-14 day delivery</strong>
+                      <span style={styles.trustDesc}>Websites in 1-2 weeks</span>
+                    </div>
+                  </li>
+                  <li style={styles.trustItem}>
+                    <span style={styles.trustCheck}>✓</span>
+                    <div>
+                      <strong>Long-term support</strong>
+                      <span style={styles.trustDesc}>We stay post-launch</span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Quick Contact */}
+              <div style={styles.quickContact}>
+                <p style={styles.quickContactTitle}>📧 Prefer email?</p>
+                <a 
+                  href="mailto:hello@ariartech.com" 
+                  style={styles.quickContactLink}
+                  className="quick-contact-link"
+                >
+                  hello@ariartech.com
+                </a>
+              </div>
             </motion.div>
           </div>
 
-          {/* Contact Methods */}
-          <div className="contact-options">
-            {contactMethods.map((method, index) => (
-              <motion.div
-                key={method.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-30px" }}
-                transition={{ delay: method.delay * 0.5, duration: 0.4 }}
-                className={`contact-method-card ${activeMethod === method.id ? 'contact-method-active' : ''}`}
-                onClick={() => handleContactMethod(method.id)}
-                style={{ '--method-color': method.color }}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleContactMethod(method.id);
-                  }
-                }}
-                aria-label={`Contact via ${method.title}: ${method.action}`}
-              >
-                <div className="contact-method-icon">
-                  <method.icon size={20} color="#FFFFFF" />
-                </div>
-                <div className="contact-method-content">
-                  <h3>{method.title}</h3>
-                  <span className="contact-method-action">{method.action}</span>
-                  <p className="contact-method-desc">{method.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Contact Form & Info */}
-          <div className="contact-wrapper">
-            <div className="contact-form-side">
-              <h3>Project Inquiry</h3>
-              <p className="contact-form-intro">
-                Fill out the form and we'll respond within 24 hours with a detailed proposal.
-              </p>
-              
-              <AnimatePresence mode="wait">
-                {isSubmitted ? (
-                  <motion.div
-                    key="success"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.2 }}
-                    className="contact-success-message"
-                  >
-                    <FiCheckCircle size={40} color="#14B8A6" style={{ marginBottom: '0.75rem' }} />
-                    <h3>Form Submitted!</h3>
-                    <p>Now click WhatsApp to send instantly to our team!</p>
-                  </motion.div>
-                ) : (
-                  <motion.form
-                    key="form"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    onSubmit={handleSubmit}
-                  >
-                    <div className="contact-form-grid">
-                      <input
-                        type="text"
-                        name="name"
-                        placeholder="Your Name *"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="contact-input"
-                        required
-                        aria-label="Your name"
-                      />
-                      <input
-                        type="email"
-                        name="email"
-                        placeholder="Email Address *"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="contact-input"
-                        required
-                        aria-label="Email address"
-                      />
-                      <input
-                        type="tel"
-                        name="phone"
-                        placeholder="Phone (Optional)"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        className="contact-input"
-                        aria-label="Phone number"
-                      />
-                      <select
-                        name="projectType"
-                        value={formData.projectType}
-                        onChange={handleChange}
-                        className="contact-select"
-                        required
-                        aria-label="Project type"
-                      >
-                        <option value="">Select Project Type *</option>
-                        {projectTypes.map((type, index) => (
-                          <option key={index} value={type}>{type}</option>
-                        ))}
-                      </select>
-                    </div>
-                    
-                    <textarea
-                      name="message"
-                      placeholder="Tell us about your project... *"
-                      value={formData.message}
-                      onChange={handleChange}
-                      className="contact-textarea"
-                      required
-                      aria-label="Project description"
-                    />
-                    
-                    <div style={{ 
-                      display: 'flex', 
-                      flexDirection: 'column',
-                      gap: '0.75rem',
-                      marginTop: '1rem' 
-                    }}>
-                      <button 
-                        type="submit" 
-                        className="contact-submit-btn"
-                        disabled={isSubmitting}
-                      >
-                        {isSubmitting ? (
-                          'Sending...'
-                        ) : (
-                          <>
-                            <FiSend size={14} />
-                            Submit Inquiry
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  </motion.form>
-                )}
-              </AnimatePresence>
-            </div>
-
-            <div className="contact-info-side">
-              {/* Process Steps */}
-              <div className="contact-process-steps">
-                <div className="contact-process-step">
-                  <div className="contact-step-number">1</div>
-                  <div className="contact-step-content">
-                    <h4>Fill the Form</h4>
-                    <p>Share your project details</p>
-                  </div>
-                </div>
-                <div className="contact-process-step">
-                  <div className="contact-step-number">2</div>
-                  <div className="contact-step-content">
-                    <h4>Choose Contact</h4>
-                    <p>Email or WhatsApp preferred</p>
-                  </div>
-                </div>
-                <div className="contact-process-step">
-                  <div className="contact-step-number">3</div>
-                  <div className="contact-step-content">
-                    <h4>Free Consultation</h4>
-                    <p>Discuss requirements</p>
-                  </div>
-                </div>
-                <div className="contact-process-step">
-                  <div className="contact-step-number">4</div>
-                  <div className="contact-step-content">
-                    <h4>Get Proposal</h4>
-                    <p>Timeline & pricing</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* FAQ - Mobile Optimized Accordion */}
-              <div className="contact-faq">
-                {faqs.map((faq, index) => (
-                  <div key={index} className="contact-faq-item">
-                    <div 
-                      className="contact-faq-question"
-                      onClick={() => toggleFaq(index)}
-                    >
-                      <span>{faq.q}</span>
-                      <FiChevronDown 
-                        size={14}
-                        style={{
-                          transform: expandedFaq === index ? 'rotate(180deg)' : 'rotate(0)',
-                          transition: 'transform 0.2s ease',
-                          color: 'var(--contact-accent)'
-                        }}
-                      />
-                    </div>
-                    <AnimatePresence>
-                      {expandedFaq === index && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                          style={{ overflow: 'hidden' }}
-                        >
-                          <p className="contact-faq-answer">{faq.a}</p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ))}
-              </div>
-
-              {/* WhatsApp Benefits */}
-              <div className="contact-assurance" style={{ marginTop: '0.75rem' }}>
-                <div className="contact-assurance-content">
-                  <FiMessageCircle size={14} color="#25D366" />
-                  <p>
-                    <strong>WhatsApp:</strong> Instant responses & file sharing.
-                  </p>
-                </div>
-              </div>
-
-              {/* Assurance */}
-              <div className="contact-assurance">
-                <div className="contact-assurance-content">
-                  <FiClock size={14} color="#14B8A6" />
-                  <p>
-                    <strong>24-Hour Response:</strong> Guaranteed.
-                  </p>
-                </div>
-              </div>
-            </div>
+          {/* Mobile CTA - Only visible on small screens */}
+          <div style={styles.mobileCta}>
+            <button 
+              onClick={() => window.location.href = '#contact'} 
+              style={styles.mobileCtaBtn}
+              className="mobile-cta-btn"
+            >
+              Start Your Project
+              <span style={styles.btnArrow}>→</span>
+            </button>
+            <p style={styles.mobileCtaNote}>
+              Free consultation · No pressure
+            </p>
           </div>
         </div>
       </section>

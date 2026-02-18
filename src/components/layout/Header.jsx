@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLocation, useNavigate } from 'react-router-dom';
+
 
 const Header = memo(({ onOpenModal, activeSection = "" }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -7,10 +9,16 @@ const Header = memo(({ onOpenModal, activeSection = "" }) => {
   const [isLogoHovered, setIsLogoHovered] = useState(false);
   const mobileMenuBtnRef = useRef(null);
 
+  const location = useLocation();
+const navigate = useNavigate();
+
+
+
+
   const navItems = [
     { id: "why", label: "Why Us" },
     { id: "services", label: "Services" },
-    { id: "work", label: "Our Work" },
+    { id: "work", label: "Projects" },
     { id: "process", label: "Process" },
     { id: "contact", label: "Contact" }
   ];
@@ -56,22 +64,32 @@ const Header = memo(({ onOpenModal, activeSection = "" }) => {
 
   // Handle navigation click
   const handleNavClick = useCallback(
-    (id) => {
-      closeMenu();
+  (sectionId) => {
+    closeMenu();
+
+    if (location.pathname === "/") {
+      // Scroll normally if already on homepage
       setTimeout(() => {
-        const el = document.getElementById(id);
+        const el = document.getElementById(sectionId);
         if (el) {
           const offset = isScrolled ? 70 : 80;
-          const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+          const top =
+            el.getBoundingClientRect().top + window.pageYOffset - offset;
+
           window.scrollTo({
             top,
-            behavior: "smooth"
+            behavior: "smooth",
           });
         }
       }, 100);
-    },
-    [closeMenu, isScrolled]
-  );
+    } else {
+      // Navigate to homepage and scroll
+      navigate("/", { state: { scrollTo: sectionId } });
+    }
+  },
+  [closeMenu, isScrolled, location.pathname, navigate]
+);
+
 
   return (
     <>

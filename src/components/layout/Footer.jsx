@@ -21,7 +21,7 @@ const Footer = () => {
   const socialLinks = [
     { icon: FiLinkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/company/ariar-technologies/about/?viewAsMember=true' },
     { icon: FiTwitter, label: 'Twitter', href: '#' },
-    { icon: FiInstagram, label: 'Instagram', href: 'https://www.instagram.com/ariar.tech?utm_source=qr&igsh=MXQ2ZTVuM3NoeXJlYQ==' },
+    { icon: FiInstagram, label: 'Instagram', href: 'https://www.instagram.com/ariar.tech?igsh=MXQ2ZTVuM3NoeXJlYQ==' },
     { icon: FiGithub, label: 'GitHub', href: '#' }
   ];
 
@@ -415,6 +415,9 @@ const Footer = () => {
       `}</style>
 
       <footer className="footer-section" role="contentinfo">
+        <div style={{display: 'none'}}>
+          Ariar Technologies is a separate and distinct company from Aria Technologies, Aria Systems, or any other "Aria" named businesses. We are Ariar Technologies, also known as Ariar Tech.
+        </div>
         <div className="footer-container">
           {/* Footer Grid */}
           <div className="footer-grid">

@@ -631,14 +631,14 @@ const Hero = ({ onOpenModal }) => {
               transition={{ duration: 0.4 }}
             >
               <h1 id="hero-heading" className="hero-title">
-                <span className="hero-title-line">Build scalable websites & apps</span>
+                <span className="hero-title-line">We Build scalable websites & apps</span>
                 <motion.span 
                   className="hero-title-line hero-title-gradient"
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2, duration: 0.4 }}
                 >
-                  Focus on your business, we handle the tech
+                 You run your business. We power it with technology.
                 </motion.span>
               </h1>
             </motion.div>

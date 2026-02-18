@@ -1,21 +1,20 @@
-import React, { useState, useEffect, useCallback, lazy, Suspense, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/layout/Header';
-import Hero from './components/sections/Hero';
-import Services from './components/sections/Services';
-import WhyAriar from './components/sections/WhyAriar';
-import Process from './components/sections/Process';
 import Footer from './components/layout/Footer';
 import Modal from './components/layout/Modal';
 import ScrollToTop from './components/common/ScrollToTop';
-import LoadingSpinner from './components/common/LoadingSpinner';
+import Home from '../src/Pages/Home';
+import ServicesPage from './Pages/ServicesPage';
+import ProjectsPage from './Pages/ProjectsPage';
+import ProcessPage from './Pages/ProcessPage';
+import ContactPage from './Pages/ContactPage';
+
+
+
 import { useScrollAnimation } from './hooks/useScrollAnimation';
 import { useScrollToTop } from './hooks/useScrollToTop';
 import './App.css';
-
-// Lazy load below-the-fold components
-const Projects = lazy(() => import('./components/sections/Projects'));
-const Contact = lazy(() => import('./components/sections/Contact'));
-const FinalCTA = lazy(() => import('./components/sections/FinalCTA'));
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -52,7 +51,7 @@ function App() {
     }
   }, []);
 
-  // Intersection Observer for active section tracking
+  // Intersection Observer for active section tracking (ONLY for homepage)
   useEffect(() => {
     const sections = ['hero', 'services', 'why', 'process', 'work', 'contact'];
 
@@ -98,43 +97,44 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      {/* Skip to main content - Accessible, hidden until focused */}
-      <a
-        href="#main-content"
-        className="skip-to-main"
-        onClick={handleSkipToMain}
-        aria-label="Skip to main content"
-      >
-        Skip to main content
-      </a>
+    <Router>
+      <div className="App">
+        {/* Skip to main content */}
+        <a
+          href="#main-content"
+          className="skip-to-main"
+          onClick={handleSkipToMain}
+          aria-label="Skip to main content"
+        >
+          Skip to main content
+        </a>
 
-      <Header onOpenModal={handleOpenModal} activeSection={activeSection} />
+        <Header onOpenModal={handleOpenModal} activeSection={activeSection} />
 
-      <main 
-        id="main-content" 
-        ref={mainRef} 
-        tabIndex={-1}
-        aria-label="Main content"
-      >
-        <Hero onOpenModal={handleOpenModal} />
-        <Services />
-        <WhyAriar />
+        <main
+          id="main-content"
+          ref={mainRef}
+          tabIndex={-1}
+          aria-label="Main content"
+        >
+          <Routes>
+            <Route path="/" element={<Home onOpenModal={handleOpenModal} />} />
+             <Route path="/services" element={<ServicesPage />} />
+             <Route path="/projects" element={<ProjectsPage />} />
+             <Route path="/process" element={<ProcessPage />} />
+             <Route path="/contact" element={<ContactPage />} />
 
-        <Suspense fallback={<LoadingSpinner />}>
-          <Projects onOpenModal={handleOpenModal} />
-          <Process />
-          <FinalCTA onOpenModal={handleOpenModal} />
-          <Contact />
-        </Suspense>
-      </main>
 
-      <Footer />
+          </Routes>
+        </main>
 
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
+        <Footer />
 
-      {showScrollTop && <ScrollToTop onClick={scrollToTop} />}
-    </div>
+        <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
+
+        {showScrollTop && <ScrollToTop onClick={scrollToTop} />}
+      </div>
+    </Router>
   );
 }
 
