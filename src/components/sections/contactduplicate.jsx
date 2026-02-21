@@ -35,7 +35,7 @@ const Contact = () => {
       color: '#14B8A6',
       delay: 0.1,
       desc: 'Detailed project briefs',
-      handler: () => window.location.href = 'mailto:hello@ariartech.com?subject=Project Inquiry - Ariar Technologies&body=Hello Ariar Team,%0D%0A%0D%0AI am interested in discussing a project with you. Please find my details below:%0D%0A%0D%0A- Name:%0D%0A- Email:%0D%0A- Phone:%0D%0A- Project Type:%0D%0A- Brief Description:%0D%0A%0D%0AI look forward to hearing from you.'
+      handler: () => window.location.href = 'mailto:hello@ariartech.com?subject=Project Inquiry - Ariar Technology&body=Hello Ariar Team,%0D%0A%0D%0AI am interested in discussing a project with you. Please find my details below:%0D%0A%0D%0A- Name:%0D%0A- Email:%0D%0A- Phone:%0D%0A- Project Type:%0D%0A- Brief Description:%0D%0A%0D%0AI look forward to hearing from you.'
     },
     { 
       id: 'phone', 
@@ -56,7 +56,7 @@ const Contact = () => {
       delay: 0.3,
       desc: 'Quick inquiries',
       handler: () => {
-        const message = `Hello Ariar Technologies Team! 👋
+        const message = `Hello Ariar Technology Team! 👋
 
 I'm interested in discussing a project with you.
 

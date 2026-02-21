@@ -14,16 +14,16 @@ const Home = ({ onOpenModal }) => {
     return (
         <>
             <SEO
-                title="Ariar Technologies"
-                description="Ariar Technologies is a leading web development company in Bangalore offering website development, mobile app development, and React development services for startups and businesses."
+                title="Ariar Technology"
+                description="Ariar Technology is a leading web development company in Bangalore offering website development, mobile app development, and React development services for startups and businesses."
                 canonical="https://www.ariartech.com/"
-                ogTitle="Web Development Company in Bangalore | Ariar Technologies"
+                ogTitle="Web Development Company in Bangalore | Ariar Technology"
                 ogDescription="Professional website and mobile app development services in Bangalore."
                 ogImage="https://www.ariartech.com/og-image.png"
                 structuredData={{
                     "@context": "https://schema.org",
                     "@type": "LocalBusiness",
-                    "name": "Ariar Technologies",
+                    "name": "Ariar Technology",
                     "url": "https://www.ariartech.com",
                     "image": "https://www.ariartech.com/og-image.png",
                     "address": {
@@ -39,7 +39,7 @@ const Home = ({ onOpenModal }) => {
                 }}
             />
             <div style={{ display: 'none' }}>
-                Ariar Technologies is a separate company from Aria Technologies.
+                Ariar Technology is a separate company from Aria Technologies.
             </div>
 
             {/* HERO */}

@@ -416,7 +416,7 @@ const Footer = () => {
 
       <footer className="footer-section" role="contentinfo">
         <div style={{display: 'none'}}>
-          Ariar Technologies is a separate and distinct company from Aria Technologies, Aria Systems, or any other "Aria" named businesses. We are Ariar Technologies, also known as Ariar Tech.
+          Ariar Technology is a separate and distinct company from Aria Technologies, Aria Systems, or any other "Aria" named businesses. We are Ariar Technology, also known as Ariar Tech.
         </div>
         <div className="footer-container">
           {/* Footer Grid */}
@@ -430,7 +430,7 @@ const Footer = () => {
               transition={{ duration: 0.4 }}
             >
               <div className="footer-logo">
-                Ariar Technologies
+                Ariar Technology
                 <span className="footer-logo-dot"></span>
               </div>
               
@@ -514,7 +514,7 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: 0.3 }}
           >
-            <p className="footer-copyright">&copy; {new Date().getFullYear()} Ariar Technologies. All rights reserved.</p>
+            <p className="footer-copyright">&copy; {new Date().getFullYear()} Ariar Technology. All rights reserved.</p>
             <p className="footer-location">Serving clients worldwide</p>
           </motion.div>
         </div>

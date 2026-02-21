@@ -6,10 +6,10 @@ const ProcessPage = () => {
   return (
     <>
       <SEO
-        title="Our Web & Mobile App Development Process | Ariar Technologies Bangalore"
-        description="Discover Ariar Technologies' structured web and mobile app development process in Bangalore. From planning and UI/UX design to development, testing, deployment, and scaling."
+        title="Our Web & Mobile App Development Process | Ariar Technology Bangalore"
+        description="Discover Ariar Technology' structured web and mobile app development process in Bangalore. From planning and UI/UX design to development, testing, deployment, and scaling."
         canonical="https://www.ariartech.com/process"
-        ogTitle="Our Development Process | Ariar Technologies"
+        ogTitle="Our Development Process | Ariar Technology"
         ogDescription="A transparent and scalable development process for web and mobile applications in Bangalore."
         ogImage="https://www.ariartech.com/og-image.png"
         structuredData={{
@@ -17,7 +17,7 @@ const ProcessPage = () => {
           "@type": "WebPage",
           "name": "Development Process",
           "url": "https://www.ariartech.com/process",
-          "description": "A structured web and mobile app development process followed by Ariar Technologies in Bangalore."
+          "description": "A structured web and mobile app development process followed by Ariar Technology in Bangalore."
         }}
       />
 

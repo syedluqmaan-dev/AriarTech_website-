@@ -83,7 +83,7 @@ const Modal = ({ isOpen, onClose }) => {
 
     try {
       if (isMobile) {
-        const message = `*New Project Inquiry - Ariar Technologies*\n\n*Contact Details:*\n👤 Name: ${formData.name}\n📧 Email: ${formData.email}\n📱 Phone: ${formData.phone || 'Not provided'}\n\n*Service Required:*\n💼 ${formData.service}\n\n*Project Description:*\n📝 ${formData.description}\n\n_Ready for free consultation!_`;
+        const message = `*New Project Inquiry - Ariar Technology*\n\n*Contact Details:*\n👤 Name: ${formData.name}\n📧 Email: ${formData.email}\n📱 Phone: ${formData.phone || 'Not provided'}\n\n*Service Required:*\n💼 ${formData.service}\n\n*Project Description:*\n📝 ${formData.description}\n\n_Ready for free consultation!_`;
         const encodedMessage = encodeURIComponent(message);
         window.open(`https://wa.me/919739183566?text=${encodedMessage}`, '_blank');
         
@@ -167,7 +167,7 @@ const Modal = ({ isOpen, onClose }) => {
               Message Sent Successfully!
             </h2>
             <p className="modal-success-message">
-              Thank you for contacting Ariar Technologies. We'll get back to you within 24 hours.
+              Thank you for contacting Ariar Technology. We'll get back to you within 24 hours.
             </p>
             <button 
               onClick={onClose}

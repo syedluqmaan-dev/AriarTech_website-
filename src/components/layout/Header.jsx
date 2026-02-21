@@ -615,7 +615,7 @@ const navigate = useNavigate();
             onClick={handleLogoClick}
             onMouseEnter={() => setIsLogoHovered(true)}
             onMouseLeave={() => setIsLogoHovered(false)}
-            aria-label="Ariar Technologies - Refresh page"
+            aria-label="Ariar Technology - Refresh page"
           >
             <div className="logo-symbol">
               <motion.span
@@ -627,7 +627,7 @@ const navigate = useNavigate();
               </motion.span>
             </div>
             <div className="logo-text">
-              <span className="logo-main">Ariar Technologies</span>
+              <span className="logo-main">Ariar Technology</span>
               <span className="logo-sub">Innovate • Build • Scale</span>
             </div>
           </button>

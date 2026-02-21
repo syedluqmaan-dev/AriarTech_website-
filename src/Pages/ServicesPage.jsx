@@ -6,8 +6,8 @@ const ServicesPage = () => {
   return (
     <>
       <SEO
-        title="Website & Mobile App Development Services in Bangalore | Ariar Technologies"
-        description="Ariar Technologies provides professional website development, React development, and mobile app development services in Bangalore for startups and growing businesses."
+        title="Website & Mobile App Development Services in Bangalore | Ariar Technology"
+        description="Ariar Technology provides professional website development, React development, and mobile app development services in Bangalore for startups and growing businesses."
         canonical="https://www.ariartech.com/services"
         ogTitle="Website & App Development Services in Bangalore"
         ogDescription="Explore our professional web and mobile app development services in Bangalore."
@@ -18,7 +18,7 @@ const ServicesPage = () => {
           "serviceType": "Web Development and Mobile App Development",
           "provider": {
             "@type": "LocalBusiness",
-            "name": "Ariar Technologies",
+            "name": "Ariar Technology",
             "url": "https://www.ariartech.com"
           },
           "areaServed": {

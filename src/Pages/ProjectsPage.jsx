@@ -6,11 +6,11 @@ const ProjectsPage = () => {
   return (
     <>
       <SEO
-        title="Our Web & Mobile App Development Projects | Ariar Technologies"
-        description="Explore Ariar Technologies' portfolio of web development, React applications, and mobile app development projects built for startups and businesses in Bangalore."
+        title="Our Web & Mobile App Development Projects | Ariar Technology"
+        description="Explore Ariar Technology' portfolio of web development, React applications, and mobile app development projects built for startups and businesses in Bangalore."
         canonical="https://www.ariartech.com/projects"
-        ogTitle="Our Web & App Development Projects | Ariar Technologies"
-        ogDescription="Discover scalable websites and mobile applications developed by Ariar Technologies in Bangalore."
+        ogTitle="Our Web & App Development Projects | Ariar Technology"
+        ogDescription="Discover scalable websites and mobile applications developed by Ariar Technology in Bangalore."
         ogImage="https://www.ariartech.com/og-image.png"
         structuredData={{
           "@context": "https://schema.org",
