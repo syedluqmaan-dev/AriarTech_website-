@@ -26,6 +26,12 @@ const Services = () => {
       title: 'Product Engineering',
       description: 'Full product development from idea to launch, plus scaling existing platforms.',
       features: ['MVP Build', 'Re-engineering', 'Scalable Tech', 'Fast Launch']
+    },
+    {
+      icon: '📈',
+      title: 'Digital Marketing',
+      description: 'Paid campaigns and analytics that turn traffic into leads — Google, Meta and LinkedIn, tracked end-to-end.',
+      features: ['Google Ads', 'Meta & LinkedIn Ads', 'GA4 & GTM', 'CRM Integration']
     }
   ];
 
@@ -205,7 +211,7 @@ const Services = () => {
 
         @media (min-width: 1024px) {
           .services-grid {
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: var(--services-spacing-lg);
           }
         }
@@ -532,8 +538,8 @@ const Services = () => {
 </h2>
 
             <p className="services-subtitle">
-              Full-stack development and design for modern businesses. 
-              We build fast, scalable products that drive growth.
+              End-to-end development and design — the same team that builds the site
+              also runs the marketing behind it, when you need that too.
             </p>
           </motion.div>
 

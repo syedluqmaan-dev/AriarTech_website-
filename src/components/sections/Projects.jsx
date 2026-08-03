@@ -1,161 +1,188 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiExternalLink, FiFilter, FiSmartphone, FiGlobe, FiLayout, FiZap, FiX, FiPlay, FiShoppingCart, FiMessageCircle, FiTrendingUp, FiStar } from 'react-icons/fi';
+import {
+  FiFilter,
+  FiSmartphone,
+  FiGlobe,
+  FiLayout,
+  FiX,
+  FiPlay,
+  FiShoppingCart,
+  FiFileText,
+  FiTrendingUp,
+  FiStar,
+  FiArrowUpRight,
+} from 'react-icons/fi';
 
 const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('All');
   const [selectedVideo, setSelectedVideo] = useState(null);
 
   const projects = [
+    // ---- Real client / product work (cover screenshots) ----
     {
       id: 1,
+      title: 'GSBM — Ganesan School of Business Management',
+      type: 'Website + Digital Marketing',
+      category: 'Web',
+      description:
+        'End-to-end digital presence for a boutique MBA institution in Chennai — the website itself, plus paid campaigns across Google, Meta and LinkedIn, with conversion tracking wired into their CRM for admissions.',
+      tech: ['React/Vite', 'Google Ads', 'Meta Ads'],
+      liveLink: 'https://www.gsbm.co.in',
+      coverImage: '/images/gsbm-cover.jpg',
+      status: 'Live · Ongoing Engagement',
+      icon: FiTrendingUp,
+      gradient: 'linear-gradient(135deg, #0f2942 0%, #1c3d5a 100%)',
+    },
+    {
+      id: 2,
+      title: "Bhadri's Academy",
+      type: 'Client Website',
+      category: 'Web',
+      description:
+        'A school website built around clarity and trust for parents — clean admissions pathways and a WhatsApp-integrated enquiry flow, so a question never has to wait for office hours.',
+      tech: ['React/Vite', 'WhatsApp Integration'],
+      liveLink: 'https://www.bhadrisacademy.com',
+      coverImage: '/images/bhadris-academy-cover.jpg',
+      status: 'Live',
+      icon: FiGlobe,
+      gradient: 'linear-gradient(135deg, #1a2f4d 0%, #2d4a6e 100%)',
+    },
+    {
+      id: 3,
+      title: 'Ariar Kitchen',
+      type: 'Restaurant Management App',
+      category: 'Web',
+      description:
+        'A restaurant ordering platform that gives cloud kitchens and neighbourhood spots their own branded site — orders land straight on WhatsApp, no commission cuts, no group chat chaos.',
+      tech: ['React', 'WhatsApp Deep Links'],
+      liveLink: 'https://ariar-kitchen-app.vercel.app',
+      coverImage: '/images/ariar-kitchen-cover.jpg',
+      status: 'Live · Internal Product',
+      icon: FiShoppingCart,
+      gradient: 'linear-gradient(135deg, #1f1410 0%, #3a2417 100%)',
+    },
+    {
+      id: 4,
+      title: 'Trading Wolf Academy',
+      type: 'Client Website',
+      category: 'Web',
+      description:
+        'A responsive educational website for a trading academy, built for fast loads and clean navigation so visitors get straight to what they came for.',
+      tech: ['React/Next.js', 'Tailwind CSS'],
+      liveLink: 'https://www.tradingwolfacademy.com',
+      coverImage: '/images/trading-wolf-academy-cover.jpg',
+      status: 'Live',
+      icon: FiGlobe,
+      gradient: 'linear-gradient(135deg, #1a1a1a 0%, #2c0f0f 100%)',
+    },
+    {
+      id: 5,
+      title: 'MindSphere — Private Psychology',
+      type: 'Client Website',
+      category: 'Web',
+      description:
+        'A private psychology consulting website designed around discretion and trust — expert support delivered in person, online, or anonymously, with a calm, editorial feel throughout.',
+      tech: ['React', 'Booking Flow'],
+      liveLink: 'https://counselling-website-one.vercel.app',
+      coverImage: '/images/mindsphere-cover.jpg',
+      status: 'Live',
+      icon: FiGlobe,
+      gradient: 'linear-gradient(135deg, #0f231c 0%, #1c3a2e 100%)',
+    },
+
+    // ---- Product demos (video walkthroughs) ----
+    {
+      id: 6,
       title: 'WhatsApp Product Ordering App',
       type: 'Mobile App',
       category: 'Mobile',
       badge: 'Popular Choice',
-      description: 'Business ordering app where customers add products to cart and place orders directly via WhatsApp. Can be shared as APK or published on Play Store.',
-      audience: 'Perfect for grocery stores, restaurants, bakeries & local businesses.',
-      features: [
-        'Product Listing',
-        'Add to Cart',
-        'Quantity Management',
-        'Auto Bill Generation',
-        'Order via WhatsApp',
-        'APK & Play Store Ready'
-      ],
-      tech: ['React Native', 'Context API', 'WhatsApp Deep Links'],
+      description:
+        'Business ordering app where customers add products to cart and place orders directly via WhatsApp. Can be shared as APK or published on Play Store — perfect for grocery stores, restaurants and bakeries.',
+      tech: ['React Native', 'WhatsApp Deep Links'],
       videoPath: '/videos/product-app-demo.mp4',
       status: 'Trending Business App',
+      coverImage: '/images/whatsapp-app-cover.png',
       icon: FiShoppingCart,
       gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      accent: '#764ba2'
-      
     },
     {
-      id: 2,
-      title: 'Trading World Academy',
-      type: 'Client Website',
-      category: 'Web',
-      description: 'Responsive educational website for a trading academy, optimized for clarity and performance.',
-      features: ['Responsive Design', 'SEO Optimized', 'Fast Loading', 'User Trust'],
-      tech: ['React/Next.js', 'Tailwind CSS', 'SEO'],
-      liveLink: 'https://www.tradingwolfacademy.com',
-      status: 'Client Project',
-      icon: FiGlobe,
-      gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-      accent: '#38f9d7'
-    },
-    {
-      id: 3,
+      id: 7,
       title: 'Billing & Invoice Generator',
       type: 'Mobile App',
       category: 'Mobile',
-      description: 'Mobile app for generating professional PDF invoices with company and customer details.',
-      features: ['PDF Generation', 'Mobile First', 'Local Storage', 'User-friendly'],
-      tech: ['React Native', 'PDF Generator', 'Local Storage'],
+      description: 'Mobile app for generating professional PDF invoices with company and customer details, stored locally on-device.',
+      tech: ['React Native', 'PDF Generator'],
       videoPath: '/videos/invoice-app-demo.mp4',
-      status: 'Internal Product – Demo',
-      icon: FiMessageCircle,
+      coverImage: 'images/billing-app-cover.png',
+      status: 'Internal Product · Demo',
+      icon: FiFileText,
       gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-      accent: '#f5576c'
     },
     {
-      id: 4,
+      id: 8,
       title: 'Game Store UI Animation App',
       type: 'Mobile App',
       category: 'Mobile',
       description: 'React Native UI demo for a fictional game store showcasing glassmorphism design and smooth animations.',
-      features: ['Glassmorphism UI', 'Smooth Animations', 'Game Store Layout', 'Modern UX'],
-      tech: ['React Native', 'Animated/Reanimated', 'Custom UI'],
+      tech: ['React Native', 'Reanimated'],
       videoPath: '/videos/game-store-demo.mp4',
-      status: 'UI Demo – Animation Showcase',
+      coverImage: '/images/game-store-cover.png',
+      status: 'UI Demo · Animation Showcase',
       icon: FiSmartphone,
       gradient: 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)',
-      accent: '#2c5364'
-     
     },
+
+    // ---- Live landing page ----
     {
-      id: 5,
+      id: 9,
       title: 'Landing Page Website',
       type: 'Landing Page',
       category: 'Web',
-      description: 'High-conversion landing page designed to capture leads across all devices.',
-      features: ['High Conversion', 'Lead Capture', 'Responsive', 'Clear CTAs'],
-      tech: ['React', 'Tailwind CSS', 'Vercel'],
+      description: 'High-conversion landing page designed to capture leads across all devices, with clear calls to action throughout.',
+      tech: ['React', 'Tailwind CSS'],
       liveLink: 'https://creative-agency-landing-page-ten.vercel.app',
+      coverImage: '/images/creative.png',
       status: 'Live Project',
       icon: FiLayout,
       gradient: 'linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)',
-      accent: '#fad0c4'
-    }
+    },
   ];
 
   const filters = ['All', 'Web', 'Mobile'];
-  
-  const filteredProjects = activeFilter === 'All' 
-    ? projects 
-    : projects.filter(project => project.category === activeFilter);
 
-  const openVideoModal = (project) => {
-    setSelectedVideo(project);
-  };
+  const filteredProjects =
+    activeFilter === 'All' ? projects : projects.filter((project) => project.category === activeFilter);
 
-  const closeVideoModal = () => {
-    setSelectedVideo(null);
-  };
+  const openVideoModal = (project) => setSelectedVideo(project);
+  const closeVideoModal = () => setSelectedVideo(null);
 
   return (
     <>
-      <style >{`
-        /* Projects Section - Mobile First */
+      <style>{`
         .projects-section {
-          background: radial-gradient(
-            circle at 20% 20%, 
-            rgba(20, 184, 166, 0.06) 0%, 
-            transparent 40%
-          ),
-          linear-gradient(
-            180deg,
-            #0A1624 0%,
-            #0F1E2E 100%
-          );
+          background: radial-gradient(circle at 20% 20%, rgba(20, 184, 166, 0.06) 0%, transparent 40%),
+            linear-gradient(180deg, #0A1624 0%, #0F1E2E 100%);
           padding: 2rem 0;
           position: relative;
         }
+        @media (min-width: 768px) { .projects-section { padding: 4rem 0; } }
+        @media (min-width: 1024px) { .projects-section { padding: 5rem 0; } }
 
-        @media (min-width: 768px) {
-          .projects-section {
-            padding: 4rem 0;
-          }
-        }
-
-        @media (min-width: 1024px) {
-          .projects-section {
-            padding: 5rem 0;
-          }
-        }
-
-        /* Container */
-        .container {
+        .projects-container {
           width: 100%;
-          max-width: 1200px;
+          max-width: 1240px;
           margin: 0 auto;
           padding: 0 1rem;
           position: relative;
           z-index: 1;
         }
+        @media (min-width: 768px) { .projects-container { padding: 0 1.5rem; } }
 
-        @media (min-width: 768px) {
-          .container {
-            padding: 0 1.5rem;
-          }
-        }
-
-        /* Glow Effect */
         .glow-effect {
           position: absolute;
-          top: 50%;
-          left: 50%;
+          top: 50%; left: 50%;
           transform: translate(-50%, -50%);
           width: min(500px, 80vw);
           height: min(500px, 80vh);
@@ -164,17 +191,8 @@ const Projects = () => {
           z-index: 0;
         }
 
-        /* Section Header - OPTIMIZED */
-        .section-header {
-          text-align: center;
-          margin-bottom: 1.5rem;
-        }
-
-        @media (min-width: 768px) {
-          .section-header {
-            margin-bottom: 2.5rem;
-          }
-        }
+        .section-header { text-align: center; margin-bottom: 1.5rem; }
+        @media (min-width: 768px) { .section-header { margin-bottom: 2.5rem; } }
 
         .section-label {
           display: inline-flex;
@@ -184,746 +202,325 @@ const Projects = () => {
           font-weight: 600;
           font-size: 0.75rem;
           text-transform: uppercase;
-          letter-spacing: 0.1em;
-          margin-bottom: 0.75rem;
-        }
-
-        @media (min-width: 768px) {
-          .section-label {
-            font-size: 0.875rem;
-            margin-bottom: 1rem;
-            gap: 0.5rem;
-          }
+          letter-spacing: 0.12em;
+          margin-bottom: 0.875rem;
         }
 
         .section-title {
-          font-size: clamp(1.5rem, 6vw, 2.5rem);
+          font-size: clamp(1.6rem, 6vw, 2.75rem);
           font-weight: 700;
           background: linear-gradient(90deg, #ffffff 0%, #14B8A6 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
-          margin-bottom: 0.5rem;
-          line-height: 1.1;
+          margin-bottom: 0.625rem;
+          line-height: 1.15;
         }
 
         .section-subtitle {
-          font-size: clamp(0.8125rem, 3vw, 1.125rem);
+          font-size: clamp(0.875rem, 3vw, 1.0625rem);
           color: #94A3B8;
-          max-width: 600px;
+          max-width: 580px;
           margin: 0 auto;
-          line-height: 1.5;
+          line-height: 1.6;
         }
 
-        /* Filter Buttons - OPTIMIZED */
         .filter-buttons {
           display: flex;
           justify-content: center;
           gap: 0.5rem;
-          margin-bottom: 1.5rem;
+          margin: 1.75rem 0 2.25rem;
           flex-wrap: wrap;
         }
-
-        @media (min-width: 768px) {
-          .filter-buttons {
-            gap: 0.75rem;
-            margin-bottom: 2rem;
-          }
-        }
-
         .filter-btn {
-          padding: 0.5rem 1rem;
-          border-radius: 0.5rem;
+          padding: 0.5rem 1.125rem;
+          border-radius: 999px;
           font-weight: 500;
           font-size: 0.8125rem;
-          border: none;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.03);
+          color: #94A3B8;
           cursor: pointer;
           transition: all 0.2s ease;
         }
+        .filter-btn.active { background: #14B8A6; border-color: #14B8A6; color: #06110F; }
+        .filter-btn:not(.active):hover { border-color: rgba(20, 184, 166, 0.4); color: #E2E8F0; }
 
-        @media (min-width: 768px) {
-          .filter-btn {
-            padding: 0.625rem 1.25rem;
-            font-size: 0.875rem;
-          }
-        }
+        .projects-grid { display: grid; gap: 1.75rem; grid-template-columns: 1fr; }
+        @media (min-width: 640px) { .projects-grid { grid-template-columns: repeat(2, 1fr); gap: 1.75rem; } }
+        @media (min-width: 1024px) { .projects-grid { grid-template-columns: repeat(3, 1fr); } }
 
-        .filter-btn.active {
-          background: #14B8A6;
-          color: #0A0A0A;
-        }
-
-        .filter-btn:not(.active) {
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          color: #94A3B8;
-        }
-
-        /* Projects Grid - OPTIMIZED */
-        .projects-grid {
-          display: grid;
-          gap: 1rem;
-        }
-
-        @media (min-width: 640px) {
-          .projects-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.25rem;
-          }
-        }
-
-        @media (min-width: 1024px) {
-          .projects-grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-          }
-        }
-
-        /* Project Card - OPTIMIZED */
         .project-card {
-          background: rgba(255, 255, 255, 0.04);
-          backdrop-filter: blur(10px);
-          border-radius: 0.875rem;
+          display: block;
+          background: rgba(255, 255, 255, 0.03);
+          border-radius: 1.125rem;
           border: 1px solid rgba(255, 255, 255, 0.08);
-          transition: all 0.2s ease;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
           overflow: hidden;
+          text-decoration: none;
+          color: inherit;
+          cursor: pointer;
+          transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
           position: relative;
         }
-
-        .project-card.featured {
-          border: 1px solid rgba(102, 126, 234, 0.3);
-          box-shadow: 0 0 0 1px rgba(102, 126, 234, 0.1);
-        }
-
         .project-card:hover {
-          transform: translateY(-6px);
-          border-color: rgba(20, 184, 166, 0.5);
-          box-shadow: 0 10px 40px rgba(20, 184, 166, 0.15);
+          transform: translateY(-8px);
+          border-color: rgba(20, 184, 166, 0.45);
+          box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(20, 184, 166, 0.15);
         }
+        .project-card.featured { border-color: rgba(102, 126, 234, 0.35); }
+        .project-card.featured:hover { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(102, 126, 234, 0.25); }
 
-        /* Popular Badge - OPTIMIZED */
         .popular-badge {
           position: absolute;
-          top: 0.75rem;
-          right: 0.75rem;
+          top: 0.875rem; right: 0.875rem;
           background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
           color: #0A0A0A;
-          padding: 0.1875rem 0.625rem;
+          padding: 0.25rem 0.75rem;
           border-radius: 1rem;
           font-size: 0.6875rem;
           font-weight: 700;
-          display: flex;
-          align-items: center;
-          gap: 0.1875rem;
-          z-index: 2;
-          box-shadow: 0 4px 12px rgba(255, 215, 0, 0.25);
-          border: 1px solid rgba(255, 215, 0, 0.3);
-          animation: pulse 2s infinite;
+          display: flex; align-items: center; gap: 0.25rem;
+          z-index: 3;
+          box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
         }
 
-        @media (min-width: 768px) {
-          .popular-badge {
-            top: 1rem;
-            right: 1rem;
-            padding: 0.25rem 0.75rem;
-            font-size: 0.75rem;
-            gap: 0.25rem;
-          }
-        }
-
-        @keyframes pulse {
-          0% { transform: scale(1); }
-          50% { transform: scale(1.05); }
-          100% { transform: scale(1); }
-        }
-
-        /* Project Header - OPTIMIZED */
-        .project-header {
-          height: 120px;
+        /* Cover media */
+        .card-media {
           position: relative;
+          width: 100%;
+          height: 230px;
+          overflow: hidden;
+          background: #0A1624;
+        }
+        @media (min-width: 640px) { .card-media { height: 250px; } }
+        @media (min-width: 1024px) { .card-media { height: 225px; } }
+
+        .card-media.gradient-media {
           display: flex;
           align-items: center;
           justify-content: center;
         }
 
-        @media (min-width: 640px) {
-          .project-header {
-            height: 140px;
-          }
+        .card-media img {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: top;
+          transition: transform 0.5s ease;
+        }
+        .project-card:hover .card-media img { transform: scale(1.07); }
+
+        .media-shade {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, rgba(6, 12, 20, 0) 65%, rgba(6, 12, 20, 0.85) 100%);
+          pointer-events: none;
         }
 
-        .project-icon {
-          width: 52px;
-          height: 52px;
+        .media-icon-wrap {
+          width: 68px; height: 68px;
           background: rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(8px);
-          border-radius: 0.75rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        @media (min-width: 640px) {
-          .project-icon {
-            width: 64px;
-            height: 64px;
-          }
-        }
-
-        .project-status {
-          position: absolute;
-          top: 0.75rem;
-          left: 0.75rem;
-          background: rgba(0, 0, 0, 0.6);
-          color: #FFFFFF;
-          padding: 0.1875rem 0.625rem;
           border-radius: 1rem;
-          font-size: 0.6875rem;
-          font-weight: 500;
+          display: flex; align-items: center; justify-content: center;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          position: relative;
+          z-index: 1;
         }
 
-        @media (min-width: 768px) {
-          .project-status {
-            top: 1rem;
-            left: 1rem;
-            padding: 0.25rem 0.75rem;
-            font-size: 0.75rem;
-          }
-        }
-
-        /* Project Content - OPTIMIZED */
-        .project-content {
-          padding: 1.25rem;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-        }
-
-        @media (min-width: 640px) {
-          .project-content {
-            padding: 1.5rem;
-          }
-        }
-
-        .project-type {
-          font-size: 0.75rem;
-          font-weight: 500;
-          color: #14B8A6;
-          margin-bottom: 0.375rem;
-          display: flex;
-          align-items: center;
-          gap: 0.375rem;
-        }
-
-        @media (min-width: 768px) {
-          .project-type {
-            font-size: 0.875rem;
-            margin-bottom: 0.5rem;
-            gap: 0.5rem;
-          }
-        }
-
-        .project-title {
-          font-size: 1rem;
-          font-weight: 600;
-          color: #FFFFFF;
-          margin-bottom: 0.5rem;
-          line-height: 1.2;
-        }
-
-        @media (min-width: 768px) {
-          .project-title {
-            font-size: 1.125rem;
-            margin-bottom: 0.75rem;
-          }
-        }
-
-        .project-description {
-          color: #94A3B8;
-          margin-bottom: 0.5rem;
-          line-height: 1.5;
-          font-size: 0.75rem;
-          flex: 1;
-        }
-
-        @media (min-width: 768px) {
-          .project-description {
-            font-size: 0.875rem;
-            margin-bottom: 0.75rem;
-          }
-        }
-
-        /* Audience Tag - OPTIMIZED */
-        .audience-tag {
-          background: rgba(102, 126, 234, 0.1);
-          color: #CBD5E1;
-          padding: 0.375rem 0.5rem;
-          border-radius: 0.5rem;
-          font-size: 0.6875rem;
-          margin-bottom: 0.75rem;
-          border: 1px solid rgba(102, 126, 234, 0.2);
-          display: flex;
-          align-items: center;
-          gap: 0.375rem;
-        }
-
-        @media (min-width: 768px) {
-          .audience-tag {
-            padding: 0.5rem 0.75rem;
-            font-size: 0.75rem;
-            margin-bottom: 1rem;
-            gap: 0.5rem;
-          }
-        }
-
-        /* Tech Stack - OPTIMIZED */
-        .tech-stack {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.25rem;
-          margin-bottom: 0.75rem;
-        }
-
-        @media (min-width: 768px) {
-          .tech-stack {
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-          }
-        }
-
-        .tech-tag {
-          background: rgba(255, 255, 255, 0.05);
-          color: #E2E8F0;
-          padding: 0.1875rem 0.375rem;
-          border-radius: 0.375rem;
-          font-size: 0.6875rem;
-        }
-
-        @media (min-width: 768px) {
-          .tech-tag {
-            padding: 0.25rem 0.5rem;
-            font-size: 0.75rem;
-          }
-        }
-
-        /* Features - OPTIMIZED */
-        .features {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 0.25rem;
-          margin-bottom: 1rem;
-        }
-
-        @media (min-width: 480px) {
-          .features {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.375rem;
-          }
-        }
-
-        @media (min-width: 768px) {
-          .features {
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-          }
-        }
-
-        .feature {
-          display: flex;
-          align-items: center;
-          gap: 0.25rem;
-          font-size: 0.6875rem;
-          color: #CBD5E1;
-          padding: 0.1875rem 0;
-        }
-
-        @media (min-width: 768px) {
-          .feature {
-            gap: 0.375rem;
-            font-size: 0.75rem;
-            padding: 0.25rem 0;
-          }
-        }
-
-        /* CTA Button - OPTIMIZED */
-        .project-cta {
-          width: 100%;
-          background: #14B8A6;
-          color: #0A0A0A;
-          padding: 0.625rem;
-          border-radius: 0.5rem;
-          font-size: 0.75rem;
-          font-weight: 600;
-          border: none;
-          cursor: pointer;
+        .play-overlay {
+          position: absolute;
+          inset: 0;
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 0.375rem;
-          transition: all 0.2s ease;
-          text-decoration: none;
-          margin-top: auto;
+          background: rgba(0, 0, 0, 0.18);
+          z-index: 2;
+        }
+        .play-overlay-btn {
+          width: 56px; height: 56px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.15);
+          backdrop-filter: blur(6px);
+          border: 1px solid rgba(255, 255, 255, 0.35);
+          display: flex; align-items: center; justify-content: center;
+          color: #fff;
+          transition: transform 0.3s ease;
+        }
+        .project-card:hover .play-overlay-btn { transform: scale(1.1); }
+
+        .media-status {
+          position: absolute;
+          bottom: 0.875rem; left: 0.875rem;
+          display: flex; align-items: center; gap: 0.375rem;
+          background: rgba(0, 0, 0, 0.55);
+          backdrop-filter: blur(4px);
+          color: #FFFFFF;
+          padding: 0.3125rem 0.75rem;
+          border-radius: 999px;
+          font-size: 0.6875rem;
+          font-weight: 500;
+          z-index: 2;
+        }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #4ADE80; flex-shrink: 0; }
+
+        /* Content */
+        .card-body { padding: 1.625rem; }
+        @media (min-width: 768px) { .card-body { padding: 1.875rem; } }
+
+        .card-eyebrow {
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: #14B8A6;
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
+          margin-bottom: 0.625rem;
         }
 
-        @media (min-width: 768px) {
-          .project-cta {
-            padding: 0.75rem;
-            font-size: 0.875rem;
-            gap: 0.5rem;
-          }
+        .card-title {
+          font-size: 1.1875rem;
+          font-weight: 700;
+          color: #FFFFFF;
+          line-height: 1.3;
+          margin-bottom: 0.75rem;
         }
 
-        .project-cta:hover,
-        .project-cta:focus {
-          background: #0D9488;
-          outline: none;
+        .card-description {
+          color: #94A3B8;
+          font-size: 0.875rem;
+          line-height: 1.65;
+          margin-bottom: 1.375rem;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
 
-        .project-card.featured .project-cta {
-          background: #667eea;
+        .card-footer {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding-top: 1.25rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.07);
         }
 
-        .project-card.featured .project-cta:hover {
-          background: #5a6fd8;
-        }
-
-        /* Footnote - OPTIMIZED */
-        .footnote {
-          margin-top: 1.5rem;
-          padding: 1rem;
-          text-align: center;
-        }
-
-        @media (min-width: 768px) {
-          .footnote {
-            margin-top: 2rem;
-            padding: 1.5rem;
-          }
-        }
-
-        .footnote-text {
+        .tech-line {
           color: #64748B;
           font-size: 0.75rem;
-          line-height: 1.5;
-          font-style: italic;
-          margin: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
 
-        @media (min-width: 768px) {
-          .footnote-text {
-            font-size: 0.875rem;
-          }
+        .card-action {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
+          color: #14B8A6;
+          font-size: 0.8125rem;
+          font-weight: 600;
+          white-space: nowrap;
+          flex-shrink: 0;
+          margin-left: 1rem;
         }
+        .card-action svg { transition: transform 0.25s ease; }
+        .project-card:hover .card-action svg { transform: translate(3px, -3px); }
 
-        /* Video Modal - OPTIMIZED */
+        .footnote { margin-top: 2.5rem; text-align: center; }
+        .footnote-text { color: #64748B; font-size: 0.8125rem; line-height: 1.5; }
+
         .modal-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          position: fixed; inset: 0;
           background: rgba(0, 0, 0, 0.95);
           z-index: 9999;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          display: flex; align-items: center; justify-content: center;
           padding: 0.75rem;
           backdrop-filter: blur(8px);
         }
-
-        @media (min-width: 768px) {
-          .modal-overlay {
-            padding: 1rem;
-          }
-        }
+        @media (min-width: 768px) { .modal-overlay { padding: 1rem; } }
 
         .modal-content {
           background: #1A1A1A;
           border-radius: 0.875rem;
-          max-width: 800px;
-          width: 100%;
-          max-height: 90vh;
-          overflow: hidden;
-          position: relative;
+          max-width: 800px; width: 100%; max-height: 90vh;
+          overflow: hidden; position: relative;
           box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-          display: flex;
-          flex-direction: column;
+          display: flex; flex-direction: column;
         }
 
         .modal-header {
-          padding: 1rem 1.25rem;
-          background: #0A0A0A;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
+          padding: 1rem 1.25rem; background: #0A0A0A;
+          display: flex; justify-content: space-between; align-items: center;
           border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
+        @media (min-width: 768px) { .modal-header { padding: 1.25rem 1.5rem; } }
 
-        @media (min-width: 768px) {
-          .modal-header {
-            padding: 1.25rem 1.5rem;
-          }
-        }
-
-        .modal-title {
-          color: #FFFFFF;
-          font-size: 1rem;
-          font-weight: 600;
-          margin: 0;
-        }
-
-        @media (min-width: 768px) {
-          .modal-title {
-            font-size: 1.125rem;
-          }
-        }
-
-        .modal-subtitle {
-          color: #94A3B8;
-          font-size: 0.75rem;
-          margin: 0.25rem 0 0 0;
-        }
-
-        @media (min-width: 768px) {
-          .modal-subtitle {
-            font-size: 0.875rem;
-          }
-        }
+        .modal-title { color: #FFFFFF; font-size: 1rem; font-weight: 600; margin: 0; }
+        @media (min-width: 768px) { .modal-title { font-size: 1.125rem; } }
+        .modal-subtitle { color: #94A3B8; font-size: 0.75rem; margin: 0.25rem 0 0 0; }
 
         .modal-close-btn {
-          background: rgba(255, 255, 255, 0.1);
-          border: none;
-          color: #FFFFFF;
-          width: 2.5rem;
-          height: 2.5rem;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: all 0.2s ease;
+          background: rgba(255, 255, 255, 0.1); border: none; color: #FFFFFF;
+          width: 2.5rem; height: 2.5rem; border-radius: 50%;
+          display: flex; align-items: center; justify-content: center;
+          cursor: pointer; transition: all 0.2s ease;
         }
+        .modal-close-btn:hover { background: rgba(255, 255, 255, 0.2); }
 
-        @media (min-width: 768px) {
-          .modal-close-btn {
-            width: 2.75rem;
-            height: 2.75rem;
-          }
-        }
+        .video-container { padding: 1.25rem; background: #0A0A0A; flex: 1; overflow: auto; }
+        @media (min-width: 768px) { .video-container { padding: 1.5rem; } }
 
-        .modal-close-btn:hover {
-          background: rgba(255, 255, 255, 0.2);
-        }
+        .video-player { position: relative; border-radius: 0.75rem; overflow: hidden; background: #000; margin-bottom: 0.75rem; }
+        video { width: 100%; display: block; border-radius: 0.75rem; }
 
-        .video-container {
-          padding: 1.25rem;
-          background: #0A0A0A;
-          flex: 1;
-          overflow: auto;
-        }
+        .video-description { padding: 1rem; background: rgba(255, 255, 255, 0.02); border-radius: 0.75rem; border: 1px solid rgba(255, 255, 255, 0.05); }
 
-        @media (min-width: 768px) {
-          .video-container {
-            padding: 1.5rem;
-          }
-        }
-
-        .video-player {
-          position: relative;
-          border-radius: 0.75rem;
-          overflow: hidden;
-          background: #000;
-          margin-bottom: 0.75rem;
-        }
-
-        @media (min-width: 768px) {
-          .video-player {
-            margin-bottom: 1rem;
-          }
-        }
-
-        video {
-          width: 100%;
-          display: block;
-          border-radius: 0.75rem;
-        }
-
-        .video-info {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          padding: 0.75rem;
-          background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-
-        @media (min-width: 768px) {
-          .video-info {
-            padding: 1rem;
-          }
-        }
-
-        .video-description {
-          padding: 1rem;
-          background: rgba(255, 255, 255, 0.02);
-          border-radius: 0.75rem;
-          border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        @media (min-width: 768px) {
-          .video-description {
-            padding: 1.25rem;
-          }
-        }
-
-        /* Small Mobile Devices (320px-400px) - EXTRA OPTIMIZED */
         @media (max-width: 400px) {
-          .projects-section {
-            padding: 1.5rem 0;
-          }
-
-          .section-header {
-            margin-bottom: 1.25rem;
-          }
-
-          .section-title {
-            font-size: 1.35rem;
-          }
-
-          .section-subtitle {
-            font-size: 0.75rem;
-          }
-
-          .filter-btn {
-            padding: 0.4375rem 0.875rem;
-            font-size: 0.75rem;
-          }
-
-          .project-card {
-            border-radius: 0.75rem;
-          }
-
-          .project-header {
-            height: 100px;
-          }
-
-          .project-icon {
-            width: 48px;
-            height: 48px;
-          }
-
-          .project-content {
-            padding: 1rem;
-          }
-
-          .project-title {
-            font-size: 0.9375rem;
-          }
-
-          .project-description {
-            font-size: 0.6875rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-          }
-
-          .audience-tag {
-            font-size: 0.625rem;
-            padding: 0.25rem 0.375rem;
-          }
-
-          .tech-tag {
-            font-size: 0.625rem;
-          }
-
-          .feature {
-            font-size: 0.625rem;
-          }
-
-          .project-cta {
-            padding: 0.5rem;
-            font-size: 0.6875rem;
-          }
-
-          .footnote {
-            margin-top: 1rem;
-            padding: 0.75rem;
-          }
-
-          .footnote-text {
-            font-size: 0.6875rem;
-          }
+          .projects-section { padding: 1.5rem 0; }
+          .section-title { font-size: 1.4rem; }
+          .card-media { height: 190px; }
+          .card-body { padding: 1.25rem; }
+          .card-title { font-size: 1.0625rem; }
         }
 
-        /* Performance Optimizations */
         @media (prefers-reduced-motion: reduce) {
-          .project-card,
-          .filter-btn,
-          .modal-close-btn,
-          .project-cta,
-          .popular-badge {
+          .project-card, .filter-btn, .card-media img, .play-overlay-btn, .card-action svg {
             transition: none !important;
-            animation: none !important;
           }
-          
-          .project-card:hover {
-            transform: none !important;
-          }
+          .project-card:hover { transform: none !important; }
         }
 
-        /* Custom scrollbar */
-        .video-container::-webkit-scrollbar {
-          width: 4px;
-        }
-        
-        .video-container::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 3px;
-        }
-        
-        .video-container::-webkit-scrollbar-thumb {
-          background: #14B8A6;
-          border-radius: 3px;
-        }
+        .video-container::-webkit-scrollbar { width: 4px; }
+        .video-container::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 3px; }
+        .video-container::-webkit-scrollbar-thumb { background: #14B8A6; border-radius: 3px; }
       `}</style>
 
       <section id="work" className="projects-section" aria-labelledby="work-heading">
         <div className="glow-effect" aria-hidden="true" />
-        
-        <div className="container">
-          <motion.div 
+
+        <div className="projects-container">
+          <motion.div
             className="section-header"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-30px" }}
+            viewport={{ once: true, margin: '-30px' }}
             transition={{ duration: 0.4 }}
           >
-            <span className="section-label" aria-label="Selected work">
-              <FiFilter /> Portfolio Showcase
-            </span>
-            <h2 id="work-heading" className="section-title">
-              Client & Internal Projects
-            </h2>
+            <span className="section-label"><FiFilter /> Portfolio Showcase</span>
+            <h2 id="work-heading" className="section-title">Client & Internal Projects</h2>
             <p className="section-subtitle">
-              Mobile apps, web solutions, and trending business applications with real-world use cases.
+              Mobile apps, web solutions, and client engagements — each one built and shipped for real use.
             </p>
           </motion.div>
 
-          {/* Filter Buttons */}
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             className="filter-buttons"
           >
-            {filters.map(filter => (
+            {filters.map((filter) => (
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
@@ -935,119 +532,89 @@ const Projects = () => {
             ))}
           </motion.div>
 
-          {/* Projects Grid */}
           <div className="projects-grid">
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: Math.min(index * 0.05, 0.2) }}
-                viewport={{ once: true }}
-                className={`project-card ${project.badge ? 'featured' : ''}`}
-              >
-                {/* Popular Badge */}
-                {project.badge && (
-                  <div className="popular-badge">
-                    <FiStar size={9} />
-                    {project.badge}
-                  </div>
-                )}
-                
-                <div 
-                  className="project-header"
-                  style={{ background: project.gradient }}
+            {filteredProjects.map((project, index) => {
+              const isLink = Boolean(project.liveLink);
+              const CardTag = isLink ? motion.a : motion.div;
+              const interactionProps = isLink
+                ? { href: project.liveLink, target: '_blank', rel: 'noopener noreferrer' }
+                : {
+                    onClick: () => openVideoModal(project),
+                    role: 'button',
+                    tabIndex: 0,
+                    onKeyDown: (e) => {
+                      if (e.key === 'Enter' || e.key === ' ') openVideoModal(project);
+                    },
+                  };
+
+              return (
+                <CardTag
+                  key={project.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: Math.min(index * 0.06, 0.24), duration: 0.4 }}
+                  viewport={{ once: true }}
+                  className={`project-card ${project.badge ? 'featured' : ''}`}
+                  aria-label={isLink ? `Visit ${project.title}` : `Watch demo video of ${project.title}`}
+                  {...interactionProps}
                 >
-                  <div className="project-icon">
-                    <project.icon size={20} color="#FFFFFF" />
-                  </div>
-                  
-                  <div className="project-status">
-                    {project.status}
-                  </div>
-                </div>
-                
-                <div className="project-content">
-                  <div className="project-type">
-                    {project.badge && <FiTrendingUp size={12} />}
-                    {project.type}
-                  </div>
-                  
-                  <h3 className="project-title">
-                    {project.title}
-                  </h3>
-                  
-                  <p className="project-description">
-                    {project.description}
-                  </p>
-                  
-                  {/* Audience Tag */}
-                  {project.audience && (
-                    <div className="audience-tag">
-                      <FiSmartphone size={11} />
-                      {project.audience}
+                  {project.badge && (
+                    <div className="popular-badge">
+                      <FiStar size={9} />
+                      {project.badge}
                     </div>
                   )}
-                  
-                  {/* Tech Stack */}
-                  <div className="tech-stack">
-                    {project.tech.slice(0, 3).map((tech, i) => (
-                      <span key={i} className="tech-tag">
-                        {tech}
-                      </span>
-                    ))}
+
+                  <div className={`card-media ${project.coverImage ? '' : 'gradient-media'}`} style={{ background: project.coverImage ? undefined : project.gradient }}>
+                    {project.coverImage ? (
+                      <>
+                        <img src={project.coverImage} alt={`${project.title} website preview`} loading="lazy" />
+                        <div className="media-shade" aria-hidden="true" />
+                      </>
+                    ) : (
+                      <div className="media-icon-wrap">
+                        <project.icon size={28} color="#FFFFFF" />
+                      </div>
+                    )}
+
+                    {project.videoPath && (
+                      <div className="play-overlay">
+                        <div className="play-overlay-btn"><FiPlay size={20} /></div>
+                      </div>
+                    )}
+
+                    <div className="media-status">
+                      <span className="status-dot" aria-hidden="true" />
+                      {project.status}
+                    </div>
                   </div>
-                  
-                  {/* Features - Condensed for mobile */}
-                  <div className="features">
-                    {project.features.slice(0, 4).map((feature, i) => (
-                      <span key={i} className="feature">
-                        <FiZap size={9} style={{ color: project.accent }} />
-                        {feature}
+
+                  <div className="card-body">
+                    <div className="card-eyebrow">{project.type}</div>
+                    <h3 className="card-title">{project.title}</h3>
+                    <p className="card-description">{project.description}</p>
+
+                    <div className="card-footer">
+                      <span className="tech-line">{project.tech.join(' · ')}</span>
+                      <span className="card-action">
+                        {project.videoPath ? 'Watch Demo' : 'Visit Site'}
+                        <FiArrowUpRight size={15} />
                       </span>
-                    ))}
+                    </div>
                   </div>
-                  
-                  {/* CTA Button */}
-                  {project.videoPath ? (
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => openVideoModal(project)}
-                      className="project-cta"
-                      aria-label={`Watch demo video of ${project.title}`}
-                    >
-                      <FiPlay size={12} />
-                      Watch Demo
-                    </motion.button>
-                  ) : (
-                    <a
-                      href={project.liveLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="project-cta"
-                      aria-label={`${project.status.includes('Demo') ? 'View demo of' : 'Visit'} ${project.title}`}
-                    >
-                      <FiExternalLink size={12} />
-                      {project.status.includes('Demo') ? 'View Demo' : 
-                       project.type.includes('Website') ? 'Visit Website' : 'View Live'}
-                    </a>
-                  )}
-                </div>
-              </motion.div>
-            ))}
+                </CardTag>
+              );
+            })}
           </div>
 
-          {/* Footnote */}
           <div className="footnote">
             <p className="footnote-text">
-              Featured projects include video demos. Popular apps can be customized and deployed for businesses.
+              Tap any card to open the live site, or watch a quick demo for the mobile apps.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Video Modal */}
       <AnimatePresence>
         {selectedVideo && (
           <motion.div
@@ -1061,141 +628,34 @@ const Projects = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", damping: 25 }}
+              transition={{ type: 'spring', damping: 25 }}
               className="modal-content"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Modal Header */}
               <div className="modal-header">
                 <div>
                   <h3 className="modal-title">{selectedVideo.title}</h3>
                   <p className="modal-subtitle">{selectedVideo.type} Demo</p>
-                  {selectedVideo.badge && (
-                    <div style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.1875rem',
-                      background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
-                      color: '#0A0A0A',
-                      padding: '0.1875rem 0.5rem',
-                      borderRadius: '0.5rem',
-                      fontSize: '0.6875rem',
-                      fontWeight: '600',
-                      marginTop: '0.25rem'
-                    }}>
-                      <FiStar size={9} />
-                      {selectedVideo.badge}
-                    </div>
-                  )}
                 </div>
-                <button
-                  onClick={closeVideoModal}
-                  className="modal-close-btn"
-                  aria-label="Close video modal"
-                >
+                <button onClick={closeVideoModal} className="modal-close-btn" aria-label="Close video modal">
                   <FiX size={16} />
                 </button>
               </div>
 
-              {/* Video Container */}
               <div className="video-container">
-                {/* Local Video Player */}
                 <div className="video-player">
-                  <video
-                    controls
-                    autoPlay
-                    muted
-                    playsInline
-                    style={{ maxHeight: '350px' }}
-                  >
+                  <video controls autoPlay muted playsInline style={{ maxHeight: '350px' }}>
                     <source src={selectedVideo.videoPath} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
-                  
-                  {/* Video Info Overlay */}
-                  <div className="video-info">
-                    <span style={{ color: '#FFFFFF', fontSize: '12px', fontWeight: '500' }}>
-                      {selectedVideo.id === 2 ? 'Business App Demo' : selectedVideo.id === 3 ? 'Invoice Demo' : 'UI Demo'}
-                    </span>
-                    <span style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '11px' }}>
-                      {selectedVideo.tech[0]}
-                    </span>
-                  </div>
                 </div>
 
-                {/* Video Description - Condensed */}
                 <div className="video-description">
-                  <h4 style={{ 
-                    color: '#FFFFFF', 
-                    fontSize: '15px', 
-                    fontWeight: '600', 
-                    marginBottom: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px'
-                  }}>
-                    <FiPlay size={16} />
-                    About This Project
-                  </h4>
-                  <p style={{ color: '#CBD5E1', fontSize: '13px', lineHeight: '1.5', marginBottom: '12px' }}>
+                  <p style={{ color: '#CBD5E1', fontSize: '13px', lineHeight: '1.6', marginBottom: '12px' }}>
                     {selectedVideo.description}
                   </p>
-                  
-                  {selectedVideo.audience && (
-                    <div style={{ 
-                      background: 'rgba(102, 126, 234, 0.1)', 
-                      color: '#CBD5E1', 
-                      padding: '0.625rem',
-                      borderRadius: '0.5rem',
-                      fontSize: '0.75rem',
-                      marginBottom: '12px',
-                      border: '1px solid rgba(102, 126, 234, 0.2)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.375rem'
-                    }}>
-                      <FiSmartphone size={12} />
-                      <span><strong>Perfect For:</strong> {selectedVideo.audience}</span>
-                    </div>
-                  )}
-                  
-                  <div style={{ 
-                    display: 'grid', 
-                    gridTemplateColumns: '1fr', 
-                    gap: '10px', 
-                    marginTop: '12px' 
-                  }}>
-                    <div style={{ 
-                      background: 'rgba(255, 255, 255, 0.03)', 
-                      padding: '10px', 
-                      borderRadius: '8px',
-                      border: '1px solid rgba(255, 255, 255, 0.05)'
-                    }}>
-                      <div style={{ color: '#14B8A6', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>
-                        Technology Stack
-                      </div>
-                      <div style={{ color: '#94A3B8', fontSize: '11px' }}>
-                        {selectedVideo.tech.join(', ')}
-                      </div>
-                    </div>
-                    
-                    <div style={{ 
-                      background: 'rgba(255, 255, 255, 0.03)', 
-                      padding: '10px', 
-                      borderRadius: '8px',
-                      border: '1px solid rgba(255, 255, 255, 0.05)'
-                    }}>
-                      <div style={{ color: '#14B8A6', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>
-                        Key Features
-                      </div>
-                      <div style={{ color: '#94A3B8', fontSize: '11px', display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
-                        {selectedVideo.features.slice(0, 3).map((feat, i) => (
-                          <span key={i} style={{ display: 'inline-block', marginRight: '4px' }}>
-                            • {feat}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+                  <div style={{ color: '#94A3B8', fontSize: '11px' }}>
+                    {selectedVideo.tech.join(', ')}
                   </div>
                 </div>
               </div>
